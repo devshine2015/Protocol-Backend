@@ -21,4 +21,5 @@ Route::apiResources([
     'relations' => 'API\RelationController',
     'elements'  => 'API\ElementController',
     'bridges'   => 'API\BridgeController',
+    'notes'     => 'API\NoteController',
 ]);
