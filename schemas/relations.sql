@@ -3,9 +3,9 @@ CREATE TABLE relations (
   "active_name" VARCHAR(100) NOT NULL,
   "passive_name" VARCHAR(100) NOT NULL,
   "is_active" BOOL DEFAULT true,
-  "created" INT NOT NULL,
-  "created_by" INT NOT NULL,
-  "updated" INT NOT NULL,
-  "updated_by" INT NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INT,
+  "updated_at" TIMESTAMP NOT NULL,
+  "updated_by" INT,
   "status" SMALLINT DEFAULT 0
 );

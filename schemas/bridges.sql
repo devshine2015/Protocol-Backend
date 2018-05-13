@@ -5,9 +5,9 @@ CREATE TABLE bridges (
   "relation" SMALLINT NOT NULL REFERENCES "relations" ("id"),
   "tags" VARCHAR(300) DEFAULT '',
   "desc" TEXT DEFAULT '',
-  "created" INT NOT NULL,
-  "created_by" INT NOT NULL,
-  "updated" INT NOT NULL,
-  "updated_by" INT NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INT,
+  "updated_at" TIMESTAMP NOT NULL,
+  "updated_by" INT,
   "status" SMALLINT DEFAULT 0
 );

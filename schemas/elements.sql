@@ -9,10 +9,10 @@ CREATE TABLE elements (
   "image" VARCHAR(200),
   "text" TEXT,
   "rect" VARCHAR(100),
-  "created" INT NOT NULL,
-  "created_by" INT NOT NULL,
-  "updated" INT NOT NULL,
-  "updated_by" INT NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INT,
+  "updated_at" TIMESTAMP NOT NULL,
+  "updated_by" INT,
   "status" SMALLINT DEFAULT 0
 );
 
