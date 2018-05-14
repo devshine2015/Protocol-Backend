@@ -20,9 +20,18 @@ class BridgeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bridges = \App\Bridge::where('status', 0)->get();
+        $rawQuery = $request->query();
+        $builder  = $bridges = \App\Bridge::where('status', 0);
+
+        if (array_key_exists('eids', $rawQuery)) {
+            $builder = $builder
+                        ->whereIn('from', $rawQuery['eids'])
+                        ->orWhereIn('to', $rawQuery['eids']);
+        }
+
+        $bridges = $builder->get();
         return $this->apiOk($bridges);
     }
 
