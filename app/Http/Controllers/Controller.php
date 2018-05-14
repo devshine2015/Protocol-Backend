@@ -19,11 +19,11 @@ class Controller extends BaseController
         ]);
     }
 
-    public function apiErr ($errorCode, $msg)
+    public function apiErr ($errorCode, $msg, $httpStatus = 400)
     {
         return response()->json([
             'error_code'    => $errorCode,
             'msg'           => $msg
-        ]);
+        ], $httpStatus);
     }
 }
