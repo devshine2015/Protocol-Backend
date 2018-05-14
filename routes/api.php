@@ -14,7 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return [
+        'error_code'    => 0,
+        'data'          => $request->user()
+    ];
 });
 
 $resourcesRequireAuthToWrite = [
