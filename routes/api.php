@@ -23,3 +23,5 @@ Route::apiResources([
     'bridges'   => 'API\BridgeController',
     'notes'     => 'API\NoteController',
 ]);
+
+Route::post('register','Api\UserController@store');
