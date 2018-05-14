@@ -24,9 +24,16 @@ class ElementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $elements = \App\Element::where('status', 0)->get();
+        $queryFields = ['url'];
+        $query       = array_filter(
+            $request->query(),
+            function ($k) use($queryFields) { return in_array($k, $queryFields); },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        $elements = \App\Element::where('status', 0)->where($query)->get();
         return $this->apiOk($elements);
     }
 
