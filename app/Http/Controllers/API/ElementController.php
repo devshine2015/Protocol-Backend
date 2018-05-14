@@ -44,7 +44,7 @@ class ElementController extends Controller
             $element->$f = $request->$f;
         }
         
-        $element->created_by = 0;
+        $element->created_by = $request->user()['id'];
         $element->save();
 
         return $this->apiOk(true);
@@ -77,7 +77,7 @@ class ElementController extends Controller
             $element->$f = $request->$f;
         }
 
-        $element->updated_by = 0;
+        $element->updated_by = $request->user()['id'];
         $element->save();
 
         return $this->apiOk(true);
@@ -89,12 +89,12 @@ class ElementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $element = \App\Element::findOrFail($id);
 
         $element->status       = 1;
-        $element->updated_by   = 0;
+        $element->updated_by   = $request->user()['id'];
         $element->save();
 
         return $this->apiOk(true);

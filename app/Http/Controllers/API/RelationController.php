@@ -35,7 +35,7 @@ class RelationController extends Controller
             $relation->$f = $request->$f;
         }
         
-        $relation->created_by = 0;
+        $relation->created_by = $request->user()['id'];
         $relation->save();
 
         return $this->apiOk(true);
@@ -68,7 +68,7 @@ class RelationController extends Controller
             $relation->$f = $request->$f;
         }
 
-        $relation->updated_by = 0;
+        $relation->updated_by = $request->user()['id'];
         $relation->save();
 
         return $this->apiOk(true);
@@ -85,7 +85,7 @@ class RelationController extends Controller
         $relation = \App\Relation::findOrFail($id);
 
         $relation->status       = 1;
-        $relation->updated_by   = 0;
+        $relation->updated_by   = $request->user()['id'];
         $relation->save();
 
         return $this->apiOk(true);

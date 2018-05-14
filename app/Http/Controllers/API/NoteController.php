@@ -39,7 +39,7 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
         
-        $note->created_by = 0;
+        $note->created_by = $request->user()['id'];
         $note->save();
 
         return $this->apiOk(true);
@@ -72,7 +72,7 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
 
-        $note->updated_by = 0;
+        $note->updated_by = $request->user()['id'];
         $note->save();
 
         return $this->apiOk(true);
@@ -89,7 +89,7 @@ class NoteController extends Controller
         $note = \App\Note::findOrFail($id);
 
         $note->status       = 1;
-        $note->updated_by   = 0;
+        $note->updated_by   = $request->user()['id'];
         $note->save();
 
         return $this->apiOk(true);

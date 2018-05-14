@@ -40,7 +40,7 @@ class BridgeController extends Controller
             $bridge->$f = $request->$f;
         }
         
-        $bridge->created_by = 0;
+        $bridge->created_by = $request->user()['id'];
         $bridge->save();
 
         return $this->apiOk(true);
@@ -73,7 +73,7 @@ class BridgeController extends Controller
             $bridge->$f = $request->$f;
         }
 
-        $bridge->updated_by = 0;
+        $bridge->updated_by = $request->user()['id'];
         $bridge->save();
 
         return $this->apiOk(true);
@@ -90,7 +90,7 @@ class BridgeController extends Controller
         $bridge = \App\Bridge::findOrFail($id);
 
         $bridge->status       = 1;
-        $bridge->updated_by   = 0;
+        $bridge->updated_by   = $request->user()['id'];
         $bridge->save();
 
         return $this->apiOk(true);
