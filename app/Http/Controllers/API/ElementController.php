@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+// use Illuminate\Support\Facades\Storage;
 
 class ElementController extends Controller
 {
@@ -43,6 +44,15 @@ class ElementController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
+
+        $fileObj = $request->file('image');
+
+        if (is_null($fileObj)) {
+            return $this->apiErr(22100, 'image should be an image file', 422);
+        }
+
+        $filePath       = $fileObj->store('public/elements');
+        $element->image = $filePath;
         
         $element->created_by = $request->user()['id'];
         $element->save();
