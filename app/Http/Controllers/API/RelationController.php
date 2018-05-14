@@ -38,7 +38,7 @@ class RelationController extends Controller
         $relation->created_by = $request->user()['id'];
         $relation->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($relation);
     }
 
     /**
@@ -71,7 +71,7 @@ class RelationController extends Controller
         $relation->updated_by = $request->user()['id'];
         $relation->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($relation);
     }
 
     /**

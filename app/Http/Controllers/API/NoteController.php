@@ -42,7 +42,7 @@ class NoteController extends Controller
         $note->created_by = $request->user()['id'];
         $note->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($note);
     }
 
     /**
@@ -75,7 +75,7 @@ class NoteController extends Controller
         $note->updated_by = $request->user()['id'];
         $note->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($note);
     }
 
     /**

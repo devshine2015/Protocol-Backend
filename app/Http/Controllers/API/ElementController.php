@@ -56,7 +56,7 @@ class ElementController extends Controller
         $element->created_by = $request->user()['id'];
         $element->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($element);
     }
 
     /**
@@ -89,7 +89,7 @@ class ElementController extends Controller
         $element->updated_by = $request->user()['id'];
         $element->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($element);
     }
 
     /**

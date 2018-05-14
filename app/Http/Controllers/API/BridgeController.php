@@ -43,7 +43,7 @@ class BridgeController extends Controller
         $bridge->created_by = $request->user()['id'];
         $bridge->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($bridge);
     }
 
     /**
@@ -76,7 +76,7 @@ class BridgeController extends Controller
         $bridge->updated_by = $request->user()['id'];
         $bridge->save();
 
-        return $this->apiOk(true);
+        return $this->apiOk($bridge);
     }
 
     /**
