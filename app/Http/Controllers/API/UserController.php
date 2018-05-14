@@ -14,7 +14,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
         $data  = $request->only(['email', 'password', 'name']);
         $valid = Validator::make($data, [
@@ -33,17 +33,36 @@ class UserController extends Controller
             'password'  => bcrypt($data['password'])
         ];
         $user       = \App\User::create($userData);
-        $client     = \App\OAuthClient::where('password_client', 1)->first();
 
+        return $this->__login($data['email'], $data['password'], $request);
+    }
+
+    public function login(Request $request)
+    {
+        $data  = $request->only(['email', 'password']);
+        $valid = Validator::make($data, [
+            'email'     => 'required|string|email|max:255',
+            'password'  => 'required|string|min:6'
+        ]);
+
+        if ($valid->fails()) {
+            return $this->apiErr(22002, $valid->messages(), 422);
+        }
+
+        return $this->__login($data['email'], $data['password'], $request);
+    }
+
+    private function __login($email, $password, $request) {
+        $client = \App\OAuthClient::where('password_client', 1)->first();
         $request->request->add([
             'grant_type'    => 'password',
             'client_id'     => $client->id,
             'client_secret' => $client->secret,
-            'username'      => $data['email'],
-            'password'      => $data['password'],
+            'username'      => $email,
+            'password'      => $password,
             'scope'         => null
         ]);
-        
+
         $proxy = Request::create(
             'oauth/token',
             'POST'

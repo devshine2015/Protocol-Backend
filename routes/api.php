@@ -24,4 +24,5 @@ Route::apiResources([
     'notes'     => 'API\NoteController',
 ]);
 
-Route::post('register','Api\UserController@store');
+Route::post('/register','Api\UserController@register');
+Route::post('/login','Api\UserController@login');
