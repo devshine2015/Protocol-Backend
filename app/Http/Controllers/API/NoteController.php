@@ -19,9 +19,23 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notes = \App\Note::where('status', 0)->get();
+        $whereInFields  = ['target'];
+        $queryWhereIn   = array_filter(
+            $request->query(),
+            function ($k) use($whereInFields) { return in_array($k, $whereInFields); },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        $builder = \App\Note::where('status', 0);
+
+        foreach ($queryWhereIn as $k => $v) {
+            $arr = is_array($v) ? $v : [$v];
+            $builder = $builder->whereIn($k, $arr);
+        }
+
+        $notes = $builder->get();
         return $this->apiOk($notes);
     }
 
