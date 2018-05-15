@@ -26,9 +26,16 @@ class ElementController extends Controller
      */
     public function index(Request $request)
     {
+        $rawQuery    = $request->query();
+
+        if (isset($rawQuery['eids'])) {
+            $elements = \App\Element::whereIn('id', $rawQuery['eids'])->get();
+            return $this->apiOk($elements);
+        }
+
         $queryFields = ['url'];
         $query       = array_filter(
-            $request->query(),
+            $rawQuery,
             function ($k) use($queryFields) { return in_array($k, $queryFields); },
             ARRAY_FILTER_USE_KEY
         );
