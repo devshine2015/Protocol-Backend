@@ -14,8 +14,8 @@ class AddForeignKeysToBridgesTable extends Migration {
 	{
 		Schema::table('bridges', function(Blueprint $table)
 		{
-			$table->foreign('"from"', 'bridges_from_fkey')->references('id')->on('elements')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('"to"', 'bridges_to_fkey')->references('id')->on('elements')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('from', 'bridges_from_fkey')->references('id')->on('elements')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('to', 'bridges_to_fkey')->references('id')->on('elements')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('relation', 'bridges_relation_fkey')->references('id')->on('relations')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
