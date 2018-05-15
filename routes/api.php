@@ -44,3 +44,9 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
 Route::post('/register', 'Api\UserController@register');
 Route::post('/login', 'Api\UserController@login');
 Route::post('/search/page', 'Api\PageController@search');
+
+Route::group(['middleware' => ['web']], function () {
+    // your routes here
+    Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+    Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+});
