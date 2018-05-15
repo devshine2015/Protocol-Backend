@@ -29,7 +29,8 @@ class ElementController extends Controller
         $rawQuery    = $request->query();
 
         if (isset($rawQuery['eids'])) {
-            $elements = \App\Element::whereIn('id', $rawQuery['eids'])->get();
+            $eids       = is_array($rawQuery['eids']) ? $rawQuery['eids']: [$rawQuery['eids']];
+            $elements   = \App\Element::whereIn('id', $rawQuery['eids'])->get();
             return $this->apiOk($elements);
         }
 
