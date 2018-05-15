@@ -3,9 +3,16 @@ CREATE TABLE relations (
   "active_name" VARCHAR(100) NOT NULL,
   "passive_name" VARCHAR(100) NOT NULL,
   "is_active" BOOL DEFAULT true,
-  "created_at" TIMESTAMP NOT NULL,
+  "created_at" TIMESTAMP,
   "created_by" INT,
-  "updated_at" TIMESTAMP NOT NULL,
+  "updated_at" TIMESTAMP,
   "updated_by" INT,
   "status" SMALLINT DEFAULT 0
 );
+
+INSERT INTO relations (active_name, passive_name) VALUES ('supports', 'supported by');
+INSERT INTO relations (active_name, passive_name) VALUES ('refutes', 'refuted by');
+INSERT INTO relations (active_name, passive_name) VALUES ('includes', 'member of');
+INSERT INTO relations (active_name, passive_name) VALUES ('defines', 'defined By');
+INSERT INTO relations (active_name, passive_name) VALUES ('example', 'exemplified by');
+INSERT INTO relations (active_name, passive_name) VALUES ('clarifies', 'clarified by');

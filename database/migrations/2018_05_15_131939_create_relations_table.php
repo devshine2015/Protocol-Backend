@@ -18,7 +18,7 @@ class CreateRelationsTable extends Migration {
 			$table->string('active_name', 100);
 			$table->string('passive_name', 100);
 			$table->boolean('is_active')->nullable()->default(1);
-			$table->timestamps();
+			$table->timestamps()->nullable();
 			$table->integer('created_by')->nullable();
 			$table->integer('updated_by')->nullable();
 			$table->smallInteger('status')->nullable()->default(0);
