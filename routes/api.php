@@ -41,5 +41,6 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
     Route::apiResource($name, $controller, $withoutAuthRouteOptions);
 }
 
-Route::post('/register','Api\UserController@register');
-Route::post('/login','Api\UserController@login');
+Route::post('/register', 'Api\UserController@register');
+Route::post('/login', 'Api\UserController@login');
+Route::post('/search/page', 'Api\PageController@search');
