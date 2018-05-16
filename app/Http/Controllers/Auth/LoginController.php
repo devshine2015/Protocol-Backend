@@ -22,15 +22,30 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public function redirectToProvider()
+    public function redirectToProvider($provider)
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver($provider)->stateless()->redirect();
     }
 
-    public function handleProviderCallback(Request $request)
+    public function handleProviderCallback(Request $request, $provider)
     {
-        $user = Socialite::driver('google')->user();
-        return response()->json([ 'user' => $user ]);
+        $user   = Socialite::driver($provider)->stateless()->user();
+        $client = \App\OAuthClient::where('password_client', 1)->first();
+        $proxy  = Request::create(
+            '/oauth/token',
+            'POST',
+            [
+                'grant_type'    => 'social',
+                'client_id'     => $client->id,
+                'client_secret' => $client->secret,
+                'network'       => $provider,
+                'access_token'  => $user->token,
+            ]
+        );
+        $response = \App::handle($proxy);
+        $content  = $response->getContent();
+
+        return view('oauth_result', [ 'result' => $content ]);
     }
 
     /**

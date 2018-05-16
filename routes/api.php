@@ -46,7 +46,6 @@ Route::post('/login', 'API\UserController@login');
 Route::post('/search/page', 'API\PageController@search');
 
 Route::group(['middleware' => ['web']], function () {
-    // your routes here
-    Route::get('login/google', 'Auth\LoginController@redirectToProvider');
-    Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+    Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider')->where([ 'provider' => 'facebook|google' ]);
+    Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->where([ 'provider' => 'facebook|google' ]);
 });
