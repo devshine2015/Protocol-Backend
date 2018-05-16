@@ -45,7 +45,7 @@ class LoginController extends Controller
         $response = \App::handle($proxy);
         $content  = $response->getContent();
 
-        return view('oauth_result', [ 'result' => $content ]);
+        return view('oauth_result', [ 'result' => $content, 'providerName' => ucfirst($provider) ]);
     }
 
     /**
