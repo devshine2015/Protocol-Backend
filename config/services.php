@@ -38,6 +38,6 @@ return [
     'google' => [
         'client_id' => '338194760597-emhlo8775r8af1d31l3bl55m8ergpqm0.apps.googleusercontent.com',
         'client_secret' => 'T7KPSzQXCXtU6VscI4cjVl-p',
-        'redirect' => 'http://bridgit.io/api/login/google/callback'
+        'redirect' => env('APP_URL') . '/api/login/google/callback'
     ]
 ];
