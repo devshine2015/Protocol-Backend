@@ -10,8 +10,11 @@ CREATE TABLE relations (
   "status" SMALLINT DEFAULT 0
 );
 
+ALTER TABLE relations ALTER created_at DROP NOT NULL;
+ALTER TABLE relations ALTER updated_at DROP NOT NULL;
+
 INSERT INTO relations (active_name, passive_name) VALUES ('supports', 'supported by');
-INSERT INTO relations (active_name, passive_name) VALUES ('refutes', 'refuted by');
+INSERT INTO relations (active_name, passive_name) VALUES ('contradicts', 'contradicted by');
 INSERT INTO relations (active_name, passive_name) VALUES ('includes', 'member of');
 INSERT INTO relations (active_name, passive_name) VALUES ('defines', 'defined By');
 INSERT INTO relations (active_name, passive_name) VALUES ('example', 'exemplified by');
