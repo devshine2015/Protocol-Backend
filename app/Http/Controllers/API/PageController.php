@@ -15,18 +15,32 @@ class PageController extends Controller
       return $this->apiErr(22010, 'url is required');
     }
 
+    $result = $this->pageInfo($url);
+    return $this->apiOk($result);
+  }
+
+  public function batchSearch(Request $request) {
+    $urls     = $request->input('urls');
+
+    $results  = array_reduce($urls, function ($prev, $url) {
+      $prev[$url] = $this->pageInfo($url);
+      return $prev;
+    }, []);
+
+    return $this->apiOk($results);
+  }
+
+  private function pageInfo($url) {
     $elements = \App\Element::where([ 'status' => 0, 'url' => $url ])->get();
     $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
 
     $notes    = \App\Note::whereIn('target', $eids)->get();
     $bridges  = \App\Bridge::whereIn('from', $eids)->orWhereIn('to', $eids)->get();
 
-    $result   = [
+    return [
       'elements'  => $elements,
       'bridges'   => $bridges,
       'notes'     => $notes
     ];
-
-    return $this->apiOk($result);
   }
 }

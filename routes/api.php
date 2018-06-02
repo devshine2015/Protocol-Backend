@@ -44,6 +44,7 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
 Route::post('/search/page', 'API\PageController@search');
+Route::post('/search/pages', 'API\PageController@batchSearch');
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider')->where([ 'provider' => 'facebook|google' ]);
