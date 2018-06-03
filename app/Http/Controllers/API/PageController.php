@@ -34,8 +34,12 @@ class PageController extends Controller
     $elements = \App\Element::where([ 'status' => 0, 'url' => $url ])->get();
     $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
 
-    $notes    = \App\Note::whereIn('target', $eids)->get();
-    $bridges  = \App\Bridge::whereIn('from', $eids)->orWhereIn('to', $eids)->get();
+    $notes    = \App\Note::where([ 'status' => 0 ])->whereIn('target', $eids)->get();
+    $bridges  = \App\Bridge::where([ 'status' => 0 ])
+                  ->where(function($query) use($eids)  {
+                    $query->whereIn('from', $eids)->orWhereIn('to', $eids);
+                  })
+                  ->get();
 
     return [
       'elements'  => $elements,
