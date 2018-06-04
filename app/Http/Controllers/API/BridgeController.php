@@ -76,13 +76,18 @@ class BridgeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user   = $request->user();
         $bridge = \App\Bridge::findOrFail($id);
+
+        if ($user['admin'] !== 1 && $user['id'] !== $bridge['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
 
         foreach ($this->fieldsRequired as $f) {
             $bridge->$f = $request->$f;
         }
 
-        $bridge->updated_by = $request->user()['id'];
+        $bridge->updated_by = $user['id'];
         $bridge->save();
 
         return $this->apiOk($bridge);
@@ -96,10 +101,15 @@ class BridgeController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $user   = $request->user();
         $bridge = \App\Bridge::findOrFail($id);
 
+        if ($user['admin'] !== 1 && $user['id'] !== $bridge['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
+
         $bridge->status       = 1;
-        $bridge->updated_by   = $request->user()['id'];
+        $bridge->updated_by   = $user['id'];
         $bridge->save();
 
         return $this->apiOk(true);

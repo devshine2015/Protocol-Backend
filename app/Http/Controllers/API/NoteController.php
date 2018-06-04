@@ -80,13 +80,18 @@ class NoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $note = \App\Note::findOrFail($id);
+        $user   = $request->user();
+        $note   = \App\Note::findOrFail($id);
+
+        if ($user['admin'] !== 1 && $user['id'] !== $note['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
 
         foreach ($this->fieldsRequired as $f) {
             $note->$f = $request->$f;
         }
 
-        $note->updated_by = $request->user()['id'];
+        $note->updated_by = $user['id'];
         $note->save();
 
         return $this->apiOk($note);
@@ -100,10 +105,15 @@ class NoteController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $note = \App\Note::findOrFail($id);
+        $user   = $request->user();
+        $note   = \App\Note::findOrFail($id);
+
+        if ($user['admin'] !== 1 && $user['id'] !== $note['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
 
         $note->status       = 1;
-        $note->updated_by   = $request->user()['id'];
+        $note->updated_by   = $user['id'];
         $note->save();
 
         return $this->apiOk(true);
