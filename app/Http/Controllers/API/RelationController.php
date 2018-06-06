@@ -22,7 +22,8 @@ class RelationController extends Controller
         $user       = Auth::guard('api')->user();
 
         if (isset($urlQuery['ids'])) {
-            $relationsQuery = \App\Relation::whereIn('id', $urlQuery['ids']);
+            $ids = is_array($urlQuery['ids']) ? $urlQuery['ids']: [$urlQuery['ids']];
+            $relationsQuery = \App\Relation::whereIn('id', $ids);
         } else {
             $relationsQuery = \App\Relation::where(function($query) {
                 $query->where([ 'status' => 0, 'type' => 1 ]);
