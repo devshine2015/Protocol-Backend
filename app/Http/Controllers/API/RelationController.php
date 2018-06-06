@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 // use App\Relation;
 
 class RelationController extends Controller
@@ -15,9 +16,22 @@ class RelationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $relations = \App\Relation::where('status', 0)->get();
+        $urlQuery   = $request->query();
+        $user       = Auth::guard('api')->user();
+
+        if (isset($urlQuery['ids'])) {
+            $relationsQuery = \App\Relation::whereIn('id', $urlQuery['ids']);
+        } else {
+            $relationsQuery = \App\Relation::where([ 'status' => 0, 'type' => 1 ]);
+
+            if (isset($user)) {
+                $relationsQuery = $relationsQuery->orWhere([ 'status' => 0, 'type' => 0, 'created_by' => $user['id'] ]);
+            }
+        }
+
+        $relations = $relationsQuery->get();
         return $this->apiOk($relations);
     }
 
@@ -35,7 +49,8 @@ class RelationController extends Controller
             $relation->$f = $request->$f;
         }
         
-        $relation->created_by = $request->user()['id'];
+        $relation->type         = 0;
+        $relation->created_by   = $request->user()['id'];
         $relation->save();
 
         return $this->apiOk($relation);
@@ -62,13 +77,18 @@ class RelationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $relation = \App\Relation::findOrFail($id);
+        $user       = $request->user();
+        $relation   = \App\Relation::findOrFail($id);
+
+        if ($user['admin'] !== 1 && $user['id'] !== $note['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
 
         foreach ($this->fieldsRequired as $f) {
             $relation->$f = $request->$f;
         }
 
-        $relation->updated_by = $request->user()['id'];
+        $relation->updated_by = $user['id'];
         $relation->save();
 
         return $this->apiOk($relation);
@@ -82,10 +102,15 @@ class RelationController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $relation = \App\Relation::findOrFail($id);
+        $user       = $request->user();
+        $relation   = \App\Relation::findOrFail($id);
+
+        if ($user['admin'] !== 1 && $user['id'] !== $note['created_by']) {
+            return $this->apiErr(222003, 'Not Authorized');
+        }
 
         $relation->status       = 1;
-        $relation->updated_by   = $request->user()['id'];
+        $relation->updated_by   = $user['id'];
         $relation->save();
 
         return $this->apiOk(true);
