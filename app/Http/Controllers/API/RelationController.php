@@ -24,10 +24,14 @@ class RelationController extends Controller
         if (isset($urlQuery['ids'])) {
             $relationsQuery = \App\Relation::whereIn('id', $urlQuery['ids']);
         } else {
-            $relationsQuery = \App\Relation::where([ 'status' => 0, 'type' => 1 ]);
+            $relationsQuery = \App\Relation::where(function($query) {
+                $query->where([ 'status' => 0, 'type' => 1 ]);
+            });
 
             if (isset($user)) {
-                $relationsQuery = $relationsQuery->orWhere([ 'status' => 0, 'type' => 0, 'created_by' => $user['id'] ]);
+                $relationsQuery = $relationsQuery->orWhere(function($query)  use($user) {
+                    $query->where([ 'status' => 0, 'type' => 0, 'created_by' => $user['id'] ]);
+                });
             }
         }
 
