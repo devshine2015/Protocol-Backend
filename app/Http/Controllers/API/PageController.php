@@ -25,7 +25,7 @@ class PageController extends Controller
         $user   = Auth::guard('api')->user();
         $urls   = $request->input('urls');
 
-        $results  = array_reduce($urls, function ($prev, $url) {
+        $results  = array_reduce($urls, function($prev, $url) use($user) {
             $prev[$url] = $this->pageInfo($url, $user);
             return $prev;
         }, []);
