@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BridgeController extends Controller
 {
@@ -12,7 +13,8 @@ class BridgeController extends Controller
         'to',
         'relation',
         'tags',
-        'desc'
+        'desc',
+        'privacy'
     ];
 
     /**
@@ -22,6 +24,7 @@ class BridgeController extends Controller
      */
     public function index(Request $request)
     {
+        $user     = Auth::guard('api')->user();
         $rawQuery = $request->query();
         $builder  = $bridges = \App\Bridge::where('status', 0);
 
@@ -31,6 +34,7 @@ class BridgeController extends Controller
                         ->orWhereIn('to', $rawQuery['eids']);
         }
 
+        $builder = $this->withPrivacyWhere($builder, $user);
         $bridges = $builder->get();
         return $this->apiOk($bridges);
     }

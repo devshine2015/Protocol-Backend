@@ -26,4 +26,16 @@ class Controller extends BaseController
             'message'       => $msg
         ], $httpStatus);
     }
+
+    protected function withPrivacyWhere ($query, $user) {
+        return $query->where(function($query) use($user) {
+            $query->where('privacy', 0);
+
+            if (isset($user)) {
+                $query->orWhere(function($q) use($user) {
+                    $q->where([ 'privacy' => 1, 'created_by' => $user['id'] ]);
+                });
+            }
+        });
+    }
 }

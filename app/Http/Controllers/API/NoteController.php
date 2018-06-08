@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
@@ -11,7 +12,8 @@ class NoteController extends Controller
         'target',
         'title',
         'tags',
-        'desc'
+        'desc',
+        'privacy'
     ];
 
     /**
@@ -21,6 +23,7 @@ class NoteController extends Controller
      */
     public function index(Request $request)
     {
+        $user           = Auth::guard('api')->user();
         $whereInFields  = ['target'];
         $queryWhereIn   = array_filter(
             $request->query(),
@@ -35,6 +38,7 @@ class NoteController extends Controller
             $builder = $builder->whereIn($k, $arr);
         }
 
+        $builder = $this->withPrivacyWhere($builder, $user);
         $notes = $builder->get();
         return $this->apiOk($notes);
     }
