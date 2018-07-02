@@ -1,0 +1,132 @@
+body {
+    font-family: Arial;
+}
+
+* {
+    box-sizing: border-box;
+}
+/*.navbar {
+    background-color: #EF5D8F;
+}*/
+.navbar{
+	background-color: #efefef;
+}
+.loginbar{
+	background-color: #EF5D8F;
+	padding: 0px;
+	text-align:center;
+}
+.dropdown-menu{
+	padding:0px;
+	margin:0.5rem 0 0;
+}
+.login-raw{
+	padding: 14px 14px 0px;
+}
+.hint{
+	margin-bottom: 10px;
+    color: #3a87ad;
+    font-size: 11px;
+}
+.btn-register{
+	background-color: #EF5D8F;
+	color: #fff;
+}
+.btn-signin{
+	background-color: #efefef;
+	color: :#fff;
+}
+.navbar-brand {
+    /*color: #fff !important;*/
+    border-bottom: 0 solid transparent;
+    background:transparent;
+    font-size: x-large;
+    padding: 0px;
+}
+.term-note{
+	color: #EF5D8F;
+}
+.login-brand{
+	margin: 8px;
+	color: #fff !important;
+	text-align:center !important;
+}
+.social-submit{
+	float: right;
+
+}
+#login-form{
+	display: none;
+}
+.footer-login{
+	background-color: #efefef;
+	text-align:center;
+	border-top: 1px groove;
+	font-size: 12px;
+	margin-top: 25px;
+}
+.mt-18{
+	margin-top: 18px;
+}
+#login-dp{
+    min-width: 350px;
+    overflow:hidden;
+    background-color:rgba(255,255,255,.8);
+}
+#login-dp .help-block{
+    font-size:12px;
+}
+#login-dp .bottom{
+    background-color:rgba(255,255,255,.8);
+    border-top:1px solid #ddd;
+    clear:both;
+    padding:14px;
+}
+#login-dp .social-buttons{
+    margin:12px 0;
+
+}
+#login-dp .social-buttons button{
+    width: 49%;
+}
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
+.btn-fb{
+    color: #fff;
+    background-color:#3b5998;
+}
+.btn-fb:hover{
+    color: #fff;
+    background-color:#496ebc 
+}
+.btn-tw{
+    color: #fff;
+    background-color:#55acee;
+}
+.btn-tw:hover{
+    color: #fff;
+    background-color:#59b5fa;
+}
+@media(max-width:768px){
+    #login-dp{
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-size: 11px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  font-size: 11px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  font-size: 11px;
+}
+:-moz-placeholder { /* Firefox 18- */
+  font-size: 11px;
+}
