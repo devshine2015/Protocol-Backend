@@ -29,7 +29,7 @@ $resourcesRequireAuthToWrite = [
 
 $withAuthRouteOptions = [
     'only'          => ['store', 'update', 'destroy'],
-    // 'middleware'    => ['auth:api'],
+    'middleware'    => ['auth:api'],
 ];
 
 $withoutAuthRouteOptions = [

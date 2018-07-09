@@ -56,7 +56,7 @@ class NoteController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $note->$f = $request->$f;
         }
-        
+        $note->created_by = $request->user()['id'];
         $note->save();
 
         return $this->apiOk($note);
