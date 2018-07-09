@@ -1,69 +1,52 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">{{ __('Login') }}<span class="caret"></a>
+<ul id="login-dp" class="dropdown-menu dropdown-menu-form">
+    <li>
+        <div class="navbar loginbar col-md-12">
+            <div class="login-brand text-center">Bridgit</div>
+        </div>
+        <div class="row login-raw">
+            <div class="col-md-12">
+                <div class="social-buttons">
+                    <button  class="btn btn-register active" id="register-form-link">Register</button>
+                    <button  class="btn btn-signin" id="login-form-link"><i class="fa fa-twitter"></i> Signin</button>
                 </div>
             </div>
+            <div class="col-md-12" id="register-form-data">
+                <p class="hint">To start sharing with Bridgit, give us a little info.</p>
+                 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="register-form">
+                        <div class="form-group">
+                             <label class="sr-only" for="exampleInputName2">Full name</label>
+                             <input type="text" class="form-control" id="exampleInputName2" placeholder="Full name" required>
+                        </div>
+                        <div class="form-group">
+                             <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                             <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                             <label class="sr-only" for="exampleInputPassword2">Password</label>
+                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                        </div>
+                        <div class="form-group mt-18">
+                             <button type="submit" class="btn btn-primary">Register</button>
+                              <a href="{{ url('weblogin/google') }}" class="btn btn-primary social-submit">Sign in with Google</a>
+                        </div>
+
+                 </form>
+                 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-form">
+                        <div class="form-group">
+                             <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                             <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                             <label class="sr-only" for="exampleInputPassword2">Password</label>
+                             <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" required>
+                        </div>
+                        <div class="form-group mt-18">
+                             <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                 </form>
+            </div>
         </div>
-    </div>
-</div>
-@endsection
+       <div class="footer-login"><span>2017 © Bridgit | All Rights Reserved</span><br><a href="http://bridgit.io/" target="_blank" class="term-note">Terms &amp; Conditions</a><a href="http://bridgit.io/" target="_blank" class="term-note"> About Us</a></div>
+    </li>
+</ul>

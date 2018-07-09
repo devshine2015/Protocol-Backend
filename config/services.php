@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -38,6 +37,6 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/api/login/google/callback'
+        'redirect' => @$_SERVER['HTTP_HOST'] ? env('APP_URL') . (app('request')->segment(1) === 'weblogin' || app('request')->query('platform') === 'web' ? '' : '/api') . '/login/google/callback?platform=' . (app('request')->segment(1) === 'weblogin' || app('request')->query('platform') === 'web' ? 'web' : 'api') : ''
     ]
 ];

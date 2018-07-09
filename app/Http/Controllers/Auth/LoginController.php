@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Socialite;
-
+use App\User;
+use Auth;
 class LoginController extends Controller
 {
     /*
@@ -21,7 +22,7 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-
+    protected $model;
     public function redirectToProvider($provider)
     {
         return Socialite::driver($provider)->stateless()->redirect();
@@ -32,7 +33,7 @@ class LoginController extends Controller
         $user   = Socialite::driver($provider)->stateless()->user();
         $client = \App\OAuthClient::where('password_client', 1)->first();
         $proxy  = Request::create(
-            '/oauth/token',
+            env('APP_URL') . '/oauth/token',
             'POST',
             [
                 'grant_type'    => 'social',
@@ -44,16 +45,18 @@ class LoginController extends Controller
         );
         $response = \App::handle($proxy);
         $content  = $response->getContent();
-
+        if($request->query('platform') == 'web'){
+            auth()->login(User::whereEmail($user->email)->first());
+            return redirect('search');
+        }
         return view('oauth_result', [ 'result' => $content, 'providerName' => ucfirst($provider) ]);
     }
-
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/search';
 
     /**
      * Create a new controller instance.
@@ -64,4 +67,9 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    public function logout()
+        {
+            auth()->logout();
+            return redirect("/search");
+        }
 }

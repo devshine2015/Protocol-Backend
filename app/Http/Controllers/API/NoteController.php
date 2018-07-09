@@ -57,7 +57,6 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
         
-        $note->created_by = $request->user()['id'];
         $note->save();
 
         return $this->apiOk($note);

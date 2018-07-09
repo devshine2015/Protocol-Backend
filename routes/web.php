@@ -10,13 +10,27 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
-    if(Auth::check()) {
         return redirect('/search');
-    } else {
-        return view('auth.login');
-    }
 });
+Route::group(['namespace' => 'Auth'], function () {
 
-Auth::routes();
+        Route::group(['middleware' => 'web'], function () {
+        	Route::group(['middleware' => 'guest'], function () {
+        		Route::get('weblogin/{provider}','LoginController@redirectToProvider')->where([ 'provider' => 'facebook|google' ])->name('weblogin');
+    			Route::get('login/{provider}/callback', 'LoginController@handleProviderCallback')->where([ 'provider' => 'facebook|google' ]);	
+        	});
+        	Route::group(['middleware' => 'auth'], function() {
+				Route::get('logout', "LoginController@logout")->name('logout');
+        	});
+            
+		});
+});
+Route::group(['namespace' => 'Admin'], function () {
+
+        Route::group(['middleware' => 'web'], function () {
+            Route::get("search","SearchController@search")->name('search');
+            Route::post("search","SearchController@searchData")->name('search');
+            
+        });
+});

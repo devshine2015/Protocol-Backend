@@ -1,5 +1,6 @@
 body {
     font-family: Arial;
+    background-color: #fff;
 }
 
 * {
@@ -9,13 +10,178 @@ body {
     background-color: #EF5D8F;
 }*/
 .navbar{
-	background-color: #efefef;
+	background-color: #fff;
+    padding:0 1rem;
+    align-items: end;
+}
+span.td-container {
+  height: 34px !important;
+  overflow-y : hidden;
+  display: inline-block;
+}
+.custom-nav-part {
+    padding-top: 30px;
+    padding-left:10px;
+    padding-right:10px;
+    display: block;
+
+}
+
+.user-profile-content {
+    right:0;
+    left:auto !important;
+    min-width: 18rem;
+    position: relative;
+    box-shadow:0px 0px 30px 1px rgba(0,0,0,0.15);
+    border:none;
+}
+
+.user-profile-content:after {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    content: "";
+    border-bottom: solid 10px #fff;
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+}
+
+.search-text-color{
+    color:#999999;
+    font-size: 0.9em;
+    
+}
+.table-text-color{
+    background-color:#ee467a;
+    font-size: 0.9em;
+    margin: 4px;
+    border-radius: 3px;
+    padding: 3px;
+    color: #fff;
+}
+
+.has-feedback {
+    position: relative;
+}
+
+.main {
+    width: 50%;
+    margin: 20px auto;
+}
+
+.has-search .form-control-feedback {
+    left: 10px;
+    color: #ccc;
+    position: absolute;
+    top: 12px;
+}
+
+.has-search .form-control {
+    padding-right: 12px;
+    padding-left: 34px;
+}
+
+.user-email {
+    font-size:14px;
+    color:#999999;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+.log-detail {
+    color:#ee467a;
+    font-size: 14px;
+}
+
+.log-detail a{
+    display: block;
+    color:#ee467a;
+
+}
+.dashboard-text a:hover{
+    color:#ee467a;
+
+}
+.user-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 30px 10px;
+
+}
+
+.user-photo {
+    width:70px;
+}
+
+.user-name {
+    font-size:18px;
+    margin-bottom: 0;
+}
+
+.user-details {
+    flex:1 1 auto;
+    padding-left:10px;
+}
+
+.user-photo img {
+    border-radius: 50%;
+}
+
+.icon-search-menu {
+    padding-top:5px;
+}
+
+.img-div {
+    width:35px;
+}
+
+.img-div img{
+    border-radius: 50%;
+}
+
+.dropdown-toggle:after {
+    content: none;
+}
+
+.dashboard-text {
+    padding-top: 37px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #ee467a;
+    text-transform: uppercase;
+    font-size: 13px;
+    display: block;
+}
+
+.custom-menu .nav-item .nav-link {
+    padding-top:37px;
+    padding-left:20px;
+    padding-right:20px;
+    color: #999999;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.navbar-nav .nav-link:hover {
+   box-shadow:inset 0 4px 0 0 #ee467a;
+   color:#272727;
+}
+
+.dataTables_filter {
+   float: left !important;
 }
 .loginbar{
 	background-color: #EF5D8F;
 	padding: 0px;
 	text-align:center;
 }
+.jumbotron {
+	background:#fff;
+	box-shadow: 0 0.15em 0.35em 0 rgba(0,0,0,0.135);
+}
+
 .dropdown-menu{
 	padding:0px;
 	margin:0.5rem 0 0;
@@ -41,7 +207,8 @@ body {
     border-bottom: 0 solid transparent;
     background:transparent;
     font-size: x-large;
-    padding: 0px;
+    padding: 15px 0px;
+    width:15%;
 }
 .term-note{
 	color: #EF5D8F;
@@ -68,6 +235,19 @@ body {
 .mt-18{
 	margin-top: 18px;
 }
+/*search page css start*/
+#myInput		{
+  width:30%;
+  -webkit-transition:width 0.3s ease-in-out;
+}
+#myInput:focus	{
+  width:100%;
+  -webkit-transition:width 0.5s ease-in-out;
+}
+.top-search{
+	padding-top: 0rem!important;
+}
+/*search page css end*/
 #login-dp{
     min-width: 350px;
     overflow:hidden;
