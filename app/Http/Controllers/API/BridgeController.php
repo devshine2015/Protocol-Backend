@@ -36,6 +36,8 @@ class BridgeController extends Controller
 
         $builder = $this->withPrivacyWhere($builder, $user);
         $bridges = $builder->get();
+        //add isfollowtag
+        $bridges = $this->checkFollow($bridges);
         return $this->apiOk($bridges);
     }
 

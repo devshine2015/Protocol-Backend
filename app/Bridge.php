@@ -19,4 +19,7 @@ class Bridge extends Model
     public function toElement(){
         return $this->belongsTo(Element::class,'to','id');
     }
+    public function followUser(){
+        return $this->belongsTo(FollowUser::class,'created_by','user_id');
+    }
 }

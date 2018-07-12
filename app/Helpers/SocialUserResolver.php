@@ -44,6 +44,7 @@ class SocialUserResolver implements SocialUserResolverInterface {
             'email'     => $user->email,
             'name'      => $user->name,
             'password'  => bcrypt(str_random(64)),
+            'avatar'    => $user->avatar,
         ]);
     }
 }

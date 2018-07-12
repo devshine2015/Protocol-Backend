@@ -27,10 +27,13 @@ Route::group(['namespace' => 'Auth'], function () {
 		});
 });
 Route::group(['namespace' => 'Admin'], function () {
-
-        Route::group(['middleware' => 'web'], function () {
-            Route::get("search","SearchController@search")->name('search');
-            Route::post("search","SearchController@searchData")->name('search');
-            
-        });
+    Route::group(['middleware' => 'web'], function () {
+        Route::get("search","SearchController@search")->name('search');
+        Route::get("profile/{id}","UserController@userData");
+        Route::post("profile","UserController@updateuserData")->name('update-profile');
+        Route::post("search","SearchController@searchData")->name('search');
+        Route::get("dashboard","UserController@dashboard")->name('dashboard');
+        
+    });
 });
+Auth::routes();

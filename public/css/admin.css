@@ -58,6 +58,7 @@ span.td-container {
     border-radius: 3px;
     padding: 3px;
     color: #fff;
+    opacity: 0.7;
 }
 
 .has-feedback {
@@ -110,9 +111,76 @@ span.td-container {
     padding: 10px 10px 30px 10px;
 
 }
-
+.custom-file-input{
+    height: 0px;
+}
 .user-photo {
     width:70px;
+}
+.hidden{
+    display: none;
+}
+.fileUpload{
+    position: relative;
+    display: inline-block;
+    margin-bottom:20px;
+}
+.uploadIcon{
+    position: absolute;
+    left: 40px;
+    bottom: -10px;
+    border-radius: 60%;
+    border: 1px solid #ee467a;
+    background-color:#ee467a;
+    line-height: 2px;
+    padding: 5px;
+}
+.uploadIcon:hover{
+    background-color:#ee467a;
+    border: 1px solid #ee467a;
+}
+/*follow button start*/
+button .msg-follow,
+button .msg-following,
+button .msg-unfollow{
+  display: none;
+}
+
+button .msg-follow{
+  display: inline;
+}
+
+button.following .msg-follow{
+  display: none;
+}
+
+button.following .msg-following{
+  display: inline;
+}
+
+button.following:not(.wait):hover .msg-following{
+  display: none;
+}
+
+button.following:not(.wait):hover .msg-unfollow{
+  display: inline;
+}
+/**/
+/*accordian*/
+.accordion .card-header:after {
+    font-family: 'FontAwesome';  
+    content: "\f068";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f067"; 
+}
+/**/
+.dashboard-photo img{
+    border-radius: 50%;
+    width: 100px;
+    height: auto;
 }
 
 .user-name {
@@ -249,9 +317,12 @@ span.td-container {
 }
 /*search page css end*/
 #login-dp{
-    min-width: 350px;
+    max-width: 350px;
     overflow:hidden;
-    background-color:rgba(255,255,255,.8);
+    background-color:#fdfdfd;
+    width: 350px;
+    left: auto;
+    right: 0;
 }
 #login-dp .help-block{
     font-size:12px;

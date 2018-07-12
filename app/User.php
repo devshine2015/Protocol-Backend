@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','avatar',
     ];
 
     /**
@@ -27,4 +27,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function getAvatarAttribute($value)
+    {
+        if(filter_var($value, FILTER_VALIDATE_URL)){
+            return ($value) ? ($value) : url('images/avtar.png');
+        }
+        return ($value) ? url('images/user/'.$value) : url('images/avtar.png');
+    }
 }

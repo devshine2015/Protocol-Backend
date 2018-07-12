@@ -38,4 +38,15 @@ class Controller extends BaseController
             }
         });
     }
+    protected function checkFollow($checkUser){
+        $checkUser->filter(function($query){
+            if(count($query->followUser)>0){
+                $query->is_follow = true;
+            }else{
+                $query->is_follow = false;
+            }
+            unset($query->followUser);
+        });
+        return $checkUser;
+    }
 }

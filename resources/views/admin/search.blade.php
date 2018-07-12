@@ -22,11 +22,15 @@
             </div>
             @if(Auth::check())
             <div class="form-group has-feedback has-search text-center">
-              <label class="radio-inline">
-                <input type="radio" name="my_result" value="1" class="text-center search-text-color">My results
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="my_result" value="0" class="text-center search-text-color">All bridgit
+              <?php $checked = ''; $allchecked='';?>
+              @if(isset($my_result))
+                <?php if($my_result==1){ $checked='checked';}else{$allchecked = 'checked';}?>
+              @endif
+                <label class="radio-inline">
+                  <input type="radio" name="my_result" value="1" class="text-center search-text-color" {{$checked}}>My results
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="my_result" value="0" class="text-center search-text-color" {{$allchecked}}>All bridgit
               </label>
             </div>
             @endif
@@ -55,16 +59,16 @@
                                  <?php $t=1; ?>
                                     @foreach($bridge as $bridges)
                                         <tr>
-                                            <td>@if($bridges->comefromNote ==0) <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{$bridges->toUrl}} </a> Bridge @else {{$bridges->title}} @endif</td>
-                                            <td>@if($bridges->relation) {{$bridges->relationData->active_name}} @endif</td>
+                                            <td>@if($bridges->comefromNote ==0) <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a> @else {{$bridges->title}} @endif</td>
+                                            <td>@if($bridges->relationData) <span class="table-text-color">{{$bridges->relationData->active_name}}</span> @endif</td>
                                             <td> @if($bridges->user) {{ $bridges->user->name }} @endif</td>
                                             <td>{{$bridges->desc }}</td>
                                              <td>@foreach($bridges->tags as $key=>$tags)
                                                     @if(count($bridges->tags) > ($key+1))
-                                                      <span class="table-text-color">{{ $tags }} 
-                                                      </span> ,
+                                                      <span class="table-text-color">{{ $tags }}
+                                                      </span>
                                                     @else
-                                                      <span class="table-text-color">{{ $tags }} 
+                                                      <span class="table-text-color">{{ $tags }}
                                                       </span>
                                                     @endif
                                                   @endforeach
