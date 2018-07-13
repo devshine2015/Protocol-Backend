@@ -16,7 +16,7 @@
                 <div class="ml-3">
                     <h4 class="text-xs-center">{{ Auth::user()->name }}</h4>
                     <h6 class="text-xs-center">Bridgit no: {{ Auth::user()->id }}</h6>
-                @if(Auth::user()->id == $userId)
+                @if(Auth::user()->id != $userId)
                     <div class=" pull-lg-6 text-xs-center">
                         <button class="follow btn-default">
                           <span class="msg-follow">Follow</span>

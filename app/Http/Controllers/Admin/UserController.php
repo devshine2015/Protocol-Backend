@@ -47,8 +47,8 @@ class UserController extends Controller
                     $q->comefromNote = 1;
                 }else{
                     $q->comefromNote = 0;
-                    $q->fromUrl =$this->get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
-                    $q->toUrl =$this->get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
+                    $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
+                    $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                 }
             });
         }
