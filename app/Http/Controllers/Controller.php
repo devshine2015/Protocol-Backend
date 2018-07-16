@@ -40,7 +40,7 @@ class Controller extends BaseController
     }
     protected function checkFollow($checkUser){
         $checkUser->filter(function($query){
-            if(count($query->followUser)>0){
+            if(isset($query->followUser)){
                 $query->is_follow = true;
             }else{
                 $query->is_follow = false;

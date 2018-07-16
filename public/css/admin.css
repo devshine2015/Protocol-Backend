@@ -125,6 +125,30 @@ span.td-container {
     display: inline-block;
     margin-bottom:20px;
 }
+/*seemore css*/
+#bridgeList li{ display:none;
+}
+#loadMore {
+    color:green;
+    cursor:pointer;
+}
+#loadMore:hover {
+    color:black;
+}
+#showLess {
+    color:red;
+    cursor:pointer;
+}
+#showLess:hover {
+    color:black;
+}
+/*see more complete*/
+#bridgeList p {
+    display: none;
+}
+#profileData p {
+    display: none;
+}
 .uploadIcon{
     position: absolute;
     left: 40px;

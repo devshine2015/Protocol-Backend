@@ -60,7 +60,7 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="dashboard-text" href="{{ route('dashboard') }}">DASHBOARD</a>
+                                <a class="dashboard-text" href="{{url(str_replace(' ','-',Auth::user()->name).'/dashboard')}}">DASHBOARD</a>
                             </li>
                              <li class="nav-item">
                                 <a class="dashboard-text" href="{{ route('search') }}">Search</a>
@@ -98,7 +98,7 @@
                                             <p class="user-name">{{ Auth::user()->name }}</p>
                                             <p class="user-email">{{ Auth::user()->email }}</p>
                                             <div class="log-detail mt-3">
-                                                <a href="{{url('profile/'.Auth::user()->id)}}">Profile</a>
+                                                <a href="{{url(str_replace(' ','-',Auth::user()->name).'/profile/'.Auth::user()->id)}}">Profile</a>
                                                 <a href="{{ route('logout') }}">Logout</a>
                                             </div>
                                         </div>

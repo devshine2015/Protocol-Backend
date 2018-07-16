@@ -61,7 +61,7 @@
                                         <tr>
                                             <td>@if($bridges->comefromNote ==0) <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a> @else {{$bridges->title}} @endif</td>
                                             <td>@if($bridges->relationData) <span class="table-text-color">{{$bridges->relationData->active_name}}</span> @endif</td>
-                                            <td> @if($bridges->user) {{ $bridges->user->name }} @endif</td>
+                                            <td> @if($bridges->user) <a href="{{url(str_replace(' ','-',$bridges->user->name).'/profile/'.$bridges->user->id)}}">{{ $bridges->user->name }}</a> @endif</td>
                                             <td>{{$bridges->desc }}</td>
                                              <td>@foreach($bridges->tags as $key=>$tags)
                                                     @if(count($bridges->tags) > ($key+1))
