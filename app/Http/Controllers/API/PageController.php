@@ -34,7 +34,10 @@ class PageController extends Controller
     }
 
     private function pageInfo($url, $user, $withCreatorInfo = false) {
-        $elements = \App\Element::where([ 'status' => 0, 'url' => $url ])->get();
+        $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ])->with(['followElement'=>function($q)use($user){
+            $q->where('user_id',$user->id);
+        }])->get();
+        $elements = $this->checkFollowElement($elementData);
         $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
 
         $notesQuery = \App\Note::where([ 'status' => 0 ])->with(['followUser'=>function($q)use($user){
