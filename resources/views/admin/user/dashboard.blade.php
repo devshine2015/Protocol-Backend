@@ -57,7 +57,7 @@
                     </div>
                     <div class="tab-pane" id="edit">
                         <h4 class="m-y-2 mt-2">Notification</h4>
-                        <table class="table table-hover table-striped">
+                        <table class="table table-hover table-striped" id="notificationData">
                             <tbody>
                                {{-- <span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the.. --}}
                                 @if(count($notification)>0)
@@ -78,6 +78,7 @@
                                 @endif
                             </tbody>
                         </table>
+                        <div id="loadnotify"><p id="loadNotification" class="hidden">Load more</p></div>
                     </div>
                 </div>
             </div>
