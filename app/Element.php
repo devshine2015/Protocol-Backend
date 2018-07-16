@@ -16,4 +16,7 @@ class Element extends Model
 
         return $json;
     }
+    public function followElement(){
+        return $this->belongsTo(FollowElement::class,'id','element_id');
+    }
 }

@@ -49,4 +49,15 @@ class Controller extends BaseController
         });
         return $checkUser;
     }
+    protected function checkFollowElement($checkelement){
+        $checkelement->filter(function($query){
+            if(isset($query->followElement)){
+                $query->is_follow = true;
+            }else{
+                $query->is_follow = false;
+            }
+            unset($query->followElement);
+        });
+        return $checkelement;
+    }
 }
