@@ -13,4 +13,7 @@ class Note extends Model
     public function user(){
         return $this->belongsTo(User::class,'created_by','id');
     }
+    public function followUser(){
+        return $this->belongsTo(FollowUser::class,'created_by','user_id');
+    }
 }

@@ -68,8 +68,8 @@ class SearchController extends Controller
                     $q->title = $q->title;
                     $q->comefromNote = 1;
                 }else{
-                    $q->fromUrl =$this->get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
-                    $q->toUrl =$this->get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
+                    $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
+                    $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                     $q->comefromNote = 0;
                 }
             });
@@ -90,6 +90,8 @@ class SearchController extends Controller
             $query->where('url', 'like', '%'.$search.'%');
             })->orWhereHas('toElement',function($query)use($search){
                 $query->where('url', 'like', '%'.$search.'%');
+            })->orWhereHas('user',function($query)use($search){
+            $query->where('name', 'like', '%'.$search.'%');
             });
         })
        
@@ -101,7 +103,10 @@ class SearchController extends Controller
             }
             })->where(function($q)use($search){
                 $q->orWhere('desc', 'like', '%'.$search.'%')
-                ->orWhere('tags', 'like', '%'.$search.'%');
+                ->orWhere('tags', 'like', '%'.$search.'%')
+                ->orWhereHas('user',function($query)use($search){
+                    $query->where('name', 'like', '%'.$search.'%');
+                });
             })->with('relationData','user')->orderBy('created_at','desc');
         //check auth
         if(\Auth::check()){
@@ -126,8 +131,8 @@ class SearchController extends Controller
                     $q->title = $q->title;
                     $q->comefromNote = 1;
                 }else{
-                    $q->fromUrl =$this->get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
-                    $q->toUrl =$this->get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
+                    $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
+                    $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                     $q->comefromNote = 0;
                     $q->title = $q->fromElement->url.' to '.$q->toElement->url;
                 }
@@ -135,16 +140,9 @@ class SearchController extends Controller
         }
         $this->response['bridge'] = $allData;
         $this->response['search'] = $search;
+        $this->response['my_result'] = $request->my_result;
         $this->response['count'] = $this->response['bridge']->count();
         return view('admin.search')->with($this->response);
     }
-    public function get_domain($url)
-        {
-          $domain = isset($url['host']) ? $url['host'] : $url;
-          if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
-            $domainUrl = explode('.',$regs['domain']);
-            return $domainUrl[0];
-          }
-          return false;
-        }
+    
 }

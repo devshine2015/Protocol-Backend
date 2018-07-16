@@ -23,7 +23,7 @@
                      <?php $t=1; ?>
                         @foreach($bridge as $bridges)
                             <tr>
-                                <td>@if($bridges->fromElement) <a href="{{ $bridges->fromElement->url }}">{{ $bridges->fromElement->url }}</a> @endif to @if($bridges->toElement) {{ $bridges->toElement->url }} @endif Bridge</td>
+                                <td>@if($bridges->fromElement) <a href="{{ $bridges->fromElement->url }}">{{ $bridges->fromElement->url }}</a> @endif to @if($bridges->toElement) {{ $bridges->toElement->url }} @endif </td>
                                 <td>@if($bridges->relationData->type==1) Active @else Inactive @endif</td>
                                 <td> @if($bridges->user) {{ $bridges->user->name }} @endif</td>
                                 <td>{{$bridges->desc }}</td>

@@ -21,10 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 $resourcesRequireAuthToWrite = [
-    'relations' => 'API\RelationController',
-    'elements'  => 'API\ElementController',
-    'bridges'   => 'API\BridgeController',
-    'notes'     => 'API\NoteController',
+    'relations'     => 'API\RelationController',
+    'elements'      => 'API\ElementController',
+    'bridges'       => 'API\BridgeController',
+    'notes'         => 'API\NoteController',
+    'userFollow'    => 'API\UserFollowController',
 ];
 
 $withAuthRouteOptions = [

@@ -60,9 +60,10 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="dashboard-text" href="{{ route('search') }}">DASHBOARD</a>
-                                
-                                </a>
+                                <a class="dashboard-text" href="{{url(str_replace(' ','-',Auth::user()->name).'/dashboard')}}">DASHBOARD</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="dashboard-text" href="{{ route('search') }}">Search</a>
                             </li>
                             <li class="nav-item">
                                 <div class="custom-nav-part">
@@ -82,23 +83,22 @@
                                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                                 </div>
                             </li>
-                          
                             <li class="nav-item dropdown">
                                 <a class="custom-nav-part dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <div class="img-div">
-                                        <img src="{{ asset('images/avtar.png') }}" alt="logo" class="img-fluid">
+                                        <img src="{{ Auth::user()->avatar }}" alt="logo" class="img-fluid">
                                     </div>
                                 </a>
                                 <div class="dropdown-menu user-profile-content" aria-labelledby="navbarDropdown">
                                     <div class="user-content">
                                         <div class="user-photo">
-                                            <img src="{{ asset('images/avtar.png') }}" alt="logo" class="img-fluid">
+                                            <img src="{{ Auth::user()->avatar }}" alt="logo" class="img-fluid">
                                         </div>
                                         <div class="user-details ">
                                             <p class="user-name">{{ Auth::user()->name }}</p>
                                             <p class="user-email">{{ Auth::user()->email }}</p>
                                             <div class="log-detail mt-3">
-                                                <a>Profile</a>
+                                                <a href="{{url(str_replace(' ','-',Auth::user()->name).'/profile/'.Auth::user()->id)}}">Profile</a>
                                                 <a href="{{ route('logout') }}">Logout</a>
                                             </div>
                                         </div>

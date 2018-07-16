@@ -31,7 +31,9 @@ class NoteController extends Controller
             ARRAY_FILTER_USE_KEY
         );
 
-        $builder = \App\Note::where('status', 0);
+        $builder = \App\Note::where('status', 0)->with(['followUser'=>function($q)use($user){
+            $q->where('follower_id',$user->id);
+        }]);
 
         foreach ($queryWhereIn as $k => $v) {
             $arr = is_array($v) ? $v : [$v];
@@ -40,6 +42,9 @@ class NoteController extends Controller
 
         $builder = $this->withPrivacyWhere($builder, $user);
         $notes = $builder->get();
+        //add isfollowtag
+        $notes = $this->checkFollow($notes);
+
         return $this->apiOk($notes);
     }
 

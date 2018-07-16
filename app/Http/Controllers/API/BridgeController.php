@@ -26,7 +26,9 @@ class BridgeController extends Controller
     {
         $user     = Auth::guard('api')->user();
         $rawQuery = $request->query();
-        $builder  = $bridges = \App\Bridge::where('status', 0);
+        $builder  = $bridges = \App\Bridge::where('status', 0)->with(['followUser'=>function($q)use($user){
+            $q->where('follower_id',$user->id);
+        }]);
 
         if (array_key_exists('eids', $rawQuery)) {
             $builder = $builder
@@ -36,6 +38,8 @@ class BridgeController extends Controller
 
         $builder = $this->withPrivacyWhere($builder, $user);
         $bridges = $builder->get();
+        //add isfollowtag
+        $bridges = $this->checkFollow($bridges);
         return $this->apiOk($bridges);
     }
 
