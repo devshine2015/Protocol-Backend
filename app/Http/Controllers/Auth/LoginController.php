@@ -32,8 +32,13 @@ class LoginController extends Controller
     {
         $user   = Socialite::driver($provider)->stateless()->user();
         $client = \App\OAuthClient::where('password_client', 1)->first();
+        //check routr for extension or web
+        $path = '';
+        if($request->query('platform') == 'web'){
+            $path = env('APP_URL');
+        }
         $proxy  = Request::create(
-            env('APP_URL') . '/oauth/token',
+            $path . '/oauth/token',
             'POST',
             [
                 'grant_type'    => 'social',

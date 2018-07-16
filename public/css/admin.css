@@ -292,7 +292,6 @@ button.following:not(.wait):hover .msg-unfollow{
 }
 .btn-signin{
 	background-color: #efefef;
-	color: :#fff;
 }
 .navbar-brand {
     /*color: #fff !important;*/
