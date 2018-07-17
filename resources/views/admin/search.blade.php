@@ -22,16 +22,31 @@
             </div>
             @if(Auth::check())
             <div class="form-group has-feedback has-search text-center">
-              <?php $checked = ''; $allchecked='';?>
+              <?php $checked = ''; $all_bridgit = '';$page_result= '';?>
               @if(isset($my_result))
-                <?php if($my_result==1){ $checked='checked';}else{$allchecked = 'checked';}?>
+                <?php if($my_result==1){ $checked='checked';}?>
               @endif
-                <label class="radio-inline">
-                  <input type="radio" name="my_result" value="1" class="text-center search-text-color" {{$checked}}>My results
-                </label>
-                <label class="radio-inline">
-                  <input type="radio" name="my_result" value="0" class="text-center search-text-color" {{$allchecked}}>All bridgit
-              </label>
+              @if(isset($all_result))
+                <?php if($all_result==1){ $all_bridgit='checked';}?>
+              @endif
+              @if(isset($page_based))
+                <?php if($page_based==1){ $page_result='checked';}?>
+              @endif
+                <div class="checkbox">
+                    <input id="my_result" type="checkbox" name="my_result" {{$checked}}>
+                    <label for="checkbox1">
+                        My Bridgework
+                    </label>
+                    <input id="all_result" type="checkbox" name="all_result" {{$all_bridgit}}>
+                    <label for="checkbox1">
+                        All Bridgit
+                    </label>
+                    <input id="page_based" type="checkbox" name="page_based" {{$page_result}}>
+                    <label for="checkbox1">
+                        Page-Based Results
+                    </label>
+                </div>
+
             </div>
             @endif
             </div>
@@ -43,49 +58,45 @@
                     <p class="search-text-color">{{$count}} Results found</p>
                     @endif
                     <div class="mt-1">
-                        <table id="example" class="table table-striped" style="width:100%">
-                          <thead>
-                              <tr>
-                                  <th width="10%">Title</th>
-                                  <th width="10%">Realation</th>
-                                  <th width="5%">Creator</th>
-                                  <th width="15%">Description</th>
-                                  <th width="10%">Tags</th>
-                                  <th width="10%">Creation date</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                           @if(!empty($bridge))
-                                 <?php $t=1; ?>
-                                    @foreach($bridge as $bridges)
-                                        <tr>
-                                            <td>@if($bridges->comefromNote ==0) <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a> @else {{$bridges->title}} @endif</td>
-                                            <td>@if($bridges->relationData) <span class="table-text-color">{{$bridges->relationData->active_name}}</span> @endif</td>
-                                            <td> @if($bridges->user) <a href="{{url(str_replace(' ','-',$bridges->user->name).'/profile/'.$bridges->user->id)}}">{{ $bridges->user->name }}</a> @endif</td>
-                                            <td>{{$bridges->desc }}</td>
-                                             <td>@foreach($bridges->tags as $key=>$tags)
-                                                    @if(count($bridges->tags) > ($key+1))
-                                                      <span class="table-text-color">{{ $tags }}
-                                                      </span>
-                                                    @else
-                                                      <span class="table-text-color">{{ $tags }}
-                                                      </span>
-                                                    @endif
-                                                  @endforeach
-                                            </td>
-                                            <td>{{$bridges->created_at->format('Y-m-d')}}</td>
-                                        </tr>
-                                        <?php $t++ ?>
-                                    @endforeach
-                                @endif
-                          </tbody>
-                        </table>
+                       @if(!empty($bridge))
+                         <?php $t=1; if(isset($page_based) && $page_based ==1 ) {$bridgeData = $bridge;}else{$bridgeData = $bridge->toArray();} ?>
+                            
+                            @foreach($bridgeData as $bridges)
+                                <p>
+                                    @if($bridges['comefromNote'] ==0)
+                                       <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
+                                    @else
+                                      <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
+                                    @endif
+                                    @if($bridges['privacy']==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif
+                                    <br/>@if($bridges['relation_data']) 
+                                      <span class="table-text-color ml-4">{{$bridges['relation_data']['active_name']}}</span>
+                                    @endif
+                                    @if($bridges['comefromNote'] ==1)
+                                      <span class="ml-4">{{$bridges['desc'] }}</span>
+                                    @else
+                                      <span>{{$bridges['desc'] }}</span>
+                                    @endif
+                                </p>
+                                <?php $t++ ?>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
               </div>
-          </div>
           @else
           <p class="text-center">No Data Found. </p>
+          @endif
+          </div>
+          @if(isset($page_based ) && $page_based ==1)
+            <?php $searchUrl['page_based'] = 1;
+              if(($my_result)==1){$searchUrl['my_result'] =1;}
+              if(($all_result)==1){$searchUrl['all_result'] =1;}
+              if(($search)){$searchUrl['search'] = $search;}
+              ?>
+            @if($page_based ==1)
+              {{ $bridge->appends($searchUrl)->render() }}
+            @endif
           @endif
         </div>
     </div>
@@ -99,11 +110,12 @@
     $('#example').DataTable({
       'paging'      : true,
       'lengthChange': false,
-      'searching'   : true,
+      'searching'   : false,
       'ordering'    : false,
       'info'        : false,
       'autoWidth'   : true,
-      "dom": '<"top"f>rt<"bottom"lp><"clear">'
+      "pagingType": "simple_numbers",
+      "dom": '<"top"i>rt<"bottom"flp><"clear">'
     });
 } );
 </script>

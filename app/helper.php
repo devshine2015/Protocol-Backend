@@ -23,5 +23,25 @@
       return false;
     }
 }
+if (!function_exists('customPagination')) {
+        /**
+         * @param string $format
+         *
+         * @return bool|string
+         */
+        function customPagination($dataArray)
+        {
+            $perPage = 2;
+            $currentPage = \Request::get('page', 1);
+            $offSet = ($currentPage * $perPage) - $perPage;
+            $new_collection = array_slice($dataArray->toArray(), $offSet, $perPage, true);
+            $finalArray = [];
+                foreach ($new_collection as  $value) {
+                    $finalArray[] = $value;
+                }
+            $allData = new \Illuminate\Pagination\LengthAwarePaginator($finalArray, count($dataArray), $perPage,Illuminate\Pagination\Paginator::resolveCurrentPage(), array('path' => Illuminate\Pagination\Paginator::resolveCurrentPath()));
+            return $allData;
+            }
+        }
 
 
