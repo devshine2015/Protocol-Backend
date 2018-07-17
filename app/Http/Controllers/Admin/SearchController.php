@@ -141,6 +141,7 @@ class SearchController extends Controller
                 }
             });
         }
+        $this->response['count'] = $allData->count();
         if(isset($request->page_based)){
             $allData =customPagination($allData);
             $allData->withPath(url('searchData'));
@@ -151,7 +152,6 @@ class SearchController extends Controller
         $this->response['my_result'] = isset($request->my_result)?1:0;
         $this->response['all_result'] = isset($request->all_result)?1:0;
         $this->response['page_based'] = isset($request->page_based)?1:0;
-        $this->response['count'] = $this->response['bridge']->count();
         // print_r($this->response);exit;
         return view('admin.search')->with($this->response);
     }
