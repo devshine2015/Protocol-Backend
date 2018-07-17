@@ -43,7 +43,6 @@ class SearchController extends Controller
         $this->noteModel = $noteModel;
     }
     public function search(){
-        
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
             $notes = $this->noteModel->with(['relationData','user'])->orderBy('created_at','desc');
             //check for user login
@@ -80,9 +79,13 @@ class SearchController extends Controller
     }
     public function searchData(Request $request){
         $search = (!empty($request->get('search')) ? $request->get('search') : '');
+        //show all result when all result selected;
+         if(isset($request->all_result)){
+            unset($request['my_result']);
+        };
         $bridges =  $this->model
         ->where(function($q)use($request){
-        if(($request->my_result==1)){
+        if(isset($request->my_result)){
             $q->where('created_by',Auth::user()->id);
         }})->where(function($q)use($search){
             $q->orWhere('tags', 'like', '%'.$search.'%')->orWhere('desc', 'like', '%'.$search.'%')
@@ -98,7 +101,7 @@ class SearchController extends Controller
         ->with('relationData','user')->orderBy('created_at','desc');
         //get notesdata
         $notes = $this->noteModel->where(function($q)use($request){
-            if(($request->my_result==1)){
+            if(isset($request->my_result)){
                 $q->where('created_by',Auth::user()->id);
             }
             })->where(function($q)use($search){
@@ -138,11 +141,18 @@ class SearchController extends Controller
                 }
             });
         }
+        if(isset($request->page_based)){
+            $allData =customPagination($allData);
+            $allData->withPath(url('searchData'));
+        }
         $this->response['bridge'] = $allData;
+
         $this->response['search'] = $search;
-        $this->response['my_result'] = $request->my_result;
+        $this->response['my_result'] = isset($request->my_result)?1:0;
+        $this->response['all_result'] = isset($request->all_result)?1:0;
+        $this->response['page_based'] = isset($request->page_based)?1:0;
         $this->response['count'] = $this->response['bridge']->count();
+        // print_r($this->response);exit;
         return view('admin.search')->with($this->response);
     }
-    
 }

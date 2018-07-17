@@ -46,7 +46,7 @@
     $('#example').DataTable({
       'paging'      : true,
       'lengthChange': false,
-      'searching'   : true,
+      'searching'   : false,
       'ordering'    : false,
       'info'        : false,
       'autoWidth'   : true,

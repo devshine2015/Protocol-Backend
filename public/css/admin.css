@@ -125,6 +125,15 @@ span.td-container {
     display: inline-block;
     margin-bottom:20px;
 }
+.pagination{
+    justify-content:center !important;
+}
+.page-item.active .page-link{
+    background-color:#ee467a;
+    border-color:#ee467a;
+    opacity: 0.7;
+    /*border:0px;*/
+}
 /*seemore css*/
 #bridgeList li{ display:none;
 }
