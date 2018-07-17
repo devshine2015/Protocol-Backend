@@ -57,7 +57,11 @@
                     @if(isset($count))
                     <p class="search-text-color">{{$count}} Results found</p>
                     @endif
-                    <div class="mt-1">
+                    @if(isset($page_based) && $page_based ==1)
+                      <div class="mt-1">
+                    @else
+                      <div class="mt-1" id="profileData">
+                    @endif
                        @if(!empty($bridge))
                          <?php $t=1; if(isset($page_based) && $page_based ==1 ) {$bridgeData = $bridge;}else{$bridgeData = $bridge->toArray();} ?>
                             
@@ -69,7 +73,7 @@
                                       <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
                                     @endif
                                     @if($bridges['privacy']==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif
-                                    <br/>@if($bridges['relation_data']) 
+                                    <br/>@if($bridges['relation_data'])
                                       <span class="table-text-color ml-4">{{$bridges['relation_data']['active_name']}}</span>
                                     @endif
                                     @if($bridges['comefromNote'] ==1)
@@ -84,6 +88,7 @@
                     </div>
                 </div>
               </div>
+              <div id="loadMore"><p id="loadData" class="hidden">Load more</p></div>
           @else
           <p class="text-center">No Data Found. </p>
           @endif
@@ -104,20 +109,6 @@
 {{-- search data --}}
 @endsection
 @section('pageScript')
-<script>
-
-  $(document).ready(function() {
-    $('#example').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : false,
-      'info'        : false,
-      'autoWidth'   : true,
-      "pagingType": "simple_numbers",
-      "dom": '<"top"i>rt<"bottom"flp><"clear">'
-    });
-} );
-</script>
+<script src="{{ asset('js/custom/search.js') }}"></script>
 @endsection
 
