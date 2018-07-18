@@ -34,26 +34,42 @@ class PageController extends Controller
     }
 
     private function pageInfo($url, $user, $withCreatorInfo = false) {
-        $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ])->with(['followElement'=>function($q)use($user){
-            $q->where('user_id',$user->id);
-        }])->get();
-        $elements = $this->checkFollowElement($elementData);
+        $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ]);
+        if(isset($user)){
+            $checkElement = $elementData->with(['followElement'=>function($q)use($user){
+                $q->where('user_id',$user->id);
+            }])->get();
+            $elements = $this->checkFollowElement($checkElement);
+        }else{
+            $elements = $elementData->get();
+        }
+
         $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
 
-        $notesQuery = \App\Note::where([ 'status' => 0 ])->with(['followUser'=>function($q)use($user){
-            $q->where('follower_id',$user->id);
-        }])->whereIn('target', $eids);
+        $notesQuery = \App\Note::where([ 'status' => 0 ])->whereIn('target', $eids);
         $notesQuery     = $this->withPrivacyWhere($notesQuery, $user);
-        $notesData      = $this->checkFollow($notesQuery->get());
+        if(isset($user)){
+            $checkNotes = $notesQuery->with(['followUser'=>function($q)use($user){
+                $q->where('follower_id',$user->id);
+            }])->get();
+            $notesData = $this->checkFollowElement($checkNotes);
+        }else{
+            $notesData = $notesQuery->get();
+        }
         $notes          = $notesData->toArray();
 
-        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->with(['followUser'=>function($q)use($user){
-            $q->where('follower_id',$user->id);
-        }])->where(function($query) use($eids)  {
-                                        $query->whereIn('from', $eids)->orWhereIn('to', $eids);
-                                    });
+        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->where(function($query) use($eids)  {
+            $query->whereIn('from', $eids)->orWhereIn('to', $eids);
+        });
         $bridgesQuery   = $this->withPrivacyWhere($bridgesQuery, $user);
-        $bridgeData      = $this->checkFollow($bridgesQuery->get());
+        if(isset($user)){
+            $checkBridge = $bridgesQuery->with(['followUser'=>function($q)use($user){
+                $q->where('follower_id',$user->id);
+            }])->get();
+            $bridgeData = $this->checkFollowElement($checkBridge);
+        }else{
+            $bridgeData = $bridgesQuery->get();
+        }
         $bridges        = $bridgeData->toArray();
 
         if ($withCreatorInfo) {

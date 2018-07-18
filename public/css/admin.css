@@ -51,10 +51,13 @@ span.td-container {
     font-size: 0.9em;
     
 }
+.desc{
+    font-size: 0.9em;
+}
 .table-text-color{
     background-color:#ee467a;
     font-size: 0.9em;
-    margin: 4px;
+    margin-right: 4px;
     border-radius: 3px;
     padding: 3px;
     color: #fff;
