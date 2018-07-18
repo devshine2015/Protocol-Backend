@@ -42,7 +42,7 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
     Route::apiResource($name, $controller, $withAuthRouteOptions);
     Route::apiResource($name, $controller, $withoutAuthRouteOptions);
 }
-
+Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
 Route::post('/search/page', 'API\PageController@search');
