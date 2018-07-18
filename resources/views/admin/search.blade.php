@@ -51,8 +51,8 @@
             @endif
             </div>
             {!! Form::close() !!}
-            @if(count($bridge)>0)
             <div class="row mt-2">
+              @if(count($bridge)>0)
                 <div class="col-lg-12">
                     @if(isset($count))
                     <p class="search-text-color">{{$count}} Results found</p>
@@ -62,37 +62,45 @@
                     @else
                       <div class="mt-1" id="profileData">
                     @endif
-                       @if(!empty($bridge))
-                         <?php $t=1; if(isset($page_based) && $page_based ==1 ) {$bridgeData = $bridge;}else{$bridgeData = $bridge->toArray();} ?>
-                            
-                            @foreach($bridgeData as $bridges)
-                                <p>
-                                    @if($bridges['comefromNote'] ==0)
-                                       <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
-                                    @else
-                                      <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
-                                    @endif
-                                    @if($bridges['privacy']==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif
-                                    <br/>@if($bridges['relation_data'])
-                                      <span class="table-text-color ml-4">{{$bridges['relation_data']['active_name']}}</span>
-                                    @endif
-                                    @if($bridges['comefromNote'] ==1)
-                                      <span class="ml-4">{{$bridges['desc'] }}</span>
-                                    @else
-                                      <span>{{$bridges['desc'] }}</span>
-                                    @endif
-                                </p>
-                                <?php $t++ ?>
-                            @endforeach
-                        @endif
+                    @if(!empty($bridge))
+                       <?php $t=1; if(isset($page_based) && $page_based ==1 ) {$bridgeData = $bridge;}else{$bridgeData = $bridge->toArray();} ?>
+                          
+                          @foreach($bridgeData as $bridges)
+                            <p>
+                                  @if($bridges['comefromNote'] ==0)
+                                     <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
+                                  @else
+                                    <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
+                                  @endif
+                                  @if($bridges['privacy']==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif<br/>
+                                  <span class="ml-4">
+                                      @foreach($bridges['tags'] as $key=>$tags)
+                                        @if(count($bridges['tags']) > ($key+1))
+                                          <span class="table-text-color">{{ $tags }}
+                                          </span>
+                                        @else
+                                          <span class="table-text-color">{{ $tags }}
+                                          </span>
+                                        @endif
+                                    @endforeach
+                                  </span></br>
+                                    <span class="ml-4 desc">{{$bridges['desc'] }}</span>
+                                  <br/><span class="ml-4 desc">@if($bridges['relation_data'])
+                                    <span class= "table-text-color">{{$bridges['relation_data']['active_name']}}</span>
+                                  @endif
+                                  @if($bridges['user']) Created by:@if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif</span>
+                            </p>
+                              <?php $t++ ?>
+                          @endforeach
+                      @endif
                     </div>
                 </div>
               </div>
               <div id="loadMore"><p id="loadData" class="hidden">Load more</p></div>
-          @else
-          <p class="text-center">No Data Found. </p>
-          @endif
-          </div>
+              @else
+              <p class="text-center">No Data Found. </p>
+              @endif
+            </div>
           @if(isset($page_based ) && $page_based ==1)
             <?php $searchUrl['page_based'] = 1;
               if(($my_result)==1){$searchUrl['my_result'] =1;}
@@ -100,7 +108,7 @@
               if(($search)){$searchUrl['search'] = $search;}
               ?>
             @if($page_based ==1)
-              {{ $bridge->appends($searchUrl)->render() }}
+              {{ $bridge->appends($searchUrl)->render("pagination::default") }}
             @endif
           @endif
         </div>
