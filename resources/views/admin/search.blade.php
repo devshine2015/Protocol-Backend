@@ -1,7 +1,11 @@
 @extends('layouts.app')
 @section('content')
-  
-<div class="container"> 
+<div class="container">
+    @if ($errors->has('email'))
+        <div class="alert alert-danger" role="alert">
+            {{ $errors->first('email') }}
+        </div>
+    @endif
   <div class="row">
     <div class="col-md-12">
         <div class="jumbotron">
@@ -37,10 +41,10 @@
                     <label for="checkbox1">
                         My Bridgework
                     </label>
-                    <input id="all_result" type="checkbox" name="all_result" {{$all_bridgit}}>
+                    <!--<input id="all_result" type="checkbox" name="all_result" {{$all_bridgit}}>
                     <label for="checkbox1">
                         All Bridgit
-                    </label>
+                    </label>-->
                     <input id="page_based" type="checkbox" name="page_based" {{$page_result}}>
                     <label for="checkbox1">
                         Page-Based Results
@@ -69,6 +73,9 @@
                             <p>
                                   @if($bridges['comefromNote'] ==0)
                                      <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
+                                        @if($bridges['relation_data'])
+                                          <span class= "table-text-color">{{$bridges['relation_data']['active_name']}}</span>
+                                        @endif
                                   @else
                                     <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
                                   @endif
@@ -85,9 +92,7 @@
                                     @endforeach
                                   </span></br>
                                     <span class="ml-4 desc">{{$bridges['desc'] }}</span>
-                                  <br/><span class="ml-4 desc">@if($bridges['relation_data'])
-                                    <span class= "table-text-color">{{$bridges['relation_data']['active_name']}}</span>
-                                  @endif
+                                  <br/><span class="ml-4 desc">
                                   @if($bridges['user']) Created by:@if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif</span>
                             </p>
                               <?php $t++ ?>
