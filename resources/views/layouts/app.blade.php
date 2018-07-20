@@ -110,7 +110,7 @@
                 </div>
             </nav>
         </div>
-       <main class="py-4 top-search mt-5">
+       <main class="py-4 top-search mt-3">
             @yield('content')
         </main>
     </div>

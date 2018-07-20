@@ -47,7 +47,7 @@ class UserController extends Controller
             $bridgeData = $getallData['bridgeList']->where('created_by',$id)->where('privacy',0)->get();
             $noteData = $getallData['notes']->where('created_by',$id)->where('privacy',0)->get();
         }else{
-            $bridgeData = $getallData['bridgeList']->where('created_by',$id)->where('privacy',1)->get();
+            $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
             $noteData = $getallData['notes']->where('created_by',$id)->where('privacy',1)->get();
         }
         $allData = $bridgeData->merge($noteData);
@@ -128,13 +128,13 @@ class UserController extends Controller
             $this->followUserModel->follower_id =$user_id; //login user is follower
             $this->followUserModel->user_id = $id;
             if($this->followUserModel->save()){
-               return $check_user;
+               return $this->followUserModel;
             }
             return false;
         }else{
              $deletefollowedUser = $this->followUserModel->where('follower_id',$user_id)->where('user_id',$id)->delete();
             if ($deletefollowedUser) {
-                return $check_user;
+                return $this->followUserModel;
             }
             return false;
         }
