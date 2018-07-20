@@ -8,7 +8,7 @@ $(document).ready(function () {
       }
 
     })
-     $('.follow').click(function(){
+     $('button[data-id]').click(function(){
           var $this = $(this);
           $this.toggleClass('following')
           //start ajax
@@ -26,7 +26,14 @@ $(document).ready(function () {
                 },
                 dataType : 'json',
                 success:function(data) {
-                  location.reload();
+                  if (data=='') {
+                    console.log('unfollow');
+                    $('button[data-id = '+id+']').removeClass('following');
+                  }else{
+                    console.log('follow');
+                    $('button[data-id = '+id+']').addClass('following');
+                  }
+                  // location.reload();
                 }
             });
         //complete ajax
