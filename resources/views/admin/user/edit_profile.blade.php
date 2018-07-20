@@ -41,7 +41,12 @@
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12" id="bridgeList">
-                                <h5 class="m-t-2 mt-2">{{ ucfirst($userData->name) }} 's  Bridgework</h5>
+                                <?php $name = ucfirst($userData->name);?>
+                                @if(substr($name,-1) == 's')
+                                <h5 class="m-t-2 mt-2">{{ $name }} Bridgework</h5>
+                                @else
+                                <h5 class="m-t-2 mt-2">{{ $name }}'s  Bridgework</h5>
+                                @endif
                                  @if(count($bridge)>0)
                                     @foreach($bridge as $key=>$bridges)
                                         <p>
@@ -83,6 +88,10 @@
 </div>
 @endsection
 @section('pageScript')
+<script>
+    var csrfToken = '{{ csrf_token() }}';
+    var followUserUrl = '{!! route('followUser') !!}';
+</script>
 <script src="{{ asset('js/custom/edit_profile.js') }}"></script>
 
 @endsection

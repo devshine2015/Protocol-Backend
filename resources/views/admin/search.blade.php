@@ -78,6 +78,16 @@
                                         @endif
                                   @else
                                     <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
+                                  @endif<span class="ml-1 desc">
+                                  @if($bridges['user']) Created by:@if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
+                                  @if(Auth::check())
+                                    @if(Auth::user()->id != $bridges['user']['id'])
+                                          <button type="button" class="follow btn-xs search-follow" data-id = "{{$bridges['user']['id']}}" data-follow = "{{$bridges['is_follow']}}">
+                                            <span class="msg-follow">Follow</span>
+                                            <span class="msg-following">Following</span>
+                                            <span class="msg-unfollow">Unfollow</span>
+                                          </button></span>
+                                    @endif
                                   @endif
                                   @if($bridges['privacy']==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif<br/>
                                   <span class="ml-4">
@@ -92,8 +102,7 @@
                                     @endforeach
                                   </span></br>
                                     <span class="ml-4 desc">{{$bridges['desc'] }}</span>
-                                  <br/><span class="ml-4 desc">
-                                  @if($bridges['user']) Created by:@if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif</span>
+                                  <br/>
                             </p>
                               <?php $t++ ?>
                           @endforeach
@@ -122,6 +131,10 @@
 {{-- search data --}}
 @endsection
 @section('pageScript')
+<script>
+    var csrfToken = '{{ csrf_token() }}';
+    var followUserUrl = '{!! route('followUser') !!}';
+</script>
 <script src="{{ asset('js/custom/search.js') }}"></script>
 @endsection
 

@@ -35,7 +35,7 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get("searchData","SearchController@searchData")->name('searchData');
         Route::get("{name}/dashboard","UserController@dashboard")->name('dashboard');
         Route::get("{name}/dashboard","UserController@dashboard")->name('dashboard');
-        Route::post("followUser","UserController@followUser");
+        Route::post("followUser","UserController@followUser")->name('followUser');
         
     });
 });

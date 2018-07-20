@@ -44,15 +44,19 @@ class SearchController extends Controller
     }
     public function search(){
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
-            $notes = $this->noteModel->with(['relationData','user'])->orderBy('created_at','desc');
+            $notes = $this->noteModel->with(['relationData','user','followUser'])->orderBy('created_at','desc');
             //check for user login
            if(\Auth::check()){
                 //check privacy for bridge
-                $bridgeList = $bridgeList->where('created_by',Auth::user()->id)->orWhere(function($q){
+                $bridgeList = $bridgeList->with(['followUser'=>function($q){
+                    $q->where('follower_id',Auth::user()->id);
+                }])->where('created_by',Auth::user()->id)->orWhere(function($q){
                     $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
                 })->get();
                 //check privacy for notes
-                $notesData = $notes->where('created_by',Auth::user()->id)->orWhere(function($q){
+                $notesData = $notes->with(['followUser'=>function($q){
+                    $q->where('follower_id',Auth::user()->id);
+                }])->where('created_by',Auth::user()->id)->orWhere(function($q){
                     $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
                 })->get();
             }else{
@@ -63,6 +67,12 @@ class SearchController extends Controller
         if(count($allData)>0){
             $allData->filter(function ($q){
                 $q->tags = explode(',',$q->tags);
+                if(isset($q->followUser)){
+                    $q->is_follow = 1;
+                }else{
+                    $q->is_follow=0;
+                }
+                unset($q->followUser);
                 if(isset($q->title)){
                     $q->title = $q->title;
                     $q->comefromNote = 1;
@@ -113,11 +123,16 @@ class SearchController extends Controller
             })->with('relationData','user')->orderBy('created_at','desc');
         //check auth
         if(\Auth::check()){
-            $bridgeData = $bridges->where(function($q){
+            $bridgeData = $bridges
+                ->with(['followUser'=>function($q){
+                    $q->where('follower_id',Auth::user()->id);
+                }])->where(function($q){
                 $q->where('created_by',Auth::user()->id)
                 ->orwhere('privacy',0);
             })->get();
-             $noteData = $notes->where(function($q){
+             $noteData = $notes->with(['followUser'=>function($q){
+                $q->where('follower_id',Auth::user()->id);
+            }])->where(function($q){
                 $q->where('created_by',Auth::user()->id)
                 ->orwhere('privacy',0);
             })->get();
@@ -130,6 +145,12 @@ class SearchController extends Controller
         if(count($allData)>0){
              $allData->filter(function ($q){
                 $q->tags = explode(',',$q->tags);
+                if(isset($q->followUser)){
+                    $q->is_follow = 1;
+                }else{
+                    $q->is_follow=0;
+                }
+                unset($q->followUser);
                 if(isset($q->title)){
                     $q->title = $q->title;
                     $q->comefromNote = 1;

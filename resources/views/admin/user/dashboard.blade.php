@@ -35,7 +35,12 @@
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12" id="profileData">
-                                <h5 class="m-t-2 mt-2">{{ ucfirst(Auth::user()->name) }} 's  Bridgework</h5>
+                                <?php $name = ucfirst(Auth::user()->name);?>
+                                @if(substr($name,-1) == 's')
+                                <h5 class="m-t-2 mt-2">{{ $name }}Bridgework</h5>
+                                @else
+                                <h5 class="m-t-2 mt-2">{{ $name }}'s  Bridgework</h5>
+                                @endif
                                  @if(count($bridge)>0)
                                     @foreach($bridge as $key=>$bridges)
                                         <p>
