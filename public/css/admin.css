@@ -94,6 +94,12 @@ span.td-container {
     line-height: 1;
     margin-bottom: 0;
 }
+/*signin error*/
+.signin-error{
+    padding: 0.0rem 0.4rem;
+    margin-bottom: 0.5rem;
+}
+/*complete*/
 
 .log-detail {
     color:#ee467a;

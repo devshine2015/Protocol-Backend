@@ -1,11 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    @if ($errors->has('email'))
-        <div class="alert alert-danger" role="alert">
-            {{ $errors->first('email') }}
-        </div>
-    @endif
   <div class="row">
     <div class="col-md-12">
         <div class="jumbotron">
@@ -74,12 +69,12 @@
                                   @if($bridges['comefromNote'] ==0)
                                      <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
                                         @if($bridges['relation_data'])
-                                          <span class= "table-text-color">{{$bridges['relation_data']['active_name']}}</span>
+                                          <span class= "table-text-color mr-0">{{$bridges['relation_data']['active_name']}}</span>
                                         @endif
                                   @else
                                     <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
-                                  @endif<span class="ml-1 desc">
-                                  @if($bridges['user']) Created by:@if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
+                                  @endif<span class="desc">
+                                  @if($bridges['user'])Created by @if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
                                   @if(Auth::check())
                                     @if(Auth::user()->id != $bridges['user']['id'])
                                           <button type="button" class="follow btn-xs search-follow" data-id = "{{$bridges['user']['id']}}" data-follow = "{{$bridges['is_follow']}}">
@@ -133,6 +128,7 @@
 @section('pageScript')
 <script>
     var csrfToken = '{{ csrf_token() }}';
+    var error = '{{ $errors->first('email') }}';
     var followUserUrl = '{!! route('followUser') !!}';
 </script>
 <script src="{{ asset('js/custom/search.js') }}"></script>
