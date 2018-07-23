@@ -11,8 +11,8 @@
     <title>{{ config('app.name', 'Bridgit') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -120,7 +120,37 @@
     <script>
 
     $("document").ready(function() {
-
+        $('.signin').click(function(){
+          //start ajax
+            $('.alert-danger').html('');
+            var email_id = $('#exampleInputEmail3').val();
+            var password = $('#exampleInputPassword3').val();
+            var id = $('#exampleInputEmail3').val();
+            $.ajaxSetup({
+              headers: {
+                'X-CSRF-TOKEN':csrfToken
+              }
+            });
+            $.ajax({
+                url: '{{route('login')}}',
+                type:"POST",
+                data: {
+                    email: email_id,password:password
+                },
+                dataType : 'json',
+                success:function(data) {
+                  location.reload();
+                },error: function (request, response) {
+                   if(typeof request.responseJSON !== 'undefined'){
+                    $.each(request.responseJSON.errors, function(key, value){
+                        console.log(value);
+                        $('.alert-danger').show();
+                        $('.alert-danger').append('<span>'+value+'</span><br>');
+                    });
+                   }else{location.reload();}
+                }
+            });
+        })
       $('.dropdown-menu').on('click', function(e) {
           if($(this).hasClass('dropdown-menu-form')) {
               e.stopPropagation();
@@ -140,6 +170,7 @@
         e.preventDefault();
     });
     $('#register-form-link').click(function(e) {
+        $('.alert').alert('close');
         $("#register-form").delay(100).fadeIn(100);
         $("#login-form").fadeOut(100);
         $("#register-form").css('display','show');
@@ -148,6 +179,7 @@
         $(this).addClass('active');
         e.preventDefault();
     });
+    
 
     });
     </script>
