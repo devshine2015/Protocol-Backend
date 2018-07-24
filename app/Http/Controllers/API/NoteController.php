@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use App\Events\AddPointEvent;
 class NoteController extends Controller
 {
     private $fieldsRequired = [
@@ -63,7 +63,10 @@ class NoteController extends Controller
         }
         $note->created_by = $request->user()['id'];
         $note->save();
-
+        $pointData['type'] = 2;
+        $pointData['type_id'] = $note->id;
+        $pointData['point'] = 50;
+        event(new AddPointEvent($pointData));
         return $this->apiOk($note);
     }
 
