@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Events\AddPointEvent;
 
 class BridgeController extends Controller
 {
@@ -56,10 +57,13 @@ class BridgeController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $bridge->$f = $request->$f;
         }
-        
         $bridge->created_by = $request->user()['id'];
         $bridge->save();
-
+         // add point
+        $pointData['type'] = 1;
+        $pointData['type_id'] = $bridge->id;
+        $pointData['point'] = 100;
+        event(new AddPointEvent($pointData));
         return $this->apiOk($bridge);
     }
 

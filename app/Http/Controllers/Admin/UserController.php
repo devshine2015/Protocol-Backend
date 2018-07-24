@@ -90,9 +90,14 @@ class UserController extends Controller
             });
         }
         $notifyData = $this->getbridgeData();
-        $bridgeNotification = $notifyData['bridgeList']->whereHas('followUser',function($q){
-            $q->where('follower_id',Auth::user()->id);
-        })->where('created_by','!=',Auth::user()->id)->where('privacy',0)->get();
+        $bridgeNotification = $notifyData['bridgeList']->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
+            $q->orWhereHas('followUser',function($query){
+                $query->where('follower_id',Auth::user()->id);
+            })
+            ->orWhereHas('followFromElement',function($query){
+                    $query->where('user_id',Auth::user()->id);
+            });
+        })->get();
         $notesNotification = $notifyData['notes']->whereHas('followUser',function($q){
             $q->where('follower_id',Auth::user()->id);
         })->where('created_by','!=',Auth::user()->id)->where('privacy',0)->get();

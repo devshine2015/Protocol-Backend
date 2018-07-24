@@ -22,4 +22,7 @@ class Bridge extends Model
     public function followUser(){
         return $this->belongsTo(FollowUser::class,'created_by','user_id');
     }
+    public function followFromElement(){
+        return $this->hasManyThrough(FollowElement::class,Element::class,'id','element_id','from','id');
+    }
 }
