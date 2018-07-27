@@ -31,7 +31,7 @@ if (!function_exists('customPagination')) {
          */
         function customPagination($dataArray)
         {
-            $perPage = 8;
+            $perPage = 7;
             $currentPage = \Request::get('page', 1);
             $offSet = ($currentPage * $perPage) - $perPage;
             $new_collection = array_slice($dataArray->toArray(), $offSet, $perPage, true);

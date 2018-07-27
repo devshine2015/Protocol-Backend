@@ -59,10 +59,10 @@
                                 @include('auth.login')
                             </li>
                         @else
-                            <li class="nav-item">
+                            <li class="nav-item login-nav-text">
                                 <a class="dashboard-text" href="{{url(str_replace(' ','-',Auth::user()->name).'/dashboard')}}">DASHBOARD</a>
                             </li>
-                             <li class="nav-item">
+                             <li class="nav-item login-nav-text">
                                 <a class="dashboard-text" href="{{ route('search') }}">Search</a>
                             </li>
                             <li class="nav-item">
@@ -110,7 +110,7 @@
                 </div>
             </nav>
         </div>
-       <main class="py-4 top-search mt-3">
+       <main class="py-4 top-search mt-2">
             @yield('content')
         </main>
     </div>

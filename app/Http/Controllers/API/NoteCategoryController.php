@@ -53,7 +53,6 @@ class NoteCategoryController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $category->$f = $request->$f;
         }
-        $category->id               = 15;
         $category->privacy          = 0;
         $category->created_by       = $request->user()['id'];
         $category->save();
