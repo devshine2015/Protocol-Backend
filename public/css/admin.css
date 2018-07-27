@@ -200,6 +200,12 @@ span.td-container {
     background-color:#ee467a;
     border: 1px solid #ee467a;
 }
+.edit-input {
+    display:none;
+}
+.edit-icon a{
+ padding: 0px;
+}
 /*follow button start*/
 button .msg-follow,
 button .msg-following,
@@ -208,7 +214,6 @@ button .msg-unfollow{
 }
 .following{
     border-radius: 4px;
-    background-color: #F1F1F1;
 }
 button .msg-follow{
   display: inline;

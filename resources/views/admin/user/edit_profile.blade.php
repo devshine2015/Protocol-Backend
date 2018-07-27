@@ -14,7 +14,11 @@
                         <img src="{{$userData->avatar}}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
                 <div class="ml-3">
-                    <h4 class="text-xs-center">{{$userData->name}}</h4>
+                    
+                    <h5 class="text-xs-center"><span class="username">{{$userData->name}}</span><input type="text" class="edit-input col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">@if(Auth::user()->id == $userId)
+                    <a href="#" id="edit" class="btn"><img src="{{ asset('images/edit.png') }}" alt="logo"  class="img-fluid" style="width: 20px;" />
+                    </a>@endif</span></h5>
+                    
                 @if(Auth::user()->id != $userId)
                     <div class=" pull-lg-6 text-xs-center">
                         <button type="button" class="follow btn-default" data-id = "{{$userId}}" data-follow = "{{$is_follow}}">
@@ -32,11 +36,11 @@
                     <li class="nav-item">
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
                     </li>
-                    @if(Auth::user()->id == $userId)
+                    {{-- @if(Auth::user()->id == $userId)
                         <li class="nav-item">
                             <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Edit</a>
                         </li>
-                    @endif
+                    @endif --}}
                 </ul><div class="tab-content p-b-3">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
@@ -91,6 +95,8 @@
 <script>
     var csrfToken = '{{ csrf_token() }}';
     var followUserUrl = '{!! route('followUser') !!}';
+    var updateUserUrl = '{{route('update-profile')}}';
+     
 </script>
 <script src="{{ asset('js/custom/edit_profile.js') }}"></script>
 
