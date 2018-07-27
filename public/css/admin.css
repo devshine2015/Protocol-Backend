@@ -52,10 +52,15 @@ span.td-container {
     
 }
 .search-follow{
-    background-color:#cecece;
+    border-color: #ee467a;
+    border-radius: 7px;
 }
 .desc{
     font-size: 0.9em;
+}
+.searchdesc{
+    text-align: justify;
+    display:block;
 }
 .table-text-color{
     background-color:#ee467a;
@@ -111,7 +116,8 @@ span.td-container {
     color:#ee467a;
 
 }
-.dashboard-text a:hover{
+.login-nav-text a{
+    display: block;
     color:#ee467a;
 
 }
@@ -303,6 +309,7 @@ button.following:not(.wait):hover .msg-unfollow{
 .jumbotron {
 	background:#fff;
 	box-shadow: 0 0.15em 0.35em 0 rgba(0,0,0,0.135);
+    padding-top:1rem;
 }
 
 .dropdown-menu{

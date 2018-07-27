@@ -63,7 +63,7 @@ class SearchController extends Controller
                $bridgeList = $bridgeList->where('privacy',0)->get();
                $notesData = $notes->where('privacy',0)->get();
             }
-            $allData = $bridgeList->merge($notesData);
+            $allData = $bridgeList->merge($notesData)->sortByDesc('created_at');
         if(count($allData)>0){
             $allData->filter(function ($q){
                 $q->tags = explode(',',$q->tags);
@@ -98,13 +98,13 @@ class SearchController extends Controller
         if(isset($request->my_result)){
             $q->where('created_by',Auth::user()->id);
         }})->where(function($q)use($search){
-            $q->orWhere('tags', 'like', '%'.$search.'%')->orWhere('desc', 'like', '%'.$search.'%')
+            $q->orWhere('tags', 'Ilike', '%'.$search.'%')->orWhere('desc', 'like', '%'.$search.'%')
             ->orWhereHas('fromElement',function($query)use($search){
-            $query->where('url', 'like', '%'.$search.'%');
+            $query->where('url', 'Ilike', '%'.$search.'%');
             })->orWhereHas('toElement',function($query)use($search){
-                $query->where('url', 'like', '%'.$search.'%');
+                $query->where('url', 'Ilike', '%'.$search.'%');
             })->orWhereHas('user',function($query)use($search){
-            $query->where('name', 'like', '%'.$search.'%');
+            $query->where('name', 'Ilike', '%'.$search.'%');
             });
         })
        
@@ -115,10 +115,10 @@ class SearchController extends Controller
                 $q->where('created_by',Auth::user()->id);
             }
             })->where(function($q)use($search){
-                $q->orWhere('desc', 'like', '%'.$search.'%')
-                ->orWhere('tags', 'like', '%'.$search.'%')
+                $q->orWhere('desc', 'Ilike', '%'.$search.'%')
+                ->orWhere('tags', 'Ilike', '%'.$search.'%')
                 ->orWhereHas('user',function($query)use($search){
-                    $query->where('name', 'like', '%'.$search.'%');
+                    $query->where('name', 'Ilike', '%'.$search.'%');
                 });
             })->with('relationData','user')->orderBy('created_at','desc');
         //check auth
@@ -141,7 +141,7 @@ class SearchController extends Controller
              $noteData      = $notes->where('privacy',0)->get();
         }
         //merge all data
-        $allData = $bridgeData->merge($noteData);
+        $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
         if(count($allData)>0){
              $allData->filter(function ($q){
                 $q->tags = explode(',',$q->tags);

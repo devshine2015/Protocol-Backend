@@ -65,16 +65,16 @@
                        <?php $t=1; if(isset($page_based) && $page_based ==1 ) {$bridgeData = $bridge;}else{$bridgeData = $bridge->toArray();} ?>
                           
                           @foreach($bridgeData as $bridges)
-                            <p>
+                            <p class="mb-0">
                                   @if($bridges['comefromNote'] ==0)
-                                     <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
+                                     <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
                                         @if($bridges['relation_data'])
                                           <span class= "table-text-color mr-0">{{$bridges['relation_data']['active_name']}}</span>
                                         @endif
                                   @else
-                                    <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges['title']}}
+                                    <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> {{$bridges['title']}}
                                   @endif<span class="desc">
-                                  @if($bridges['user'])Created by @if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
+                                  @if($bridges['user']) @if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
                                   @if(Auth::check())
                                     @if(Auth::user()->id != $bridges['user']['id'])
                                           <button type="button" class="follow btn-xs search-follow" data-id = "{{$bridges['user']['id']}}" data-follow = "{{$bridges['is_follow']}}">
@@ -96,7 +96,7 @@
                                         @endif
                                     @endforeach
                                   </span></br>
-                                    <span class="ml-4 desc">{{$bridges['desc'] }}</span>
+                                    <span class="ml-4 desc searchdesc">{{$bridges['desc'] }}</span>
                                   <br/>
                             </p>
                               <?php $t++ ?>

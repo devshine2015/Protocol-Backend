@@ -46,13 +46,13 @@ $(document).ready(function () {
     //unfollow
     //see more
       size_p = $("#profileData p").length;
-      if(size_p >=5){
+      if(size_p >7){
           $("#loadData").removeClass('hidden');
       }
-       $("#profileData p").slice(0, 5).show();
+       $("#profileData p").slice(0, 7).show();
           $("#loadMore").on('click', function (e) {
               e.preventDefault();
-              $("#profileData p:hidden").slice(0, 5).slideDown();
+              $("#profileData p:hidden").slice(0, 7).slideDown();
               if ($("#profileData p:hidden").length == 0) {
                   $("#load").fadeOut('slow');
                   $("#loadData").addClass('hidden');

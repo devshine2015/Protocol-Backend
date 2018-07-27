@@ -50,7 +50,7 @@ class UserController extends Controller
             $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
             $noteData = $getallData['notes']->where('created_by',$id)->where('privacy',1)->get();
         }
-        $allData = $bridgeData->merge($noteData);
+        $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
         if(count($allData)>0){
              $allData->filter(function ($q){
                 if(isset($q->title)){
@@ -76,7 +76,7 @@ class UserController extends Controller
         $getallData = $this->getbridgeData();
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
-        $allData = $bridgeData->merge($noteData);
+        $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
         if(count($allData)>0){
              $allData->filter(function ($q){
                 if(isset($q->title)){
@@ -101,7 +101,7 @@ class UserController extends Controller
         $notesNotification = $notifyData['notes']->whereHas('followUser',function($q){
             $q->where('follower_id',Auth::user()->id);
         })->where('created_by','!=',Auth::user()->id)->where('privacy',0)->get();
-        $allNotification = $bridgeNotification->merge($notesNotification);
+        $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
              $allNotification->filter(function ($q){
                 if(isset($q->title)){
