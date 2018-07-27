@@ -27,6 +27,7 @@ $resourcesRequireAuthToWrite = [
     'notes'             => 'API\NoteController',
     'userFollow'        => 'API\UserFollowController',
     'elementFollow'     => 'API\ElementFollowController',
+    'noteCategory'      => 'API\NoteCategoryController',
 ];
 
 $withAuthRouteOptions = [
