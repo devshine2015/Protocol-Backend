@@ -11,7 +11,7 @@
                 </div>
                 <div class="ml-3">
                     <h4 class="text-xs-center">{{ Auth::user()->name }}</h4>
-                    <h6 class="text-xs-center">Bridgit no: {{ Auth::user()->id }}</h6>
+                    <h6 class="text-xs-center">Bridgit <span class="log-detail">#{{ Auth::user()->id }}</span></h6>
                 </div>
                 @if(!Auth::check())
                     <div class=" pull-lg-6 text-xs-center">

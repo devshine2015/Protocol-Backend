@@ -15,7 +15,6 @@
                 </div>
                 <div class="ml-3">
                     <h4 class="text-xs-center">{{$userData->name}}</h4>
-                    <h6 class="text-xs-center">Bridgit no: {{$userData->id}}</h6>
                 @if(Auth::user()->id != $userId)
                     <div class=" pull-lg-6 text-xs-center">
                         <button type="button" class="follow btn-default" data-id = "{{$userId}}" data-follow = "{{$is_follow}}">
@@ -25,6 +24,7 @@
                         </button>
                     </div>
                 @endif
+                <h6 class="text-xs-center mt-2">Bridgit <span class="log-detail">#{{$userData->id}}</span></h6>
                 </div>
             </div>
             <div class="col-lg-8 push-lg-4">

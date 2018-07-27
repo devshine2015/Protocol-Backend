@@ -206,7 +206,10 @@ button .msg-following,
 button .msg-unfollow{
   display: none;
 }
-
+.following{
+    border-radius: 4px;
+    background-color: #F1F1F1;
+}
 button .msg-follow{
   display: inline;
 }

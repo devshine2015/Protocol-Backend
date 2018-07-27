@@ -8,13 +8,13 @@ $(document).ready(function () {
     //endfollow
     //see more
         size_p = $("#bridgeList p").length;
-        if(size_p >=5){
+        if(size_p >7){
             $("#loadData").removeClass('hidden');
         }
-         $("#bridgeList p").slice(0, 5).show();
+         $("#bridgeList p").slice(0, 7).show();
             $("#loadMore").on('click', function (e) {
                 e.preventDefault();
-                $("#bridgeList p:hidden").slice(0, 5).slideDown();
+                $("#bridgeList p:hidden").slice(0, 7).slideDown();
                 if ($("#bridgeList p:hidden").length == 0) {
                     $("#load").fadeOut('slow');
                     $("#loadData").addClass('hidden');
