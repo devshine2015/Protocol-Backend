@@ -90,13 +90,13 @@ class UserController extends Controller
             });
         }
         $notifyData = $this->getbridgeData();
-        $bridgeNotification = $notifyData['bridgeList']->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
+        $bridgeNotification = $notifyData['bridgeList']->with('followFromElement')->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
             $q->orWhereHas('followUser',function($query){
                 $query->where('follower_id',Auth::user()->id);
             })
             ->orWhereHas('followFromElement',function($query){
                     $query->where('user_id',Auth::user()->id);
-            });
+            })->with('followFromElement');
         })->get();
         $notesNotification = $notifyData['notes']->whereHas('followUser',function($q){
             $q->where('follower_id',Auth::user()->id);
@@ -112,10 +112,14 @@ class UserController extends Controller
                     $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
                     $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                 }
+                if(count($q->followFromElement)>0){
+                    $q->comefromNote = 2;
+                }
             });
         }
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
+        // print_r($this->response['notification']);exit;
         return view('admin.user.dashboard')->with($this->response);
     }
     public function followUser(Request $request){
