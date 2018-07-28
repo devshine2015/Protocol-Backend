@@ -24,14 +24,16 @@
                 @endif
             </div>
             <div class="col-lg-8 push-lg-4">
-                <ul class="nav nav-tabs">
+                {{-- <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
                     </li>
                     <li class="nav-item">
                         <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notification</a>
                     </li>
-                </ul><div class="tab-content p-b-3">
+                </ul> --}}
+                <div>
+                <!--<div class="tab-content p-b-3">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12" id="profileData">
@@ -44,6 +46,7 @@
                                  @if(count($bridge)>0)
                                     @foreach($bridge as $key=>$bridges)
                                         <p>
+
                                             @if($bridges->comefromNote == 1)
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges->title}}
                                             @else
@@ -58,10 +61,11 @@
                             </div>
                         </div>
                         <div id="loadMore"><p id="loadData" class="hidden">Load more</p></div>
-                        <!--/row-->
-                    </div>
+                       
+                    </div> -->
                     <div class="tab-pane" id="edit">
-                        <h4 class="m-y-2 mt-2">Notification</h4>
+                        <span class="notification_count">{{count($notification)}}</span>
+                        <h4 class="m-y-2 notify">Notifications</h4>
                         <table class="table table-hover table-striped" id="notificationData">
                             <tbody>
                                {{-- <span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the.. --}}
@@ -69,10 +73,13 @@
                                     @foreach($notification as $key=>$notificatios)
                                     <tr>
                                         <td>
+                                            <span class="notification_time">{{$notificatios->created_at->diffForHumans()}}</span>
                                             @if($notificatios->comefromNote == 1)
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$notificatios->title}}
-                                            @else
+                                            @elseif($notificatios->comefromNote == 0)
                                                 <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
+                                            @elseif($notificatios->comefromNote == 2)
+                                                <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
                                             @endif
                                             @if(isset($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->active_name}}</span>@endif
                                         </td>
