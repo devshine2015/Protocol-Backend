@@ -112,7 +112,7 @@ class UserController extends Controller
                     $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
                     $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                 }
-                if(count($q->followFromElement)>0){
+                if(isset($q->followFromElement) && count($q->followFromElement)>0){
                     $q->comefromNote = 2;
                 }
             });
