@@ -72,14 +72,14 @@
                                 @if(count($notification)>0)
                                     @foreach($notification as $key=>$notificatios)
                                     <tr>
-                                        <td width="100px;"><span class="notification_time">
+                                        <td width="50px;" class="pr-0"><span class="notification_time">
                                             @if($notificatios->created_at->isToday())
                                                 {{$notificatios->created_at->diffForHumans('', true, false, 1)}}
                                             @else
                                                 {{$notificatios->created_at->format('M d')}}
                                             @endif
                                             </span></td>
-                                        <td width="350px;">
+                                        <td width="350px;" class="pr-0">
                                             
                                             @if($notificatios->comefromNote == 0)
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/> {{$notificatios->title}}
@@ -91,9 +91,11 @@
                                                 <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/> {{$notificatios->title}}
                                             @endif
                                             @if(isset($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->active_name}}</span>@endif
-                                            <td width="200px;">
-                                                <span class="mr-1">@if($notificatios['user']) @if(Auth::check())<a href="{{url(str_replace(' ','-',$notificatios['user']['name']).'/profile/'.$notificatios['user']['id'])}}">@endif{{ $notificatios['user']['name'] }}</a> @endif</span>
-                                                @if(Auth::check())
+                                            <td width="20px;" class="pr-0">
+                                                @if($notificatios['user']) @if(Auth::check())<a href="{{url(str_replace(' ','-',$notificatios['user']['name']).'/profile/'.$notificatios['user']['id'])}}">@endif{{ $notificatios['user']['name'] }}</a> @endif
+                                            </td>
+                                            <td width="100px;" class="pr-0 pl-0">
+                                                <span>@if(Auth::check())
                                                     @if(Auth::user()->id != $notificatios['user']['id'])
                                                           <button type="button" class="follow btn-xs search-follow" data-id = "{{$notificatios['user']['id']}}" data-follow = "{{$notificatios['is_follow']}}">
                                                             <span class="msg-follow allLink">Follow</span>
