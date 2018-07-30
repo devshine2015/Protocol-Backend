@@ -26,12 +26,12 @@ class NoteCategoryController extends Controller
             $categoryQuery = \App\NoteCategory::whereIn('id', $ids);
         } else {
             $categoryQuery = \App\NoteCategory::where(function($query) {
-                $query->where([ 'status' => 0, 'type' => 1,'is_active' => 1 ]);
+                $query->where([ 'status' => 0, 'type' => 1]);
             });
 
             if (isset($user)) {
                 $categoryQuery = $categoryQuery->orWhere(function($query)  use($user) {
-                    $query->where([ 'status' => 0, 'type' => 0,'created_by' => $user['id'],'is_active' => 1 ]);
+                    $query->where([ 'status' => 0, 'type' => 0,'created_by' => $user['id'] ]);
                 });
             }
         }

@@ -43,4 +43,49 @@ $(document).ready(function () {
               }, 1500);
           });
     // see more
+    //follow
+     $('button[data-id]').each(function () {
+      if ($(this).attr('data-follow') == 1) {
+          $(this).addClass('following');
+      }else{
+           $(this).removeClass('following')
+      }
+
+    })
+     $('button[data-id]').click(function(){
+          var $this = $(this);
+          $this.toggleClass('following')
+          //start ajax
+            var id = $(this).attr('data-id');
+            $.ajaxSetup({
+              headers: {
+                'X-CSRF-TOKEN':csrfToken
+              }
+            });
+            $.ajax({
+                url: followUserUrl,
+                type:"POST",
+                data: {
+                    user_id: id,
+                },
+                dataType : 'json',
+                success:function(data) {
+                  if (data=='') {
+                    console.log('unfollow');
+                    $('button[data-id = '+id+']').removeClass('following');
+                  }else{
+                    console.log('follow');
+                    $('button[data-id = '+id+']').addClass('following');
+                  }
+                  // location.reload();
+                }
+            });
+        //complete ajax
+          if($this.is('.following')){
+            $this.addClass('wait');
+          }
+        }).on('mouseleave',function(){
+          $(this).removeClass('wait');
+        })
+    //unfollow
 });

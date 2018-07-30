@@ -92,7 +92,7 @@ $(document).ready(function () {
                 reader.readAsDataURL(input.files[0]);
                 var name = '';
                 var image = input.files[0];
-                // updateUser(name,image)
+                updateUser(name,image)
             }
         }
         $("#featured_image").change(function () {

@@ -30,7 +30,7 @@
                     </li>
                     <li class="nav-item">
                         {{-- <span class="notification_count">{{count($notification)}}</span> --}}
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notification</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notifications</a>
                     </li>
                 </ul>
                 <div>
@@ -51,7 +51,7 @@
                                             @if($bridges->comefromNote == 1)
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> {{$bridges->title}}
                                             @else
-                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
+                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a class="allLink" href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
                                             @endif
                                               @if($bridges->privacy==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif @if(isset($bridges->relationData))<span class="table-text-color">{{$bridges->relationData->active_name}}</span>@endif
                                         </p>
@@ -66,22 +66,45 @@
                     </div>
                     <div class="tab-pane" id="edit">
                         <h4 class="mt-2 m-y-2 notify">Notifications</h4>
-                        <table class="table table-hover table-striped" id="notificationData">
+                        <table class="table table-hover" id="notificationData">
                             <tbody>
                                {{-- <span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the.. --}}
                                 @if(count($notification)>0)
                                     @foreach($notification as $key=>$notificatios)
                                     <tr>
-                                        <td>
-                                            <span class="notification_time">{{$notificatios->created_at->diffForHumans()}}</span>
-                                            @if($notificatios->comefromNote == 1)
+                                        <td width="50px;" class="pr-0"><span class="notification_time">
+                                            @if($notificatios->created_at->isToday())
+                                                {{$notificatios->created_at->diffForHumans('', true, false, 1)}}
+                                            @else
+                                                {{$notificatios->created_at->format('M d')}}
+                                            @endif
+                                            </span></td>
+                                        <td width="350px;" class="pr-0">
+                                            
+                                            @if($notificatios->comefromNote == 0)
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/> {{$notificatios->title}}
-                                            @elseif($notificatios->comefromNote == 0)
+                                            @elseif($notificatios->comefrombridge == 0)
                                                 <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
-                                            @elseif($notificatios->comefromNote == 2)
+                                            @elseif($notificatios->comefrombridge == 2)
                                                 <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
+                                            @elseif($notificatios->comefromNote == 2)
+                                                <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/> {{$notificatios->title}}
                                             @endif
                                             @if(isset($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->active_name}}</span>@endif
+                                            <td width="20px;" class="pr-0">
+                                                @if($notificatios['user']) @if(Auth::check())<a href="{{url(str_replace(' ','-',$notificatios['user']['name']).'/profile/'.$notificatios['user']['id'])}}">@endif{{ $notificatios['user']['name'] }}</a> @endif
+                                            </td>
+                                            <td width="100px;" class="pr-0 pl-0">
+                                                <span>@if(Auth::check())
+                                                    @if(Auth::user()->id != $notificatios['user']['id'])
+                                                          <button type="button" class="follow btn-xs search-follow" data-id = "{{$notificatios['user']['id']}}" data-follow = "{{$notificatios['is_follow']}}">
+                                                            <span class="msg-follow allLink">Follow</span>
+                                                            <span class="msg-following allLink">Following</span>
+                                                            <span class="msg-unfollow allLink">Unfollow</span>
+                                                          </button></span>
+                                                    @endif
+                                                @endif
+                                            </td>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -99,6 +122,11 @@
 </div>
 @endsection
 @section('pageScript')
+<script>
+var csrfToken = '{{ csrf_token() }}';
+var error = '{{ $errors->first('email') }}';
+var followUserUrl = '{!! route('followUser') !!}';
+</script>
 <script src="{{ asset('js/custom/dashboard.js') }}"></script>
 @endsection
 
