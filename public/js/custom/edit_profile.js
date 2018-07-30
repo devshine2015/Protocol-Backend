@@ -92,13 +92,16 @@ $(document).ready(function () {
                 reader.readAsDataURL(input.files[0]);
                 var name = '';
                 var image = input.files[0];
-                // updateUser(name,image)
+                updateUser(name,image)
             }
         }
         $("#featured_image").change(function () {
             readURL(this);
         });
         function updateUser(name,image){
+        var data = new FormData();
+        data.append(file.name, image);
+        console.log(data);
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN':csrfToken
@@ -106,12 +109,11 @@ $(document).ready(function () {
         });
         $.ajax({
           url: updateUserUrl,
-          data: {name:name,avatar:image},
-          async: false,
+          data: data,
           type: "post",
-          cache: false,
+          dataType: 'json',
            // processData: false,
-            // contentType: false,
+           //  contentType: false,
           success: function(html){
             $(".username").html($("#user_name").val());
           }

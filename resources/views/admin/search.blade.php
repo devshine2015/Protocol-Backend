@@ -78,9 +78,9 @@
                                   @if(Auth::check())
                                     @if(Auth::user()->id != $bridges['user']['id'])
                                           <button type="button" class="follow btn-xs search-follow" data-id = "{{$bridges['user']['id']}}" data-follow = "{{$bridges['is_follow']}}">
-                                            <span class="msg-follow">Follow</span>
-                                            <span class="msg-following">Following</span>
-                                            <span class="msg-unfollow">Unfollow</span>
+                                            <span class="msg-follow allLink">Follow</span>
+                                            <span class="msg-following allLink">Following</span>
+                                            <span class="msg-unfollow allLink">Unfollow</span>
                                           </button></span>
                                     @endif
                                   @endif

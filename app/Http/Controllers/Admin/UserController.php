@@ -96,29 +96,51 @@ class UserController extends Controller
             })
             ->orWhereHas('followFromElement',function($query){
                     $query->where('user_id',Auth::user()->id);
-            })->with('followFromElement');
+            })->with('followFromElement')->orWhereHas('followtoElement',function($query){
+                    $query->where('user_id',Auth::user()->id);
+            })->with('followtoElement');
         })->get();
-        $notesNotification = $notifyData['notes']->whereHas('followUser',function($q){
-            $q->where('follower_id',Auth::user()->id);
-        })->where('created_by','!=',Auth::user()->id)->where('privacy',0)->get();
+       
+        // echo "<pre>";print_r( $notifyData['notes']->with('follownoteElement')->get()->toArray());exit;
+        $notesNotification = $notifyData['notes']->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
+            $q->orWhereHas('followUser',function($query){
+                $query->where('follower_id',Auth::user()->id);
+            })
+            ->orWhereHas('follownoteElement',function($query){
+                $query->where('user_id',Auth::user()->id);
+            })->with('follownoteElement');
+        })->get();
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
              $allNotification->filter(function ($q){
+                if(isset($q->followUser)){
+                    $q->is_follow = 1;
+                }else{
+                    $q->is_follow=0;
+                }
                 if(isset($q->title)){
                     $q->title = $q->title;
-                    $q->comefromNote = 1;
-                }else{
                     $q->comefromNote = 0;
+                     $q->comefrombridge =  3;
+                }else{
+                    $q->comefrombridge = 0;
+                     $q->comefromNote = 3;
                     $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
                     $q->toUrl =get_domain(parse_url($q->toElement->url, PHP_URL_HOST));
                 }
-                if(isset($q->followFromElement) && count($q->followFromElement)>0){
+                if(isset($q->followFromElement) && count($q->followFromElement)>0 || isset($q->followtoElement) && count($q->followtoElement)>0){
+                    $q->comefrombridge = 2;
+                     $q->comefromNote = 3;
+                }
+                if(isset($q->follownoteElement) && count($q->follownoteElement)>0){
                     $q->comefromNote = 2;
+                     $q->comefrombridge =  3;
                 }
             });
         }
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
+        // echo "<pre>";print_r($this->response);exit;
         // print_r($this->response['notification']);exit;
         return view('admin.user.dashboard')->with($this->response);
     }
@@ -149,8 +171,12 @@ class UserController extends Controller
         }
     }
     public function getbridgeData(){
-        $getData['bridgeList'] = $this->bridgemodel->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
-        $getData['notes'] = $this->noteModel->with(['relationData','user'])->orderBy('created_at','desc');
+        $getData['bridgeList'] = $this->bridgemodel->with(['followUser'=>function($q){
+                    $q->where('follower_id',Auth::user()->id);
+                }])->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
+        $getData['notes'] = $this->noteModel->with(['followUser'=>function($q){
+                    $q->where('follower_id',Auth::user()->id);
+                }])->with(['relationData','user'])->orderBy('created_at','desc');
         
         return $getData;
     }

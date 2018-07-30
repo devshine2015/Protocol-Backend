@@ -8,8 +8,10 @@
             <div class="col-lg-2 pull-lg-8 text-xs-center dashboard-photo">
                 <div class="fileUpload" width=100px;>
                     @if(Auth::check())
-                        <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
-                        <button type="button" class="btn btn-success btn-xs uploadIcon hidden" onclick="$('#featured_image').trigger('click');"><i class="fa fa-upload"></i></button>
+                        <form id="Ajaxform">
+                            <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
+                            <button type="button" class="btn btn-success btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><i class="fa fa-upload"></i></button>
+                        </form>
                     @endif
                         <img src="{{$userData->avatar}}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
