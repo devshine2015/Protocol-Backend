@@ -73,6 +73,9 @@
                                         @endif
                                   @else
                                     <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> {{$bridges['title']}}
+                                    @if($bridges['relation_data'])
+                                          <span class= "table-text-color mr-0">{{$bridges['relation_data']['name']}}</span>
+                                        @endif
                                   @endif<span class="desc">
                                   @if($bridges['user']) @if(Auth::check())<a href="{{url(str_replace(' ','-',$bridges['user']['name']).'/profile/'.$bridges['user']['id'])}}">@endif{{ $bridges['user']['name'] }}</a> @endif
                                   @if(Auth::check())

@@ -8,7 +8,10 @@ class Note extends Model
 {
     protected $table = 'notes';
     public function relationData(){
-        return $this->belongsTo(Relation::class,'relation_id','id');
+        return $this->belongsTo(NoteCategory::class,'relation','id');
+    }
+    public function relationOldData(){
+        return $this->belongsTo(Relation::class,'relation_old','id');
     }
     public function user(){
         return $this->belongsTo(User::class,'created_by','id');
