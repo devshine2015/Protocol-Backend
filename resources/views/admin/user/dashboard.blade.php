@@ -24,16 +24,17 @@
                 @endif
             </div>
             <div class="col-lg-8 push-lg-4">
-                {{-- <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
                     </li>
                     <li class="nav-item">
+                        {{-- <span class="notification_count">{{count($notification)}}</span> --}}
                         <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notification</a>
                     </li>
-                </ul> --}}
+                </ul>
                 <div>
-                <!--<div class="tab-content p-b-3">
+                <div class="tab-content p-b-3">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12" id="profileData">
@@ -62,10 +63,9 @@
                         </div>
                         <div id="loadMore"><p id="loadData" class="hidden">Load more</p></div>
                        
-                    </div> -->
+                    </div>
                     <div class="tab-pane" id="edit">
-                        <span class="notification_count">{{count($notification)}}</span>
-                        <h4 class="m-y-2 notify">Notifications</h4>
+                        <h4 class="mt-2 m-y-2 notify">Notifications</h4>
                         <table class="table table-hover table-striped" id="notificationData">
                             <tbody>
                                {{-- <span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the.. --}}
