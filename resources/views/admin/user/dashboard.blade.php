@@ -30,7 +30,7 @@
                     </li>
                     <li class="nav-item">
                         {{-- <span class="notification_count">{{count($notification)}}</span> --}}
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notification</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notifications</a>
                     </li>
                 </ul>
                 <div>

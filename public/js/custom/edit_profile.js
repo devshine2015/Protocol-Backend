@@ -99,9 +99,6 @@ $(document).ready(function () {
             readURL(this);
         });
         function updateUser(name,image){
-        var data = new FormData();
-        data.append(file.name, image);
-        console.log(data);
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN':csrfToken
@@ -109,11 +106,12 @@ $(document).ready(function () {
         });
         $.ajax({
           url: updateUserUrl,
-          data: data,
+          data: {name:name,avatar:image},
+          async: false,
           type: "post",
-          dataType: 'json',
+          cache: false,
            // processData: false,
-           //  contentType: false,
+            // contentType: false,
           success: function(html){
             $(".username").html($("#user_name").val());
           }
