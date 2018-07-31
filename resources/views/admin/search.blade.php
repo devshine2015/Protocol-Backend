@@ -72,7 +72,7 @@
                                           <span class= "table-text-color mr-0">{{$bridges['relation_data']['active_name']}}</span>
                                         @endif
                                   @else
-                                    <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> {{$bridges['title']}}
+                                    <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> <a href="{{$bridges['target']['url']}}">{{$bridges['title']}}</a>
                                     @if($bridges['relation_data'])
                                           <span class= "table-text-color mr-0">{{$bridges['relation_data']['name']}}</span>
                                         @endif

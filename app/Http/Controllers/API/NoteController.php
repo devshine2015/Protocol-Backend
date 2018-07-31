@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Events\AddPointEvent;
+use App\Events\AddNotificationEvent;
 class NoteController extends Controller
 {
     private $fieldsRequired = [

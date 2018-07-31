@@ -12,6 +12,7 @@ use App\Note;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use App\FollowUser;
+use App\NotificationStatus;
 class UserController extends Controller
 {
     /*
@@ -27,19 +28,21 @@ class UserController extends Controller
 
     use AuthenticatesUsers;
     protected $model;
+    protected $notification;
     protected $bridgemodel;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser)
+    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status)
     {
         $this->middleware('guest')->except('logout');
         $this->model                = $user;
         $this->bridgemodel          = $bridge;
         $this->noteModel            = $note;
         $this->followUserModel      = $followUser;
+        $this->notification         = $notification_status;
     }
     public function userData($name,$id){
         $getallData = $this->getbridgeData($id);
@@ -110,9 +113,16 @@ class UserController extends Controller
                 $query->where('user_id',Auth::user()->id);
             })->with('follownoteElement');
         })->get();
+        $getReadNotify  = $this->notification->where('user_id',$id)->pluck('type','type_id');
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
-             $allNotification->filter(function ($q){
+             $allNotification->filter(function ($q)use($getReadNotify){
+                $notifyType = 2;
+                $q->is_read = 0;
+                    // print_r($getReadNotify);exit;
+                if(array_key_exists($q->id,$getReadNotify->toArray())){
+                    $notifyType = $getReadNotify[$q->id];
+                }
                 if(isset($q->followUser)){
                     $q->is_follow = 1;
                 }else{
@@ -121,8 +131,14 @@ class UserController extends Controller
                 if(isset($q->title)){
                     $q->title = $q->title;
                     $q->comefromNote = 0;
-                     $q->comefrombridge =  3;
+                    $q->comefrombridge =  3;
+                     if($notifyType==1){
+                        $q->is_read =1;
+                     }
                 }else{
+                    if($notifyType==0){
+                        $q->is_read =1;
+                    }
                     $q->comefrombridge = 0;
                      $q->comefromNote = 3;
                     $q->fromUrl =get_domain(parse_url($q->fromElement->url, PHP_URL_HOST));
@@ -140,6 +156,7 @@ class UserController extends Controller
         }
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
+        $this->response['notification_count'] = $getReadNotify->count();
         // echo "<pre>";print_r($this->response);exit;
         // print_r($this->response['notification']);exit;
         return view('admin.user.dashboard')->with($this->response);
@@ -170,13 +187,28 @@ class UserController extends Controller
             return false;
         }
     }
+    public function updateNotification(Request $request){
+        $user_id = Auth::user()->id;
+        $userNotify = $this->notification->where('type_id',$request->get('type_id'))->where('user_id',$user_id)->where('type',$request->get('type'))->first();
+        if(!isset($userNotify)){
+            $userNotify = new NotificationStatus;
+            $userNotify->user_id         = $user_id;
+            $userNotify->type_id         = $request->get('type_id');
+            $userNotify->type            = $request->get('type');
+            $userNotify->is_read         = 1;
+            $userNotify->save();
+            return '1';
+        }else{
+            return '0';
+        }
+    }
     public function getbridgeData(){
         $getData['bridgeList'] = $this->bridgemodel->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
                 }])->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
         $getData['notes'] = $this->noteModel->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
-                }])->with(['relationData','user'])->orderBy('created_at','desc');
+                }])->with(['relationData','user','target'])->orderBy('created_at','desc');
         
         return $getData;
     }
