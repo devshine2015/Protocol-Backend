@@ -44,7 +44,7 @@ class SearchController extends Controller
     }
     public function search(){
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
-            $notes = $this->noteModel->with(['relationData','user','followUser','target'])->orderBy('created_at','desc');
+            $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
            if(\Auth::check()){
                 //check privacy for bridge
@@ -120,7 +120,7 @@ class SearchController extends Controller
                 ->orWhereHas('user',function($query)use($search){
                     $query->where('name', 'Ilike', '%'.$search.'%');
                 });
-            })->with('relationData','user','target')->orderBy('created_at','desc');
+            })->with('relationData','user','targetData')->orderBy('created_at','desc');
         //check auth
         if(\Auth::check()){
             $bridgeData = $bridges

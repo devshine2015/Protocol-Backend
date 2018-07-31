@@ -208,7 +208,7 @@ class UserController extends Controller
                 }])->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
         $getData['notes'] = $this->noteModel->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
-                }])->with(['relationData','user','target'])->orderBy('created_at','desc');
+                }])->with(['relationData','user','targetData'])->orderBy('created_at','desc');
         
         return $getData;
     }
