@@ -48,8 +48,49 @@ $(document).ready(function () {
       if ($(this).attr('data-follow') == 1) {
           $(this).addClass('following');
       }else{
-           $(this).removeClass('following')
+           $(this).removeClass('following');
       }
+
+    })
+     //read/unread notification
+     $('tr').each(function () {
+      if ($(this).attr('data-read') == 0) {
+          $(this).addClass('addNotificationclr');
+      }else{
+           $(this).removeClass('addNotificationclr')
+      }
+
+
+$('.test_tr').off('click');
+      $('.test_tr').click(function(e){
+        e.stopPropagation();
+        $(this).removeClass('addNotificationclr');
+        var notification_count = $(".notification_count").html();
+        var type_id = $(this).attr('data-id');
+        var type = $(this).attr('data-type');
+         $.ajaxSetup({
+              headers: {
+                'X-CSRF-TOKEN':csrfToken
+              }
+            });
+            $.ajax({
+                url: updatenotify,
+                type:"POST",
+                data: {
+                    type_id: type_id,type:type
+                },
+                dataType : 'json',
+                success:function(data) {
+                  console.log(data);
+                  if (data == 1) {
+                    var num = +notification_count + 1;
+                    $(".notification_count").html(num);
+                  }
+                }
+            });
+    });
+
+      //read/unread
 
     })
      $('button[data-id]').click(function(){

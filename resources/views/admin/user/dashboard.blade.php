@@ -28,8 +28,8 @@
                     <li class="nav-item">
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
                     </li>
-                    <li class="nav-item">
-                        {{-- <span class="notification_count">{{count($notification)}}</span> --}}
+                    <li class="nav-item notificationData">
+                        <span class="notification_count">{{$notification_count}}</span>
                         <a href="" data-target="#edit" data-toggle="tab" class="nav-link edit-profile">Notifications</a>
                     </li>
                 </ul>
@@ -73,7 +73,7 @@
                                {{-- <span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the.. --}}
                                 @if(count($notification)>0)
                                     @foreach($notification as $key=>$notificatios)
-                                    <tr>
+                                    <tr class="test_tr" data-read = "{{$notificatios['is_read']}}" data-id = "{{$notificatios['id']}}" data-type = "@if(isset($notificatios['title'])) 1 @else 0 @endif">
                                         <td width="50px;" class="pr-0"><span class="notification_time">
                                             @if($notificatios->created_at->isToday())
                                                 {{$notificatios->created_at->diffForHumans('', true, false, 1)}}
@@ -132,6 +132,7 @@
 var csrfToken = '{{ csrf_token() }}';
 var error = '{{ $errors->first('email') }}';
 var followUserUrl = '{!! route('followUser') !!}';
+var updatenotify = '{!! route('updatenotify') !!}';
 </script>
 <script src="{{ asset('js/custom/dashboard.js') }}"></script>
 @endsection
