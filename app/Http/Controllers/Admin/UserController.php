@@ -156,7 +156,7 @@ class UserController extends Controller
         }
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
-        $this->response['notification_count'] = $getReadNotify->count();
+        $this->response['notification_count'] = $allNotification->count() - $getReadNotify->count();
         // echo "<pre>";print_r($this->response);exit;
         // print_r($this->response['notification']);exit;
         return view('admin.user.dashboard')->with($this->response);
