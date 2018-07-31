@@ -83,7 +83,7 @@ $('.test_tr').off('click');
                 success:function(data) {
                   console.log(data);
                   if (data == 1) {
-                    var num = +notification_count + 1;
+                    var num = notification_count - 1;
                     $(".notification_count").html(num);
                   }
                 }
