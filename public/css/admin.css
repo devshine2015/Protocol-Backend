@@ -211,16 +211,17 @@ button:focus {
 }
 .uploadIcon{
     position: absolute;
-    left: 40px;
-    bottom: -10px;
+    /* left: 40px; */
+    right: -16px;
+    bottom: -4px;
     border-radius: 60%;
-    border: 1px solid #ee467a;
-    background-color:#ee467a;
+    /*border: 1px solid #ee467a;
+    background-color: #ee467a;*/
     line-height: 2px;
     padding: 5px;
-    opacity: 0.7
+    /* opacity: 0.7; */
 }
-.uploadIcon:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
+/*.uploadIcon:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
     color: #fff;
      background-color: #ee467a; 
      border-color: #ee467a; 
@@ -228,7 +229,7 @@ button:focus {
 .uploadIcon:hover{
     background-color:#ee467a;
     border: 1px solid #ee467a;
-}
+}*/
 .edit-input {
     display:none;
 }
@@ -242,8 +243,18 @@ button:focus {
     color: #008000;
     font-weight: bold;
 }
+.username{
+    display: inline-block;
+    float: left;
+    width: 75%;
+    word-wrap: break-word;
+}
 .userName{
-    outline: none;;
+    outline: none;
+}
+.user_header{
+    display: block;
+    overflow: hidden;
 }
 .notification_count {
     height: 20px;
@@ -303,7 +314,14 @@ button.following:not(.wait):hover .msg-unfollow{
 .dashboard-photo img{
     border-radius: 50%;
     width: 100px;
-    height: auto;
+    height: 100px;
+    object-fit: cover;
+}
+.edit_name{
+    display: inline-block;
+    float: left;
+    width: 25%;
+    padding: 0px;
 }
 
 .user-name {

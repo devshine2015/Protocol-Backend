@@ -10,16 +10,17 @@
                 @if(Auth::check())
                         <form id="Ajaxform">
                             <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
-                            <button type="button" class="btn btn-success btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-light btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><a href="#"><i class="fa fa-edit"></i></a></button>
                         </form>
                     @endif
                         <img src="{{ Auth::user()->avatar }}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
-                <div class="ml-3">
-                   <h5 class="text-xs-center"><span class="username userName">{{ Auth::user()->name }}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon"></span>
+                <div>
+                   <h5 class="text-xs-center user_header"><span class="username userName">{{ Auth::user()->name }}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon"></span>
                     @if(Auth::check())
-                        <a href="#" id="edit" class="btn"><i class="fa fa-edit"></i>
+                        <a href="#" id="edit" class="btn edit_name"><i class="fa fa-edit"></i>
                         </a>
+                        <div class="clearfix"></div>
                     @endif
                    </h5>
                     <h6 class="text-xs-center">Bridgit <span class="log-detail">#{{ Auth::user()->id }}</span></h6>
