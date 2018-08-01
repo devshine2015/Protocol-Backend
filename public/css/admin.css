@@ -218,6 +218,12 @@ button:focus {
     background-color:#ee467a;
     line-height: 2px;
     padding: 5px;
+    opacity: 0.7
+}
+.uploadIcon:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
+    color: #fff;
+     background-color: #ee467a; 
+     border-color: #ee467a; 
 }
 .uploadIcon:hover{
     background-color:#ee467a;
@@ -236,9 +242,12 @@ button:focus {
     color: #008000;
     font-weight: bold;
 }
+.userName{
+    outline: none;;
+}
 .notification_count {
-    height: 18px;
-    width: 18px;
+    height: 20px;
+    width: 20px;
     background-color: #ee467a;
     border-radius: 50%;
     color: #fff;
@@ -247,8 +256,8 @@ button:focus {
     font-size: 12px;
     text-align: center;
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 4px;
+    top: 2px;
     z-index: 1111;
 }
 /*follow button start*/
