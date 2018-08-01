@@ -10,7 +10,7 @@
                     @if(Auth::check())
                         <form id="Ajaxform">
                             <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
-                            <button type="button" class="btn btn-success btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-light btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><a href="#"><i class="fa fa-edit"></i></a></button>
                         </form>
                     @endif
                         <img src="{{$userData->avatar}}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
