@@ -10,15 +10,15 @@
                     @if(Auth::check())
                         <form id="Ajaxform">
                             <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
-                            <button type="button" class="btn btn-success btn-xs uploadIcon hidden" onclick="$('#featured_image').trigger('click');"><i class="fa fa-upload"></i></button>
+                            <button type="button" class="btn btn-success btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><i class="fa fa-edit"></i></button>
                         </form>
                     @endif
                         <img src="{{$userData->avatar}}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
                 <div class="ml-3">
                     
-                    <h5 class="text-xs-center"><span class="username">{{$userData->name}}</span><input type="text" class="edit-input col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">@if(Auth::user()->id == $userId)
-                    <a href="#" id="edit" class="btn"><img src="{{ asset('images/edit.png') }}" alt="logo"  class="img-fluid" style="width: 20px;" />
+                    <h5 class="text-xs-center"><span class="username userName">{{$userData->name}}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">@if(Auth::user()->id == $userId)
+                    <a href="#" id="edit" class="btn"><i class="fa fa-edit"></i>
                     </a>@endif</span></h5>
                     
                 @if(Auth::user()->id != $userId)
@@ -101,6 +101,6 @@
      
 </script>
 <script src="{{ asset('js/custom/edit_profile.js') }}"></script>
-
+<script src="{{ asset('js/custom.js') }}"></script>
 @endsection
 

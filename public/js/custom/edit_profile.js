@@ -23,25 +23,7 @@ $(document).ready(function () {
                     scrollTop: $(this).offset().top
                 }, 1500);
             });
-    //update profile
-    $('#edit').click(function () {
-        var dad = $(this).parent().parent();
-        $('.username').css('display','none');
-        $('#edit').css('display','none')
-        dad.find('input[type="text"]').show().focus();
-    });
     
-    $('input[type=text]').focusout(function() {
-        var dad = $(this).parent();
-        $('.username').css('display','inline');
-        $('#edit').css('display','inline')
-        $(this).hide();
-        dad.find('label').show();
-        var name = $("#user_name").val();
-        var image = '';
-        updateUser(name,image)
-    });
-    //update profile
     // see more
     $('.collapse.in').prev('.panel-heading').addClass('active');
     $('#accordion, #bs-collapse')
@@ -82,39 +64,5 @@ $(document).ready(function () {
         $('.edit-profile').click(function(){
             $('.uploadIcon').removeClass('hidden');
         })
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#user-profile-pic').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-                var name = '';
-                var image = input.files[0];
-                updateUser(name,image)
-            }
-        }
-        $("#featured_image").change(function () {
-            readURL(this);
-        });
-        function updateUser(name,image){
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN':csrfToken
-          }
-        });
-        $.ajax({
-          url: updateUserUrl,
-          data: {name:name,avatar:image},
-          async: false,
-          type: "post",
-          cache: false,
-           // processData: false,
-            // contentType: false,
-          success: function(html){
-            $(".username").html($("#user_name").val());
-          }
-        });
-        }
+        
 });
