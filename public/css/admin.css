@@ -209,6 +209,9 @@ button:focus {
 #notificationData tr {
     display: none;
 }
+.note_title{
+    font-weight: bold;
+}
 .uploadIcon{
     position: absolute;
     /* left: 40px; */
