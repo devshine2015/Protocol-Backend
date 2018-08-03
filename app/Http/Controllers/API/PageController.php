@@ -51,6 +51,8 @@ class PageController extends Controller
         if(isset($user)){
             $checkNotes = $notesQuery->with(['followUser'=>function($q)use($user){
                 $q->where('follower_id',$user->id);
+            }])->with(['like'=>function($q)use($user){
+                $q->where('user_id',$user->id);
             }])->get();
             $notesData = $this->checkFollowElement($checkNotes);
         }else{
@@ -65,6 +67,8 @@ class PageController extends Controller
         if(isset($user)){
             $checkBridge = $bridgesQuery->with(['followUser'=>function($q)use($user){
                 $q->where('follower_id',$user->id);
+            }])->with(['like'=>function($q)use($user){
+                $q->where('user_id',$user->id);
             }])->get();
             $bridgeData = $this->checkFollowElement($checkBridge);
         }else{
