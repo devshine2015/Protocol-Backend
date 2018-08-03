@@ -22,7 +22,7 @@ class Note extends Model
     public function followUser(){
         return $this->belongsTo(FollowUser::class,'created_by','user_id');
     }
-    public function noteLike(){
+    public function like(){
         return $this->hasMany(ContenLike::class,'type_id','id')->where('type',1);
     }
     public function follownoteElement(){
