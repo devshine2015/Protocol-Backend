@@ -49,6 +49,17 @@ class Controller extends BaseController
         });
         return $checkUser;
     }
+    protected function checkLike($checkUser){
+        $checkUser->filter(function($query){
+            if(isset($query->like)){
+                $query->is_like = true;
+            }else{
+                $query->is_like = false;
+            }
+            unset($query->like);
+        });
+        return $checkUser;
+    }
     protected function checkFollowElement($checkelement){
         $checkelement->filter(function($query){
             if(isset($query->followElement)){
@@ -57,6 +68,12 @@ class Controller extends BaseController
                 $query->is_follow = false;
             }
             unset($query->followElement);
+            if(count($query->like)>0){
+                $query->is_like = true;
+            }else{
+                $query->is_like = false;
+            }
+            unset($query->like);
         });
         return $checkelement;
     }
