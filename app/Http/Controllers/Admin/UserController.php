@@ -93,7 +93,11 @@ class UserController extends Controller
             });
         }
         $notifyData = $this->getbridgeData();
-        $bridgeNotification = $notifyData['bridgeList']->with('followFromElement')->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
+        $bridgeNotification = $notifyData['bridgeList']->with(['followFromElement'=> function($query){
+                $query->where('user_id',Auth::user()->id);
+            }])->with(['followtoElement'=> function($query){
+                $query->where('user_id',Auth::user()->id);
+            }])->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
             $q->orWhereHas('followUser',function($query){
                 $query->where('follower_id',Auth::user()->id);
             })
@@ -103,9 +107,10 @@ class UserController extends Controller
                     $query->where('user_id',Auth::user()->id);
             })->with('followtoElement');
         })->get();
-       
         // echo "<pre>";print_r( $notifyData['notes']->with('follownoteElement')->get()->toArray());exit;
-        $notesNotification = $notifyData['notes']->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
+        $notesNotification = $notifyData['notes']->with(['follownoteElement'=> function($query){
+                $query->where('user_id',Auth::user()->id);
+            }])->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
             $q->orWhereHas('followUser',function($query){
                 $query->where('follower_id',Auth::user()->id);
             })
@@ -117,6 +122,7 @@ class UserController extends Controller
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
              $allNotification->filter(function ($q)use($getReadNotify){
+                // echo "<pre>";print_r($q);exit;
                 $notifyType = 2;
                 $q->is_read = 0;
                     // print_r($getReadNotify);exit;
@@ -152,6 +158,7 @@ class UserController extends Controller
                     $q->comefromNote = 2;
                      $q->comefrombridge =  3;
                 }
+                // echo "<pre>";print_r($q);exit;
             });
         }
         $this->response['bridge'] = $allData;
