@@ -38,7 +38,7 @@
             <div class="col-lg-8 push-lg-4">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgework</a>
                     </li>
                     <li class="nav-item notificationData">
                         <span class="notification_count">{{$notification_count}}</span>
@@ -46,16 +46,10 @@
                     </li>
                 </ul>
                 <div>
-                <div class="tab-content p-b-3">
+                <div class="tab-content p-b-3 mt-2">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12" id="profileData">
-                                <?php $name = ucfirst(Auth::user()->name);?>
-                                @if(substr($name,-1) == 's')
-                                <h5 class="m-t-2 mt-2">{{ $name }}Bridgework</h5>
-                                @else
-                                <h5 class="m-t-2 mt-2">{{ $name }}'s  Bridgework</h5>
-                                @endif
                                  @if(count($bridge)>0)
                                     @foreach($bridge as $key=>$bridges)
                                         <p>
