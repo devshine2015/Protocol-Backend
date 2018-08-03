@@ -28,6 +28,7 @@ $resourcesRequireAuthToWrite = [
     'userFollow'        => 'API\UserFollowController',
     'elementFollow'     => 'API\ElementFollowController',
     'noteCategory'      => 'API\NoteCategoryController',
+    'contentReport'      => 'API\ContentReportController',
 ];
 
 $withAuthRouteOptions = [
@@ -44,6 +45,7 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
     Route::apiResource($name, $controller, $withoutAuthRouteOptions);
 }
 Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
+Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
 Route::post('/search/page', 'API\PageController@search');
