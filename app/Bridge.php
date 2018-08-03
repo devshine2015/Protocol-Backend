@@ -25,7 +25,7 @@ class Bridge extends Model
     public function followFromElement(){
         return $this->hasManyThrough(FollowElement::class,Element::class,'id','element_id','from','id');
     }
-    public function bridgeLike(){
+    public function like(){
         return $this->hasMany(ContenLike::class,'type_id','id')->where('type',0);
     }
     public function followtoElement(){

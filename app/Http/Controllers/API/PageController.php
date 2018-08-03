@@ -46,7 +46,7 @@ class PageController extends Controller
 
         $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
 
-        $notesQuery = \App\Note::where([ 'status' => 0 ])->withCount('noteLike')->whereIn('target', $eids);
+        $notesQuery = \App\Note::where([ 'status' => 0 ])->withCount('like')->whereIn('target', $eids);
         $notesQuery     = $this->withPrivacyWhere($notesQuery, $user);
         if(isset($user)){
             $checkNotes = $notesQuery->with(['followUser'=>function($q)use($user){
@@ -58,7 +58,7 @@ class PageController extends Controller
         }
         $notes          = $notesData->toArray();
 
-        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->withCount('bridgeLike')->where(function($query) use($eids)  {
+        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->withCount('like')->where(function($query) use($eids)  {
             $query->whereIn('from', $eids)->orWhereIn('to', $eids);
         });
         $bridgesQuery   = $this->withPrivacyWhere($bridgesQuery, $user);
