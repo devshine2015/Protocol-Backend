@@ -7,7 +7,7 @@
             {!! csrf_field() !!}
             <div class="col-lg-2 pull-lg-8 text-xs-center dashboard-photo">
                 <div class="fileUpload" width=100px;>
-                    @if(Auth::check())
+                   @if(Auth::user()->id == $userId)
                         <form id="Ajaxform">
                             <input type="file" name="avatar" class="hidden" data-message-position="bottom" id="featured_image" accept="image/*" pattern="/^.+\.(jpg|png|jpeg|gif)$/i" data-invalid-message="Please choose valid image"/>
                             <button type="button" class="btn btn-light btn-xs uploadIcon" onclick="$('#featured_image').trigger('click');"><a href="#"><i class="fa fa-edit"></i></a></button>
@@ -15,12 +15,15 @@
                     @endif
                         <img src="{{$userData->avatar}}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
-                <div class="ml-3">
-                    
-                    <h5 class="text-xs-center"><span class="username userName">{{$userData->name}}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">@if(Auth::user()->id == $userId)
-                    <a href="#" id="edit" class="btn"><i class="fa fa-edit"></i>
-                    </a>@endif</span></h5>
-                    
+                <div class="userDetail">
+                   <h5 class="text-xs-center user_header"><span class="username userName">{{$userData->name}}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">
+                    @if(Auth::user()->id == $userId)
+                        <a href="#" id="edit" class="btn edit_name"><i class="fa fa-edit"></i>
+                        </a>
+                        <div class="clearfix"></div>
+                    @endif</span>
+                   </h5>
+                   
                 @if(Auth::user()->id != $userId)
                     <div class=" pull-lg-6 text-xs-center">
                         <button type="button" class="follow btn-default" data-id = "{{$userId}}" data-follow = "{{$is_follow}}">
