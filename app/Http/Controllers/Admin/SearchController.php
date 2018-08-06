@@ -43,8 +43,8 @@ class SearchController extends Controller
         $this->noteModel = $noteModel;
     }
     public function search(){
-            $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
-            $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
+            $bridgeList = $this->model->where('tags', 'NOT LIKE', '%test%')->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
+            $notes = $this->noteModel->where('tags', 'NOT LIKE', '%test%')->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
            if(\Auth::check()){
                 //check privacy for bridge
@@ -93,7 +93,7 @@ class SearchController extends Controller
          if(isset($request->all_result)){
             unset($request['my_result']);
         };
-        $bridges =  $this->model
+        $bridges =  $this->model->where('tags', 'NOT LIKE', '%test%')
         ->where(function($q)use($request){
         if(isset($request->my_result)){
             $q->where('created_by',Auth::user()->id);
@@ -110,7 +110,7 @@ class SearchController extends Controller
        
         ->with('relationData','user')->orderBy('created_at','desc');
         //get notesdata
-        $notes = $this->noteModel->where(function($q)use($request){
+        $notes = $this->noteModel->where('tags', 'NOT LIKE', '%test%')->where(function($q)use($request){
             if(isset($request->my_result)){
                 $q->where('created_by',Auth::user()->id);
             }

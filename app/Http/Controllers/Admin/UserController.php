@@ -207,10 +207,10 @@ class UserController extends Controller
         }
     }
     public function getbridgeData(){
-        $getData['bridgeList'] = $this->bridgemodel->with(['followUser'=>function($q){
+        $getData['bridgeList'] = $this->bridgemodel->where('tags', 'NOT LIKE', '%test%')->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
                 }])->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
-        $getData['notes'] = $this->noteModel->with(['followUser'=>function($q){
+        $getData['notes'] = $this->noteModel->where('tags', 'NOT LIKE', '%test%')->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
                 }])->with(['relationData','user','targetData'])->orderBy('created_at','desc');
         
