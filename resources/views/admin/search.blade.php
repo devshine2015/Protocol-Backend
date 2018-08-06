@@ -67,7 +67,7 @@
                           @foreach($bridgeData as $bridges)
                             <p class="mb-0">
                                   @if($bridges['comefromNote'] ==0)
-                                     <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{strtoupper($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
+                                     <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="30px;" class="img-fluid"/> <a href="{{$bridges['from_element']['url']}}">{{strtoupper($bridges['fromUrl'])}} </a> to <a href="{{($bridges['to_element']['url'])}}">{{strtoupper($bridges['toUrl'])}} </a>
                                         @if($bridges['relation_data'])
                                           <span class= "table-text-color mr-0">{{$bridges['relation_data']['active_name']}}</span>
                                         @endif

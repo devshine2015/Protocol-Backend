@@ -59,7 +59,7 @@
                                                  
                                                  @if(isset($bridges->relationData))<span class="table-text-color">{{$bridges->relationData->name}}</span>@endif
                                             @else
-                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a class="allLink" href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
+                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a class="allLink" href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
                                                 @if($bridges->privacy==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif @if(isset($bridges->relationData))<span class="table-text-color">{{$bridges->relationData->active_name}}</span>@endif
                                             @endif
                                               
@@ -94,10 +94,10 @@
                                                 <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios['targetData']['url']}}" class="note_title"> {{$notificatios->title}}</a>
                                             @if(isset($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->name}}</span>@endif
                                             @elseif($notificatios->comefrombridge == 0)
-                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
+                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
                                              @if(($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->active_name}}</span>@endif
                                             @elseif($notificatios->comefrombridge == 2)
-                                                <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{strtoupper($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
+                                                <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios->fromElement->url}}">{{strtoupper($notificatios->fromUrl)}} </a> to <a href="{{($notificatios->toElement->url)}}">{{strtoupper($notificatios->toUrl)}} </a>
                                              @if(isset($notificatios->relationData))<span class="table-text-color">{{$notificatios->relationData->active_name}}</span>@endif
                                             @elseif($notificatios->comefromNote == 2)
                                                 <img src="{{ asset('images/element.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid mr-1"/><a href="{{$notificatios['targetData']['url']}}" class="note_title"> {{$notificatios->title}}</a>

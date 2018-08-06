@@ -51,13 +51,14 @@ class Controller extends BaseController
     }
     protected function checkLike($checkUser){
         $checkUser->filter(function($query){
-            if(isset($query->like)){
+            if(($query->like->count() >0)){
                 $query->is_like = true;
             }else{
                 $query->is_like = false;
             }
             unset($query->like);
         });
+        // exit;
         return $checkUser;
     }
     protected function checkFollowElement($checkelement){
@@ -68,12 +69,6 @@ class Controller extends BaseController
                 $query->is_follow = false;
             }
             unset($query->followElement);
-            if(count($query->like)>0){
-                $query->is_like = true;
-            }else{
-                $query->is_like = false;
-            }
-            unset($query->like);
         });
         return $checkelement;
     }
