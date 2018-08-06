@@ -222,7 +222,11 @@ button:focus {
     background-color: #ee467a;*/
     line-height: 2px;
     padding: 5px;
+    display: none;
     /* opacity: 0.7; */
+}
+.fileUpload:hover .uploadIcon {
+    display: block;
 }
 /*.uploadIcon:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
     color: #fff;
@@ -236,8 +240,14 @@ button:focus {
 .edit-input {
     display:none;
 }
+.edit-icon{
+    display: none;
+}
 .edit-icon a{
  padding: 0px;
+}
+.userDetail:hover .edit-icon {
+    display: block;
 }
 .notify{
     margin-top: -0.8rem;
@@ -251,9 +261,11 @@ button:focus {
     float: left;
     width: 75%;
     word-wrap: break-word;
+    cursor: pointer;
 }
 .userName{
     outline: none;
+    margin-bottom: 10px;
 }
 .user_header{
     display: block;

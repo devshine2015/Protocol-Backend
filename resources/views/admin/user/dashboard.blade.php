@@ -15,13 +15,13 @@
                     @endif
                         <img src="{{ Auth::user()->avatar }}" id="user-profile-pic" class="m-x-auto img-fluid img-circle" alt="avatar">
                 </div>
-                <div>
-                   <h5 class="text-xs-center user_header"><span class="username userName">{{ Auth::user()->name }}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon"></span>
+                <div class="userDetail">
+                   <h5 class="text-xs-center user_header"><span class="username userName">{{ Auth::user()->name }}</span><input type="text" class="edit-input userName col-lg-12" id="user_name" name="name" value="" /><span class="edit-icon">
                     @if(Auth::check())
                         <a href="#" id="edit" class="btn edit_name"><i class="fa fa-edit"></i>
                         </a>
                         <div class="clearfix"></div>
-                    @endif
+                    @endif</span>
                    </h5>
                     <h6 class="text-xs-center">Bridgit <span class="log-detail">#{{ Auth::user()->id }}</span></h6>
                 </div>
