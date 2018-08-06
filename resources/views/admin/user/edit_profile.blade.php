@@ -36,7 +36,7 @@
             <div class="col-lg-8 push-lg-4">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgit Data</a>
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgework</a>
                     </li>
                     {{-- @if(Auth::user()->id == $userId)
                         <li class="nav-item">
@@ -46,22 +46,16 @@
                 </ul><div class="tab-content p-b-3">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
-                            <div class="col-md-12" id="bridgeList">
-                                <?php $name = ucfirst($userData->name);?>
-                                @if(substr($name,-1) == 's')
-                                <h5 class="m-t-2 mt-2">{{ $name }} Bridgework</h5>
-                                @else
-                                <h5 class="m-t-2 mt-2">{{ $name }}'s  Bridgework</h5>
-                                @endif
+                            <div class="col-md-12 mt-2" id="bridgeList">
                                  @if(count($bridge)>0)
                                     @foreach($bridge as $key=>$bridges)
                                         <p>
                                             @if($bridges->comefromNote == 1)
-                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a href="{{$bridges['targetData']['url']}}" class="note_title"> {{$bridges->title}}</a>
+                                                <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/><a href="{{$bridges['targetData']['url']}}" class="note_title"> {{$bridges->title}}</a>
                                                      @if($bridges->privacy==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif
                                                     @if(isset($bridges->relationData))<span class="table-text-color">{{$bridges->relationData->name}}</span>@endif
                                             @else
-                                                <img src="{{ asset('images/note_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{strtoupper($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
+                                                <img src="{{ asset('images/bridge_icon.png') }}" alt="logo" height="auto" width="20px;" class="img-fluid"/> <a href="{{$bridges->fromElement->url}}">{{strtoupper($bridges->fromUrl)}} </a> to <a href="{{($bridges->toElement->url)}}">{{strtoupper($bridges->toUrl)}} </a>
                                               @if($bridges->privacy==1)<img src="{{ asset('images/privacy.png') }}" height="auto" width="10px;" alt="logo" class="img-fluid"/>@endif @if(isset($bridges->relationData))<span class="table-text-color">{{$bridges->relationData->active_name}}</span>@endif
                                             @endif
                                         </p>

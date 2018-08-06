@@ -55,6 +55,7 @@ class PageController extends Controller
                 $q->where('user_id',$user->id);
             }])->get();
             $notesData = $this->checkFollowElement($checkNotes);
+            $notesData = $this->checkLike($notesData);
         }else{
             $notesData = $notesQuery->get();
         }
@@ -71,6 +72,7 @@ class PageController extends Controller
                 $q->where('user_id',$user->id);
             }])->get();
             $bridgeData = $this->checkFollowElement($checkBridge);
+            $bridgeData = $this->checkLike($checkBridge);
         }else{
             $bridgeData = $bridgesQuery->get();
         }

@@ -121,13 +121,13 @@ class UserController extends Controller
         $getReadNotify  = $this->notification->where('user_id',$id)->pluck('type','type_id');
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
-             $allNotification->filter(function ($q)use($getReadNotify){
-                // echo "<pre>";print_r($q);exit;
+                $readData = 0;
+             $allNotification->filter(function ($q)use($getReadNotify,&$readData){
                 $notifyType = 2;
                 $q->is_read = 0;
-                    // print_r($getReadNotify);exit;
                 if(array_key_exists($q->id,$getReadNotify->toArray())){
                     $notifyType = $getReadNotify[$q->id];
+                    $readData  = $readData+1;
                 }
                 if(isset($q->followUser)){
                     $q->is_follow = 1;
@@ -158,14 +158,11 @@ class UserController extends Controller
                     $q->comefromNote = 2;
                      $q->comefrombridge =  3;
                 }
-                // echo "<pre>";print_r($q);exit;
             });
         }
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
-        $this->response['notification_count'] = $allNotification->count() - $getReadNotify->count();
-        // echo "<pre>";print_r($this->response);exit;
-        // print_r($this->response['notification']);exit;
+        $this->response['notification_count'] = $allNotification->count() - $readData;
         return view('admin.user.dashboard')->with($this->response);
     }
     public function followUser(Request $request){
