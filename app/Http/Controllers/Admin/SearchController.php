@@ -46,23 +46,26 @@ class SearchController extends Controller
             $bridgeList = $this->model->where('tags', 'NOT LIKE', '%test%')->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
             $notes = $this->noteModel->where('tags', 'NOT LIKE', '%test%')->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
+            \DB::enableQueryLog();
            if(\Auth::check()){
                 //check privacy for bridge
                 $bridgeList = $bridgeList->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
                 }])->where('created_by',Auth::user()->id)->orWhere(function($q){
                     $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
-                })->get();
+                })->where('tags', 'NOT LIKE', '%test%')->get();
                 //check privacy for notes
                 $notesData = $notes->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
                 }])->where('created_by',Auth::user()->id)->orWhere(function($q){
                     $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
-                })->get();
+                })->where('tags', 'NOT LIKE', '%test%')->get();
+            // dd(\DB::getQueryLog());
             }else{
                $bridgeList = $bridgeList->where('privacy',0)->get();
                $notesData = $notes->where('privacy',0)->get();
             }
+            // echo "<pre>";print_r($bridgeList->toArray());exit;
             $allData = $bridgeList->merge($notesData)->sortByDesc('created_at');
         if(count($allData)>0){
             $allData->filter(function ($q){
