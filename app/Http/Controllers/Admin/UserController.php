@@ -76,6 +76,7 @@ class UserController extends Controller
     }
      public function dashboard(){
         $id = Auth::user()->id;
+        $readData = 0;
         $getallData = $this->getbridgeData();
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
@@ -121,7 +122,7 @@ class UserController extends Controller
         $getReadNotify  = $this->notification->where('user_id',$id)->pluck('type','type_id');
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         if(count($allNotification)>0){
-                $readData = 0;
+
              $allNotification->filter(function ($q)use($getReadNotify,&$readData){
                 $notifyType = 2;
                 $q->is_read = 0;
