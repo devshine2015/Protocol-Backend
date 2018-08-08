@@ -14,9 +14,47 @@ a:hover {
     color:#ee467a;
     text-decoration: underline;
 }
+btn.focus, .btn:focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    box-shadow: 0 0 0 0.0rem rgba(0,123,255,.25);
+}
+.form-control:focus {
+    border-color: #c7c1c1;
+    outline: 0;
+    box-shadow: 0 0 0 0.0rem rgba(0, 123, 255, 0.25);
+}
 /*.navbar {
     background-color: #EF5D8F;
 }*/
+/*admin-message*/
+.messgeData td{
+    border-top: 0px;
+}
+.btn-add-message{
+    float: right;
+    background-color: #ee467a;
+    color: #fff;
+}
+.btn-pink{
+    background-color: #ee467a;
+    color: #fff;
+}
+.btn-gray{
+    background-color: #efefef;
+    color: #ee467a;
+}
+
+.btn-add-message:hover{
+    color: #fff;
+}
+.dataTables_wrapper table thead{
+    display:none;
+}
+.error {
+      color: red;
+   }
+/*admin-message*/
 .navbar{
 	background-color: #fff;
     padding:0 1rem;
@@ -228,15 +266,6 @@ button:focus {
 .fileUpload:hover .uploadIcon {
     display: block;
 }
-/*.uploadIcon:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
-    color: #fff;
-     background-color: #ee467a; 
-     border-color: #ee467a; 
-}
-.uploadIcon:hover{
-    background-color:#ee467a;
-    border: 1px solid #ee467a;
-}*/
 .edit-input {
     display:none;
 }
