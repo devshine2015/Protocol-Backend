@@ -22,8 +22,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet"> --}}
 </head>
 <body>
     <div id="app">
@@ -59,6 +61,11 @@
                                 @include('auth.login')
                             </li>
                         @else
+                            @if(Auth::user()->admin ==1)
+                             <li class="nav-item login-nav-text">
+                                <a class="dashboard-text" href="{{ url('messages') }}">Admin</a>
+                            </li>
+                            @endif
                             <li class="nav-item login-nav-text">
                                 <a class="dashboard-text" href="{{url(str_replace(' ','-',Auth::user()->name).'/dashboard')}}">DASHBOARD</a>
                             </li>
@@ -112,10 +119,22 @@
         </div>
        <main class="py-4 top-search mt-2">
             @yield('content')
+            <div class="modal modal-right fade" id="modal-right" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content w-900px" ></div>
+            </div>
+        </div>
         </main>
     </div>
+
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap-select.min.js') }}"></script> --}}
+    <script src="{{ asset('js/custom.js') }}"></script>
+
     @yield('pageScript')
     <script>
 

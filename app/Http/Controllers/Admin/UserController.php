@@ -120,8 +120,8 @@ class UserController extends Controller
         })->get();
         $getReadNotify  = $this->notification->where('user_id',$id)->pluck('type','type_id');
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
+        $readData = 0;
         if(count($allNotification)>0){
-                $readData = 0;
              $allNotification->filter(function ($q)use($getReadNotify,&$readData){
                 $notifyType = 2;
                 $q->is_read = 0;
