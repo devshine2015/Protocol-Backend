@@ -16,8 +16,6 @@
         <button type="submit" class="btn btn-w-md btn-pink mr-2 save"> Save </button>
         <button type="button" class="btn btn-w-md btn-gray" data-dismiss="modal">Cancel</button>
     </div>
-{{--     <script src="{{asset('js/editor.js')}}"></script>
-    <link href="{{ asset('css/editor.css') }}" rel="stylesheet"> --}}
     
     <script src="{{asset('js/custom/messagesForm.js')}}"></script>
     <script type="text/javascript">
