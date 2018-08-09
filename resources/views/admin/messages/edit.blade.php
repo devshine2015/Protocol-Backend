@@ -18,7 +18,6 @@
         <button type="button" class="btn btn-w-md btn-gray" data-dismiss="modal"> Cancel</button>
     </div>
     <script src="{{asset('js/custom/messagesForm.js')}}"></script>
-    <script src="{{ asset('js/editor.js') }}"></script>
     <script type="text/javascript">
         var csrfToken = '{{ csrf_token() }}';
     </script>
