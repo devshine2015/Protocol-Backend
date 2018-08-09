@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-  
+
 <div class="container">
   <div class="row m-y-2 jumbotron">
       {!! csrf_field() !!}
@@ -39,6 +39,7 @@
 </div> 
 @endsection
 @section('pageScript')
+
 <script>
 var csrfToken = '{{ csrf_token() }}';
 var getMessageListURL = '{!! route('message.data') !!}';

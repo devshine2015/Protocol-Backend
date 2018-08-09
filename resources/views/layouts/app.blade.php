@@ -25,7 +25,10 @@
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+    
+    
+
 </head>
 <body>
     <div id="app">
@@ -131,10 +134,12 @@
     <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
-    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/bootstrap-select.min.js') }}"></script> --}}
+    <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
-
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    
     @yield('pageScript')
     <script>
 
@@ -202,5 +207,6 @@
 
     });
     </script>
+
 </body>
 </html>

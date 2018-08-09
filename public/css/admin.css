@@ -31,6 +31,9 @@ btn.focus, .btn:focus {
 .messgeData td{
     border-top: 0px;
 }
+.note-popover{
+    display: none;
+}
 .btn-add-message{
     float: right;
     background-color: #ee467a;

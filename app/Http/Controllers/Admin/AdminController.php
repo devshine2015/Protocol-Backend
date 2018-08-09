@@ -47,7 +47,9 @@ class AdminController extends Controller
     }
      public function store(Request $request)
     {
+        
         // print_r($request->all());exit;
+        $request['message_type'] = !empty($request->get('message_type'))?$request->get('message_type'):0;
         $this->model->fill($request->all());
         if($this->model->save()){
             return Redirect::back()->withSuccess(['msg', 'success']);
@@ -67,6 +69,7 @@ class AdminController extends Controller
     {
         $message = $this->model->find(decrypt($message_id));
         if($message){
+            $request['message_type'] = !empty($request->get('message_type'))?$request->get('message_type'):$message->message_type;
             $message->fill($request->all());
             if($message->save()){
                return Redirect::back()->withSuccess(['msg', 'success']);
@@ -94,10 +97,12 @@ class AdminController extends Controller
             return (isset($message->messageCriteria->criteria))?$message->messageCriteria->criteria:'';
         })
         ->addColumn('message_type', function ($message) {
-            if ($message->message_type==0) {
-               return 'alpha';
+            if ($message->message_type==1) {
+               return 'Alert';
+            }if ($message->message_type==2) {
+               return 'Achivement';
             }
-            return 'achivement';
+            return '';
         }) 
         ->rawColumns(['editAction'])->make(true);
     }
