@@ -1,5 +1,4 @@
 @extends('layouts.modal')
-{{-- <link href="{{ asset('css/editor.css') }}" rel="stylesheet"> --}}
 @section('form_start')
     {!!Form::open(['route' => ['messages.store'],'method' => 'POST', 'id' => 'message_form', 'name' =>'message_form', 'files'=>'true','class'=>"ajax-form-submit",'data-extra-validation'=>"validateMedia",'files'=>true,'novalidate'=>'novalidate','data-provide'=>"validation"]) !!}
 
@@ -17,8 +16,10 @@
         <button type="submit" class="btn btn-w-md btn-pink mr-2 save"> Save </button>
         <button type="button" class="btn btn-w-md btn-gray" data-dismiss="modal">Cancel</button>
     </div>
+{{--     <script src="{{asset('js/editor.js')}}"></script>
+    <link href="{{ asset('css/editor.css') }}" rel="stylesheet"> --}}
+    
     <script src="{{asset('js/custom/messagesForm.js')}}"></script>
-    <script src="{{ asset('js/editor.js') }}"></script>
     <script type="text/javascript">
         var csrfToken = '{{ csrf_token() }}';
     </script>
