@@ -27,16 +27,16 @@
     <div class="col-md-12">
       <div class="form-group">
         {!! Form::label('Message','Message')!!}
-        {!! Form::textarea('message', null,array('class'=>'form-control textarea','rows'=>6,'maxlength'=>"620",'id'=>"textMessage",'required' => 'required')) !!}
+        {!! Form::textarea('message', null,array('class'=>'form-control textarea summernote','rows'=>6,'maxlength'=>"620",'id'=>"textMessage",'required' => 'required')) !!}
       </div>
     </div>
     <div class="col-md-6 ">
       <div class="form-group criteriaCategory">
         {!! Form::label('Criteria Category','Criteria Category',array('class'=>'require'))!!}
-        {!! Form::select('message_criteria_id',\App\MessageCriteria::pluck('criteria','id'),null,array('class'=>'form-control selectpicker criteriaCategory','data-actions-box'=>"true",'id'=>'message_category','title'=>"Choose Criteria")) !!}
+        {!! Form::select('message_criteria_id',\App\MessageCriteria::pluck('criteria','id'),null,array('class'=>'form-control selectpicker criteriaCategory','data-actions-box'=>"true",'id'=>'message_criteria','title'=>"Choose Criteria")) !!}
       </div>
     </div>
-    <div class="col-md-6 criteriaCategory">
+    <div class="col-md-6">
       <div class="form-group messageCriteria">
         {!! Form::label('Criteria','Criteria',array('class'=>'require'))!!}
         {!! Form::text('criteria', null,array('class'=>'form-control','id'=>"criteria")) !!}
