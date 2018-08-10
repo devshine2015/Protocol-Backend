@@ -35,8 +35,12 @@ class RelationController extends Controller
                 });
             }
         }
+         if(isset($urlQuery['locale']) && $urlQuery['locale'] == 'zh'){
+            $relations = $relationsQuery->get(['relations.chinese_active_name AS active_name','relations.chinese_passive_name AS passive_name','id', 'is_active','created_at','updated_at','created_by','status','type','inactive','chinese_active_name','chinese_passive_name']);
+        }else{
 
-        $relations = $relationsQuery->get();
+            $relations = $relationsQuery->get();
+        }
         return $this->apiOk($relations);
     }
 

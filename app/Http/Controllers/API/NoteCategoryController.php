@@ -28,15 +28,18 @@ class NoteCategoryController extends Controller
             $categoryQuery = \App\NoteCategory::where(function($query) {
                 $query->where([ 'status' => 0, 'type' => 1]);
             });
-
             if (isset($user)) {
                 $categoryQuery = $categoryQuery->orWhere(function($query)  use($user) {
                     $query->where([ 'status' => 0, 'type' => 0,'created_by' => $user['id'] ]);
                 });
             }
         }
+        if(isset($urlQuery['locale']) && $urlQuery['locale'] == 'zh'){
+            $categories = $categoryQuery->get(['note_categories.chinese_name AS name', 'id','is_active','created_at','updated_at','created_by','status','privacy','type','sort_key','chinese_name']);
+        }else{
 
-        $categories = $categoryQuery->get();
+            $categories = $categoryQuery->get();
+        }
         return $this->apiOk($categories);
     }
 
