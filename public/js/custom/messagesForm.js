@@ -24,7 +24,7 @@ $(document).ready(function() {
 		$(".messageType").hide();
 		$("#message_type").removeClass('required');
 		$(".criteriaCategory, .messageCriteria").hide();
-		$("#message_category, #criteria").removeClass('required');
+		$("#message_criteria, #criteria").removeClass('required');
 		if (this.value === "4"){
 			$(".messageType").show();
 			$("#message_type").addClass('required');
@@ -32,23 +32,19 @@ $(document).ready(function() {
 	});
 	$("#message_type").on("change", function() {
 		$(".criteriaCategory, .messageCriteria").hide();
-		$("#message_category, #criteria").removeClass('required');
+		$("#message_criteria, #criteria").removeClass('required');
 		if (this.value === "2"){
 			$(".criteriaCategory, .messageCriteria").show();
-			$("#message_category, #criteria").addClass('required');
+			$("#message_criteria, #criteria").addClass('required');
 		}
 	});
-	jQuery.validator.setDefaults({
-		  // This will ignore all hidden elements alongside `contenteditable` elements
-		  // that have no `name` attribute
-		  ignore: ":hidden, [contenteditable='true']:not([name])"
-		});
+	
 
-		// $("#textMessage").Editor();
-		$('#textMessage').summernote({
-			dialogsInBody: true,
-		});
-
+	// $("#textMessage").Editor();
+	$('#textMessage').summernote({
+		dialogsInBody: true,
+	});
+	var summernoteElement = $('#textMessage');
 	$("#message_form").validate({
 		 rules: {
 	        message_categories_id: {
@@ -64,16 +60,25 @@ $(document).ready(function() {
 	            required: true,
 	        }
 	    },
-	 //    errorPlacement: function(error, element) {
-		//     if(element.hasClass('messageCategory')) {
-		//         error.insertAfter(".bootstrap-select");
-		//     }
-		//     else {
-		//         error.insertAfter(element);
-		//     }
-		// },
+        ignore: ':hidden:not(#textMessage),[contenteditable="true"]:not([name]),.note-editable.card-block',
+	    errorPlacement: function(error, element) {
+		    if(element.prop('id') == 'message_category'){
+		    	error.insertAfter(".messageCategory .dropdown-toggle");
+		    }else if(element.prop('id') == 'message_type'){
+		    	error.insertAfter(".messageType .dropdown-toggle");
+		    }
+		    else if(element.prop('id') == 'message_criteria'){
+		    	error.insertAfter(".criteriaCategory .dropdown-toggle");
+		    }else if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.siblings("label"));
+            }else if (element.hasClass("summernote")) {
+                error.insertAfter(element.siblings(".note-editor"));
+		    }else{
+		    	error.insertAfter(element);
+		    }
+		},
 	    messages: {
-	        message_categories_id: {
+	    	message_categories_id: {
 	            required: "please select category",
 	        },
 	        message_type: {
@@ -87,8 +92,27 @@ $(document).ready(function() {
 	        },
 	        message: {
 	            required: "Please enter message",
+	        },
+	        message_criteria_id: {
+	            required: "Please select criteria",
 	        }
 	    }
 	});
 	// summernote validation
+	summernoteElement.summernote({
+        height: 300,
+        callbacks: {
+            onChange: function (contents, $editable) {
+                // Note that at this point, the value of the `textarea` is not the same as the one
+                // you entered into the summernote editor, so you have to set it yourself to make
+                // the validation consistent and in sync with the value.
+                summernoteElement.val(summernoteElement.summernote('isEmpty') ? "" : contents);
+
+                // You should re-validate your element after change, because the plugin will have
+                // no way to know that the value of your `textarea` has been changed if the change
+                // was done programmatically.
+                summernoteValidator.element(summernoteElement);
+            }
+        }
+    });
 });
