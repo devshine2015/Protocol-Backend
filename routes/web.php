@@ -38,7 +38,10 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post("updatenotify","UserController@updateNotification")->name('updatenotify');
         Route::resource('messages','AdminController');
         Route::get('message-list', ['as' => 'message.data', 'uses' => 'AdminController@anyData']);
-        Route::resource('share','ShareController');
+        //Route::resource('share','ShareController');
+        Route::get('bridges/{id}','ShareController@shareBridge');
+        Route::get('notes/{id}','ShareController@shareNote');
+        Route::get('elements/{id}','ShareController@shareElement');
     });
 });
 Auth::routes();
