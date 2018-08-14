@@ -7,7 +7,7 @@
           @if($shareData->type ==0)
             <div class="col-md-12">
               <div class="admin-message">
-                  <span>Admin Bridge Sharing Message...</span>
+              <span>{!! $shareData->adminMessage !!}</span>
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
@@ -44,7 +44,7 @@
           @elseif($shareData->type == 1)
              <div class="col-md-11">
               <div class="admin-message">
-                  <span>Admin Notes Sharing Message...</span>
+                  <span>{!! $shareData->adminMessage !!}</span>
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
-              <div class="col-md-4  share-left">
+              <div class="col-md-4  note-content">
                 <img src="{{Storage::url($shareData->targetData->image)}}" height="auto" width="100px;" class="img-fluid">
               </div>
               <div class="col-md-6 note-text mt-2">
@@ -80,7 +80,7 @@
           @elseif($shareData->type == 2)
              <div class="col-md-11">
               <div class="admin-message">
-                  <span>Admin Notes Sharing Message...</span>
+                  <span>{!! $shareData->adminMessage !!}</span>
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
