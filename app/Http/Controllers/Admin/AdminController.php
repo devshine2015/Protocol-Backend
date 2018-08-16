@@ -48,6 +48,10 @@ class AdminController extends Controller
      public function store(Request $request)
     {
         
+        if($request->language_type ==2){
+            $request['chinese_message'] = $request->message;
+            $request['message'] = '';
+        }
         // print_r($request->all());exit;
         $request['message_type'] = !empty($request->get('message_type'))?$request->get('message_type'):0;
         $this->model->fill($request->all());
@@ -69,6 +73,10 @@ class AdminController extends Controller
     {
         $message = $this->model->find(decrypt($message_id));
         if($message){
+            if($request->language_type == 2){
+                $request['chinese_message'] = $request->message;
+                $request['message'] = '';
+            }
             $request['message_type'] = !empty($request->get('message_type'))?$request->get('message_type'):$message->message_type;
             $message->fill($request->all());
             if($message->save()){
@@ -85,6 +93,16 @@ class AdminController extends Controller
             return $this->apiOk(true);
         }
         return $this->apiErr('failed');
+    }
+    public function checkDate(Request $request){
+        // print_r($request->all());exit;
+        $getSelected = $request->get('start_date');
+        $getDate = $this->model->where('message_categories_id',$request->get('message_category_id'))->whereDate('start_date', '<=', $getSelected)
+            ->whereDate('end_date', '>=', $getSelected)->first();
+        if($getDate){
+            return $getDate;
+        }
+        return $getDate;
     }
     public function anyData(){
         $getData = Message::with('messageCategory','messageCriteria')->orderBy('created_at','desc');

@@ -7,6 +7,10 @@ $(document).ready(function() {
         	$('#start_date').removeClass('error');
 		    var startDate = new Date(selected.date.valueOf());
     		$('#end_date').datepicker('setStartDate', startDate);
+    		//check date in database date already select or not
+    			var message_category = $("#message_category").val();
+    			var date = $( "#start_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
+	           	// checkDateExist(message_category,date,0);
 	});
 	$('#end_date').datepicker({
 		startDate: new Date(),
@@ -14,8 +18,43 @@ $(document).ready(function() {
     }).on('changeDate', function (selected) {
     	$('#end_date').removeClass('error');
     	var endDate = new Date(selected.date.valueOf());
+    	var message_category = $("#message_category").val();
+		var date = $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
+       	// checkDateExist(message_category,date,1);
     	// $('#end_date').datepicker('setStartDate', endDate);
 	});
+	function checkDateExist(message_category,date,type){
+ 		$.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN':csrfToken
+          }
+        });
+        $.ajax({
+            url: checkDate,
+            type:"POST",
+            data: {
+                start_date: date,message_category_id:message_category
+            },
+            dataType : 'json',
+            success:function(data) {
+             	if(data!=''){
+             		if(type == 0){
+             			$("#start_date").addClass('error');
+             			$( "#message_form" ).validate().showErrors({
+					  		"start_date": "Message is already created in this date range."
+						});
+             		}
+             		if(type ==1){
+             			$('#end_date').addClass('error');
+             			$( "#message_form" ).validate().showErrors({
+					 		 "end_date": "Message is already created in this date range."
+						});
+             		}
+             		
+             	}
+            }
+        });
+	}
 	$('.selectpicker').selectpicker({
 	 	size: 4
 	});
