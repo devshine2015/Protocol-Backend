@@ -82,7 +82,8 @@ class ShareController extends Controller
         return $this->apiErr(222003, 'Not Authorized');
     }
     private function getMessage($type){
-        if($messageData = $this->messageModel->where('message_categories_id',$type)->orderBy('created_at','desc')->first()){
+        if($messageData = $this->messageModel->where('message_categories_id',$type)->whereDate('start_date', '<=', date("Y-m-d"))
+            ->whereDate('end_date', '>=', date("Y-m-d"))->orderBy('updated_at','desc')->orderBy('created_at','desc')->first()){
             return $messageData;
         }
         return false;

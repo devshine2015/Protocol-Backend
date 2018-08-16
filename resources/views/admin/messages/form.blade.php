@@ -1,5 +1,13 @@
 <div class="card-body form-type-material">
   <div class="row">
+   <div class="col-md-12">
+      <div class="form-group">
+           <?php $language = null; if (isset($message)) { $language = ($message->language_type ==1)?$language = 1 : $language = 2; }?>
+          {!! Form::label('Select Language','Select Language',array('class'=>'require'))!!}
+          {!! Form::select('language_type',array('1' => 'English', '2' => 'Chinese'),$language,array('class'=>'form-control selectpicker languageType','data-actions-box'=>"true",'id'=>'language_type','title'=>"Choose Language")) !!}
+      </div>
+  </div>
+  <div class="clearfix"></div>
    <div class="col-md-6">
       <div class="form-group">
         {!! Form::label('Message Category','Message Category',array('class'=>'require'))!!}
@@ -26,8 +34,9 @@
     </div>
     <div class="col-md-12">
       <div class="form-group">
+      <?php $messageData = null; if (isset($message)) { $messageData = ($message->type ==1)?$messageData = $message->message : $messageData = $message->chinese_message;}?>
         {!! Form::label('Message','Message')!!}
-        {!! Form::textarea('message', null,array('class'=>'form-control textarea summernote','rows'=>6,'maxlength'=>"620",'id'=>"textMessage",'required' => 'required')) !!}
+        {!! Form::textarea('message', $messageData,array('class'=>'form-control textarea summernote','rows'=>6,'maxlength'=>"620",'id'=>"textMessage",'required' => 'required')) !!}
       </div>
     </div>
     <div class="col-md-6 ">

@@ -7,18 +7,30 @@
           @if($shareData->type ==0)
             <div class="col-md-12">
               <div class="admin-message">
-              <span>{!! $shareData->adminMessage !!}</span>
+              @if(isset($shareData->adminMessage))
+                <span>{!! $shareData->adminMessage !!}</span>
+              @else
+                <span>This is shared bridge</span>
+              @endif
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
+              @if(isset($shareData->fromElement->text))
+                {{$shareData->fromElement->text}}
+              @else
                 <img src="{{Storage::url($shareData->fromElement->image)}}" height="auto" width="100%;" class="img-fluid">
+              @endif
               </div>
               <div class="col-md-2 share-center">
                 Supports
               </div>
               <div class="col-md-3 share-right">
+               @if(isset($shareData->toElement->text))
+                {{$shareData->toElement->text}}
+              @else
                 <img src="{{Storage::url($shareData->toElement->image)}}" height="auto" width="100%;" class="img-fluid">
+               @endif
               </div>
             </div>
             <div class="clearfix"></div>
@@ -44,7 +56,11 @@
           @elseif($shareData->type == 1)
              <div class="col-md-11">
               <div class="admin-message">
-                  <span>{!! $shareData->adminMessage !!}</span>
+                  @if(isset($shareData->adminMessage))
+                    <span>{!! $shareData->adminMessage !!}</span>
+                  @else
+                    <span>This is shared note</span>
+                  @endif
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
@@ -57,7 +73,12 @@
             </div>
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-4  note-content">
-                <img src="{{Storage::url($shareData->targetData->image)}}" height="auto" width="100px;" class="img-fluid">
+                @if(isset($shareData->targetData->text))
+                  {{$shareData->targetData->text}}
+                @else
+                  <img src="{{Storage::url($shareData->targetData->image)}}" height="auto" width="100px;" class="img-fluid">
+                @endif
+                
               </div>
               <div class="col-md-6 note-text mt-2">
                 {{$shareData->desc}}
@@ -80,7 +101,11 @@
           @elseif($shareData->type == 2)
              <div class="col-md-11">
               <div class="admin-message">
-                  <span>{!! $shareData->adminMessage !!}</span>
+                  @if(isset($shareData->adminMessage))
+                    <span>{!! $shareData->adminMessage !!}</span>
+                  @else
+                    <span>This is shared element</span>
+                  @endif
               </div>
             </div>
             <div class="col-md-12 wrap mt-4">
@@ -91,10 +116,14 @@
             <div class="clearfix"></div>
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-4  element-content">
-                <img src="{{Storage::url($shareData->image)}}" height="auto" width="100px;" class="img-fluid">
+               @if(isset($shareData->text))
+                  {{$shareData->text}}
+                @else
+                  <img src="{{Storage::url($shareData->image)}}" height="auto" width="100px;" class="img-fluid">
+                @endif
               </div>
               <div class="col-md-6 element-desc mt-2">
-                {{$shareData->text}}
+                {{$shareData->desc}}
               </div>
             </div>
           @endif

@@ -20,6 +20,7 @@
     <script src="{{asset('js/custom/messagesForm.js')}}"></script>
     <script type="text/javascript">
         var csrfToken = '{{ csrf_token() }}';
+        var checkDate = '{!! route('checkDate') !!}';
     </script>
 @endsection
 @section('form_end') {!! Form::close() !!} @endsection

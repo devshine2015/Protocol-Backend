@@ -10,7 +10,7 @@
                 <a href="" data-target="notification" data-toggle="tab" class="nav-link edit-profile"> Notifications</a>
             </li>
             <li class="nav-item">
-                <a href="" data-target="#messages" data-toggle="tab" class="nav-link active">Messages</a>
+                <a href="" data-target="#messages" data-toggle="tab" class="nav-link active">Messaging</a>
             </li>
         </ul>
         <div>
