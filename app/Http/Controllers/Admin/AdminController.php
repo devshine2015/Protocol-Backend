@@ -97,10 +97,19 @@ class AdminController extends Controller
     public function checkDate(Request $request){
         // print_r($request->all());exit;
         $getSelected = $request->get('start_date');
-        $getDate = $this->model->where('message_categories_id',$request->get('message_category_id'))->whereDate('start_date', '<=', $getSelected)
-            ->whereDate('end_date', '>=', $getSelected)->first();
-        if($getDate){
-            return $getDate;
+        $getDate = $this->model->where('message_categories_id',$request->get('message_category_id'))->pluck('start_date','end_date');
+        $dates = [];
+        $getDate->filter(function($key,$value)use(&$dates){
+            $begin = new \DateTime($key);
+            $end = new \DateTime($value);
+
+            $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
+            foreach($daterange as $date){
+                array_push($dates,$date->format('Y-m-d'));
+            }
+        });
+        if($dates){
+            return array_unique($dates);
         }
         return $getDate;
     }
@@ -118,7 +127,15 @@ class AdminController extends Controller
             if ($message->message_type==1) {
                return 'Alert';
             }if ($message->message_type==2) {
-               return 'Achivement';
+               return 'Achievement';
+            }
+            return '';
+        })
+        ->addColumn('language_type', function ($message) {
+            if ($message->language_type==1) {
+               return 'English';
+            }if ($message->language_type==2) {
+               return 'Chinese';
             }
             return '';
         }) 

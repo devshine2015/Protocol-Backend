@@ -1,7 +1,10 @@
 $(document).ready(function() {
 	$('#start_date').datepicker({
 		startDate: new Date(),
-		autoclose: true
+		autoclose: true,
+		// format: 'yyyy-mm-dd',
+  //       datesDisabled: ['2018-08-20', '2018-08-25'],
+		//beforeShowDay: checkDateExist
         }).on('changeDate', function (selected) {
         	$('#end_date').val("");
         	$('#start_date').removeClass('error');
@@ -23,7 +26,7 @@ $(document).ready(function() {
        	// checkDateExist(message_category,date,1);
     	// $('#end_date').datepicker('setStartDate', endDate);
 	});
-	function checkDateExist(message_category,date,type){
+	function checkDateExist(){
  		$.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN':csrfToken
@@ -33,24 +36,19 @@ $(document).ready(function() {
             url: checkDate,
             type:"POST",
             data: {
-                start_date: date,message_category_id:message_category
+                message_category_id:$("#message_category").val()
             },
             dataType : 'json',
             success:function(data) {
              	if(data!=''){
-             		if(type == 0){
-             			$("#start_date").addClass('error');
-             			$( "#message_form" ).validate().showErrors({
-					  		"start_date": "Message is already created in this date range."
-						});
-             		}
-             		if(type ==1){
-             			$('#end_date').addClass('error');
-             			$( "#message_form" ).validate().showErrors({
-					 		 "end_date": "Message is already created in this date range."
-						});
-             		}
+             		console.log(data);
+             		array = ['2018-08-20', '2018-08-25'];
+             		$('#start_date').datepicker("setDatesDisabled",data);
              		
+		          //   $("#end_date").datepicker({
+		          //   	format: 'yyyy-mm-dd',
+        				// datesDisabled: ['2018-08-20', '2018-08-25']
+		          //   })
              	}
             }
         });
@@ -60,11 +58,12 @@ $(document).ready(function() {
 	});
 	$(".messageType, .criteriaCategory, .messageCriteria").hide();
 	$("#message_category").on("change", function() {
+		// checkDateExist();
 		$(".messageType").hide();
 		$("#message_type").removeClass('required');
 		$(".criteriaCategory, .messageCriteria").hide();
 		$("#message_criteria, #criteria").removeClass('required');
-		if (this.value === "4"){
+		if (this.value === "4" || this.value === "5"){
 			$(".messageType").show();
 			$("#message_type").addClass('required');
 		}
@@ -82,6 +81,7 @@ $(document).ready(function() {
 	// $("#textMessage").Editor();
 	$('#textMessage').summernote({
 		dialogsInBody: true,
+        height: 150
 	});
 	var summernoteElement = $('#textMessage');
 	$("#message_form").validate({
