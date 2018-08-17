@@ -15,7 +15,6 @@ class BridgeController extends Controller
         'to',
         'relation',
         'tags',
-        'desc',
         'privacy'
     ];
 

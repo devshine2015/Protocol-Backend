@@ -137,9 +137,8 @@
     <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-    <script src="{{asset('js/summernote.js')}}"></script>
-    <link href="{{ asset('css/summernote.css') }}" rel="stylesheet">
-    
+    <script src="{{asset('js/summernote-bs4.js')}}"></script>
+    <link href="{{ asset('css/summernote-bs4.css') }}" rel="stylesheet">
     @yield('pageScript')
     <script>
 

@@ -11,6 +11,7 @@ $(function() {
             { data: "message_type", name: "message_type"},
             { data: "start_date", name: "start_date"},
             { data: "end_date", name: "end_date"},
+            { data: "language_type", name: "language_type"},
             { data: "message_criteria_id", name: "message_criteria_id"},
             { data: "criteria", name: "criteria"},
             { data: "editAction", name: "editAction" ,searchable: false}
