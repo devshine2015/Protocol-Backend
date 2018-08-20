@@ -36,14 +36,12 @@ $(document).ready(function() {
             },
             dataType : 'json',
             success:function(data) {
-            	if(data!=''){
 	            	var $cal = $("#start_date");
 	             		// array = ['2018-08-20', '2018-08-25','2018-08-24'];
 	             		array = Object.values(data);
-	             			console.log(Object.values(data));
 	            	$("#start_date").datepicker('setDatesDisabled', array);
 	            	$("#end_date").datepicker('setDatesDisabled', array);
-             	}
+             	
             }
         });
 	}
