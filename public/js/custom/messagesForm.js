@@ -52,6 +52,8 @@ $(document).ready(function() {
 	});
 	$(".messageType, .criteriaCategory, .messageCriteria").hide();
 	$("#message_category").on("change", function() {
+		$('#start_date').val("");
+		$('#end_date').val("");
 		checkDateExist();
 		$(".messageType").hide();
 		$("#message_type").removeClass('required');

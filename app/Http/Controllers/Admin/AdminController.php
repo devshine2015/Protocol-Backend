@@ -97,12 +97,12 @@ class AdminController extends Controller
     public function checkDate(Request $request){
         // print_r($request->all());exit;
         $getSelected = $request->get('start_date');
-        $getDate = $this->model->where('message_categories_id',$request->get('message_category_id'))->pluck('start_date','end_date');
+        $getDate = $this->model->where('message_categories_id',$request->get('message_category_id'))->where('end_date', '!=', '')->where('start_date', '!=', '')->pluck('start_date','end_date');
         $dates = [];
         $getDate->filter(function($key,$value)use(&$dates){
             $begin = new \DateTime($key);
             $end = new \DateTime($value);
-
+            $end->setTime(0,0,1);
             $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
             foreach($daterange as $date){
                 array_push($dates,$date->format('Y-m-d'));
