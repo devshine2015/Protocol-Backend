@@ -6,7 +6,7 @@
         dad.find('input[type="text"]').show().focus();
     });
     
-    $('input[type=text]').focusout(function() {
+    $('.edit-input').focusout(function() {
         var dad = $(this).parent();
         $('.username').css('display','inline');
         $('#edit').css('display','inline')
