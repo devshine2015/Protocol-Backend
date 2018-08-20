@@ -2,8 +2,7 @@ $(document).ready(function() {
 	$('#start_date').datepicker({
 		startDate: new Date(),
 		autoclose: true,
-		// format: 'yyyy-mm-dd',
-  //       datesDisabled: ['2018-08-20', '2018-08-25'],
+		format: 'yyyy-mm-dd',
 		//beforeShowDay: checkDateExist
         }).on('changeDate', function (selected) {
         	$('#end_date').val("");
@@ -13,7 +12,6 @@ $(document).ready(function() {
     		//check date in database date already select or not
     			var message_category = $("#message_category").val();
     			var date = $( "#start_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
-	           	// checkDateExist(message_category,date,0);
 	});
 	$('#end_date').datepicker({
 		startDate: new Date(),
@@ -23,8 +21,6 @@ $(document).ready(function() {
     	var endDate = new Date(selected.date.valueOf());
     	var message_category = $("#message_category").val();
 		var date = $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
-       	// checkDateExist(message_category,date,1);
-    	// $('#end_date').datepicker('setStartDate', endDate);
 	});
 	function checkDateExist(){
  		$.ajaxSetup({
@@ -40,15 +36,13 @@ $(document).ready(function() {
             },
             dataType : 'json',
             success:function(data) {
-             	if(data!=''){
-             		console.log(data);
-             		array = ['2018-08-20', '2018-08-25'];
-             		$('#start_date').datepicker("setDatesDisabled",data);
-             		
-		          //   $("#end_date").datepicker({
-		          //   	format: 'yyyy-mm-dd',
-        				// datesDisabled: ['2018-08-20', '2018-08-25']
-		          //   })
+            	if(data!=''){
+	            	var $cal = $("#start_date");
+	             		// array = ['2018-08-20', '2018-08-25','2018-08-24'];
+	             		array = Object.values(data);
+	             			console.log(Object.values(data));
+	            	$("#start_date").datepicker('setDatesDisabled', array);
+	            	$("#end_date").datepicker('setDatesDisabled', array);
              	}
             }
         });
@@ -58,7 +52,7 @@ $(document).ready(function() {
 	});
 	$(".messageType, .criteriaCategory, .messageCriteria").hide();
 	$("#message_category").on("change", function() {
-		// checkDateExist();
+		checkDateExist();
 		$(".messageType").hide();
 		$("#message_type").removeClass('required');
 		$(".criteriaCategory, .messageCriteria").hide();
@@ -76,9 +70,6 @@ $(document).ready(function() {
 			$("#message_criteria, #criteria").addClass('required');
 		}
 	});
-	
-
-	// $("#textMessage").Editor();
 	$('#textMessage').summernote({
 		dialogsInBody: true,
         height: 150
