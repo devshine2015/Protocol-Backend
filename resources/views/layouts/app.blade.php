@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('facebook_meta')
 
     <title>{{ config('app.name', 'Bridgit') }}</title>
 

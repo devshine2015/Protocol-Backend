@@ -18,6 +18,9 @@
               <div class="col-md-3  share-left">
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
+                @section('facebook_meta')
+                    <meta property="og:image" content="{{Storage::url($shareData->fromElement->image)}}" />
+                @endsection
               @else
                 <img src="{{Storage::url($shareData->fromElement->image)}}" height="auto" width="100%;" class="img-fluid">
               @endif
