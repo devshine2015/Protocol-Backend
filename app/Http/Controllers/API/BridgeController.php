@@ -15,6 +15,7 @@ class BridgeController extends Controller
         'to',
         'relation',
         'tags',
+        'desc',
         'privacy',
         'category'
     ];
@@ -64,7 +65,6 @@ class BridgeController extends Controller
         $pointData['type'] = 1;
         $pointData['type_id'] = $bridge->id;
         $pointData['point'] = 100;
-        $pointData['category'] = $request->get('category');
         event(new AddPointEvent($pointData));
         return $this->apiOk($bridge);
     }
