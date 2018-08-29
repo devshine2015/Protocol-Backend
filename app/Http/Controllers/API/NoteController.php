@@ -14,7 +14,8 @@ class NoteController extends Controller
         'title',
         'tags',
         'desc',
-        'privacy'
+        'privacy',
+        'category'
     ];
 
     /**
