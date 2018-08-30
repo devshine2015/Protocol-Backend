@@ -28,4 +28,11 @@ class Note extends Model
     public function follownoteElement(){
         return $this->hasManyThrough(FollowElement::class,Element::class,'id','element_id','target','id');
     }
+    public function getCategoryAttribute($value)
+    {
+        if($value==0){
+            return null;
+        }
+        return $value;
+    }
 }
