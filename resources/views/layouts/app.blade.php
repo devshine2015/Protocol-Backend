@@ -44,22 +44,22 @@
                     <ul class="navbar-nav ml-auto custom-menu">
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="#">join beta</a>
+                                <a class="nav-link" href="http://bridgit.io/#beta">join beta</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link" href="http://bridgit.io/#about">About</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">Whitepaper</a>
+                                <a class="nav-link" href="http://bridgit.io/#white-paper">Whitepaper</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Team</a>
+                                <a class="nav-link" href="http://bridgit.io/#team">Team</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bounties</a>
+                                <a class="nav-link" href="http://bridgit.io/#bounties">Bounties</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">BLog</a>
+                                <a class="nav-link" href="http://bridgit.io/blog/">Blog</a>
                             </li>
                             <li class="dropdown nav-item">
                                 @include('auth.login')

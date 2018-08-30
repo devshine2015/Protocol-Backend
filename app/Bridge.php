@@ -31,4 +31,11 @@ class Bridge extends Model
     public function followtoElement(){
         return $this->hasManyThrough(FollowElement::class,Element::class,'id','element_id','to','id');
     }
+    public function getCategoryAttribute($value)
+    {
+        if($value==0){
+            return null;
+        }
+        return $value;
+    }
 }
