@@ -41,7 +41,9 @@
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgework</a>
                     </li>
                     <li class="nav-item notificationData">
+                    @if($notification_count>0)
                         <span class="notification_count">{{$notification_count}}</span>
+                    @endif
                         <a href="" data-target="#notification" data-toggle="tab" class="nav-link edit-profile"> Notifications&nbsp&nbsp </a>
                     </li>
                 </ul>
