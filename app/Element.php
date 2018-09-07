@@ -21,4 +21,14 @@ class Element extends Model
     public function followElement(){
         return $this->belongsTo(FollowElement::class,'id','element_id');
     }
+    public function fromElement(){
+        return $this->hasMany(Bridge::class,'from','id');
+    }
+    public function toElement(){
+        return $this->hasMany(Bridge::class,'to','id');
+    }
+    public function notes(){
+        return $this->hasMany(Note::class,'target','id');
+    }
+
 }
