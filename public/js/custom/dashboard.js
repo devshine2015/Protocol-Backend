@@ -84,7 +84,6 @@ $('.test_tr').off('click');
                   if (data == 1) {
                     var num = notification_count - 1;
                     if (num == 0) {
-                    console.log('ddasdsa');
                       $(".notification_count").hide();
                     }
                     $(".notification_count").html(num);
