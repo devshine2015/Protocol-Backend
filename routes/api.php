@@ -49,6 +49,7 @@ Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware(
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
 Route::post('/search/page', 'API\PageController@search');
+Route::delete('/deleteElement/{id}', 'API\ElementController@deleteElement');
 Route::post('/search/pages', 'API\PageController@batchSearch');
 
 Route::group(['middleware' => ['web']], function () {

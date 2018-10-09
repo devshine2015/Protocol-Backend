@@ -30,6 +30,7 @@ class LoginController extends Controller
 
     public function handleProviderCallback(Request $request, $provider)
     {
+
         $user   = Socialite::driver($provider)->stateless()->user();
         $client = \App\OAuthClient::where('password_client', 1)->first();
         //check routr for extension or web
