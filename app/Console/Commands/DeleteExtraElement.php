@@ -40,9 +40,7 @@ class DeleteExtraElement extends Command
      */
     public function handle()
     {
-        $getElement = $this->model->doesntHave('fromElement')->doesntHave('toElement')->doesntHave('notes')->get();
-        if($getElement){
-            $getElement->delete();
+        if($getElement = $this->model->doesntHave('fromElement')->doesntHave('toElement')->doesntHave('notes')->delete()){
             return 'element deleted';
         }
         return 'No element found with 0 badges';

@@ -141,4 +141,15 @@ class ElementController extends Controller
 
         return $this->apiOk(true);
     }
+    public function deleteElement(Request $request, $id){
+        $element = \App\Element::with('followElement')->whereId($id)->first();
+        // print_r($element);exit;
+        if($element->followElement){
+            return $this->apiErr(22010, 'You cant delete this element with followers');
+        }
+        $element->status = 1;
+        $element->updated_by   = $request->user()['id'];
+        $element->save();
+        return $this->apiOk(true);
+    }
 }
