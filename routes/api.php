@@ -37,7 +37,7 @@ $withAuthRouteOptions = [
 ];
 
 $withoutAuthRouteOptions = [
-    'only'          => ['index', 'show']
+    'only'          => ['index','show']
 ];
 
 foreach ($resourcesRequireAuthToWrite as $name => $controller) {

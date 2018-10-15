@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    if (authCheck != 1) {
+      checkLoginUser();
+    }
     //follow
      $('button[data-id]').each(function () {
       if ($(this).attr('data-follow') == 1) {
@@ -8,6 +11,27 @@ $(document).ready(function () {
       }
 
     })
+      //check login or not
+    function checkLoginUser(){
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN':csrfToken,
+          'Authorization':'Bearer '+bridgitToken
+        }
+      });
+      $.ajax({
+          url: checkLogin,
+          type:"GET",
+          dataType : 'json',
+          success:function(data) {
+            console.log(data);
+            if(data){
+              chekLoginTest = 1
+            }
+          }
+      });
+      //check login
+    }
      $('button[data-id]').click(function(){
           var $this = $(this);
           $this.toggleClass('following')
