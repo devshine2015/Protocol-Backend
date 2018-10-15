@@ -44,6 +44,16 @@ class UserController extends Controller
         $this->followUserModel      = $followUser;
         $this->notification         = $notification_status;
     }
+    public function checkLogin(Request $request){
+        if(auth::check()){
+            $user = Auth::guard('api')->user();
+            $checkUser = Auth::user();
+            if($checkUser){
+                Auth::guard('web')->login(User::whereEmail($user->email)->first());
+                return json_encode($user);
+            }
+        }
+    }
     public function userData($name,$id){
         $getallData = $this->getbridgeData($id);
         if(Auth::user()->id != $id){

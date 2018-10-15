@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Auth'], function () {
             
 		});
 });
+Route::get("checkLogin","Admin\UserController@checkLogin")->name('checkLogin')->middleware('auth:api');
 Route::group(['namespace' => 'Admin'], function () {
     Route::group(['middleware' => 'web'], function () {
         Route::get("search","SearchController@search")->name('search');

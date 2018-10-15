@@ -130,9 +130,15 @@
 @endsection
 @section('pageScript')
 <script>
+    var token = '{{ $token }}';
     var csrfToken = '{{ csrf_token() }}';
     var error = '{{ $errors->first('email') }}';
     var followUserUrl = '{!! route('followUser') !!}';
+    var checkLogin = '{!! route('checkLogin') !!}';
+    var bridgitToken = localStorage.getItem('bridgit-token');
+    localStorage.setItem ('bridgit-token',token);
+    var authCheck = '{{Auth::check()}}'
+    console.log(authCheck);
 </script>
 <script src="{{ asset('js/custom/search.js') }}"></script>
 @endsection

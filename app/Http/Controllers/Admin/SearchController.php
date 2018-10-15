@@ -47,8 +47,11 @@ class SearchController extends Controller
             $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
             \DB::enableQueryLog();
+            $token = '';
            if(\Auth::check()){
                 //check privacy for bridge
+                $user = Auth::user();
+                $token =  $user->createToken('MyApp')->accessToken;
                 if(\Auth::user()->admin == 1){
                    $bridgeList = $bridgeList->get();
                    $notesData = $notes->get();
@@ -92,6 +95,7 @@ class SearchController extends Controller
                 }
             });
         }
+        $this->response['token'] = $token;
         $this->response['bridge'] = $allData;
         $this->response['count'] = $this->response['bridge']->count();
         return view('admin.search')->with($this->response);

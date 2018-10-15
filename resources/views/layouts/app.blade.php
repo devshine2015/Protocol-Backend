@@ -110,7 +110,7 @@
                                             <p class="user-email">{{ Auth::user()->email }}</p>
                                             <div class="log-detail mt-3">
                                                 <a href="{{url(str_replace(' ','-',Auth::user()->name).'/profile/'.Auth::user()->id)}}">Profile</a>
-                                                <a href="{{ route('logout') }}">Logout</a>
+                                                <a id= 'logout' href="{{ route('logout') }}">Logout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -179,6 +179,9 @@
           if($(this).hasClass('dropdown-menu-form')) {
               e.stopPropagation();
           }
+      });
+      $('#logout').on('click', function(e) {
+        localStorage.setItem ('bridgit-token','');
       });
     });
 
