@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class UserController extends Controller
 {
@@ -40,15 +41,23 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $data  = $request->only(['email', 'password']);
-        $valid = Validator::make($data, [
-            'email'     => 'required|string|email|max:255',
-            'password'  => 'required|string|min:6'
-        ]);
+        if(!$request->header('Authorization')){
+            $valid = Validator::make($data, [
+                'email'     => 'required|string|email|max:255',
+                'password'  => 'required|string|min:6'
+            ]);
 
-        if ($valid->fails()) {
-            return $this->apiErr(22002, $valid->messages(), 422);
+            if ($valid->fails()) {
+                return $this->apiErr(22002, $valid->messages(), 422);
+            }
+        }else{
+            //generate for refresh token
+            $data['token_type'] =  "Bearer";
+            $data['expires_in'] =  31536000;
+            $data['access_token'] =  Auth::user()->createToken('MyApp')->accessToken;
+            $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
+            return json_encode($data);
         }
-
         return $this->__login($data['email'], $data['password'], $request);
     }
 
