@@ -136,7 +136,7 @@
     var followUserUrl = '{!! route('followUser') !!}';
     var checkLogin = '{!! route('checkLogin') !!}';
     var bridgitToken = localStorage.getItem('bridgit-token');
-    localStorage.setItem ('bridgit-token',token);
+    localStorage.setItem('bridgit-token', token);
     var authCheck = '{{Auth::check()}}'
     console.log(authCheck);
 </script>
