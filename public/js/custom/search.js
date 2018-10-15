@@ -10,7 +10,7 @@ $(document).ready(function () {
            $(this).removeClass('following')
       }
 
-    })
+    });
       //check login or not
     function checkLoginUser(){
       $.ajaxSetup({
