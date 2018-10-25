@@ -1,7 +1,36 @@
 $(document).ready(function () {
+var isReload = 2;
+     var messageData = {
+       "type": "BRIDGIT-WEB",
+       "token":token
+     }
+    var bridgitToken = messageData.token;
+    if (authCheck == 1) {
+      window.postMessage(messageData, '*');
+    }
+     //postmessage
+    
+    window.addEventListener('message', function(e) {
+      var message = e.data;
+      if(e.data.type === 'BRIDGIT-EXTENSION'){
+        if (e.data.token != '' && authCheck != 1) {
+          messageData.token = e.data.token;
+          bridgitToken = e.data.token;
+          if (authCheck != 1) {
+            isReload = 0;
+            checkLoginUser();
+          }
+        }else if(authCheck == 1 && e.data.token == ''){
+          console.log('call logout');
+            isReload = 0;
+            userLogoutData();
+        }
+      };
+    });
     if (authCheck != 1) {
       checkLoginUser();
     }
+    //postmessage
     //follow
      $('button[data-id]').each(function () {
       if ($(this).attr('data-follow') == 1) {
@@ -12,7 +41,29 @@ $(document).ready(function () {
 
     });
       //check login or not
-    function checkLoginUser(){
+      function checkLoginUser(){
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN':csrfToken,
+            'Authorization':'Bearer '+bridgitToken
+          }
+        });
+        $.ajax({
+            url: checkLogin,
+            type:"GET",
+            dataType : 'json',
+            success:function(data) {
+              if(data){
+                if (isReload==0) {
+                    location.reload();
+                }
+              }
+            }
+        });
+        //check login
+      }
+      //logout
+    function userLogoutData(){
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN':csrfToken,
@@ -20,17 +71,16 @@ $(document).ready(function () {
         }
       });
       $.ajax({
-          url: checkLogin,
+          url: userLogout,
           type:"GET",
           dataType : 'json',
           success:function(data) {
-            console.log(data);
-            if(data){
-              chekLoginTest = 1
+            if (data.deleted == true && isReload==0) {
+                location.reload();
             }
           }
       });
-      //check login
+      //logout
     }
      $('button[data-id]').click(function(){
           var $this = $(this);

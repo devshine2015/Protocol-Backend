@@ -135,10 +135,16 @@
     var error = '{{ $errors->first('email') }}';
     var followUserUrl = '{!! route('followUser') !!}';
     var checkLogin = '{!! route('checkLogin') !!}';
+    var userLogout = '{!! route('logoutWeb') !!}';
     var bridgitToken = localStorage.getItem('bridgit-token');
-    localStorage.setItem('bridgit-token-web', token);
-    var authCheck = '{{Auth::check()}}'
-    console.log(authCheck);
+    // localStorage.setItem('bridgit-token-web', token);
+    var authCheck = '{{Auth::check()}}';
+    //test postmessage event
+    // window.postMessage({
+    // "type": "BRIDGIT-WEB",
+    // "token": token}, '*');
+    //postmessage event
+
 </script>
 <script src="{{ asset('js/custom/search.js') }}"></script>
 @endsection

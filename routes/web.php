@@ -21,11 +21,12 @@ Route::group(['namespace' => 'Auth'], function () {
     			Route::get('login/{provider}/callback', 'LoginController@handleProviderCallback')->where([ 'provider' => 'facebook|google' ]);	
         	});
         	Route::group(['middleware' => 'auth'], function() {
-				Route::get('logout', "LoginController@logout")->name('logout');
-        	});
-            
-		});
+			 Route::get('logout', "LoginController@logout")->name('logout');
+            });
+
+        });
 });
+Route::get('logoutWeb', "Auth\LoginController@logoutWeb")->name('logoutWeb');
 Route::get("checkLogin","Admin\UserController@checkLogin")->name('checkLogin')->middleware('auth:api');
 Route::group(['namespace' => 'Admin'], function () {
     Route::group(['middleware' => 'web'], function () {
@@ -46,4 +47,6 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('elements/{id}','ShareController@shareElement');
     });
 });
+Route::post('api/login','API\UserController@login');
+
 Auth::routes();

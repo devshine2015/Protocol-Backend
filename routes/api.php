@@ -37,7 +37,7 @@ $withAuthRouteOptions = [
 ];
 
 $withoutAuthRouteOptions = [
-    'only'          => ['index', 'show']
+    'only'          => ['index','show']
 ];
 
 foreach ($resourcesRequireAuthToWrite as $name => $controller) {
@@ -47,7 +47,7 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
 Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
 Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
-Route::post('/login', 'API\UserController@login');
+// Route::post('/login', 'API\UserController@login')->middleware(['web']);
 Route::get('/login', 'API\UserController@login')->middleware('auth:api');
 Route::post('/search/page', 'API\PageController@search');
 Route::delete('/deleteElement/{id}', 'API\ElementController@deleteElement');

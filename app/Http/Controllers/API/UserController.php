@@ -38,7 +38,7 @@ class UserController extends Controller
         return $this->__login($data['email'], $data['password'], $request);
     }
 
-    public function login(Request $request)
+    public function login(Request $request, \Illuminate\Contracts\Encryption\Encrypter $cookieEncrypt)
     {
         $data  = $request->only(['email', 'password']);
         if(!$request->header('Authorization')){
@@ -58,7 +58,8 @@ class UserController extends Controller
             $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
             return json_encode($data);
         }
-        return $this->__login($data['email'], $data['password'], $request);
+        $loginResp = $this->__login($data['email'], $data['password'], $request);
+        return $loginResp;
     }
 
     private function __login($email, $password, $request) {
@@ -76,7 +77,6 @@ class UserController extends Controller
             'oauth/token',
             'POST'
         );
-
         return \Route::dispatch($proxy);
     }
 }

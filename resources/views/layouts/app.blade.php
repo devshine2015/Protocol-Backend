@@ -181,8 +181,11 @@
           }
       });
       $('#logout').on('click', function(e) {
-        localStorage.setItem('bridgit-token-web','');
-      });
+        // localStorage.setItem('bridgit-token-web','');
+        window.postMessage({
+            "type": "BRIDGIT-WEB",
+            "token": ""}, '*');
+        });
     });
 
     $(function() {
