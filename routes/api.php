@@ -32,12 +32,12 @@ $resourcesRequireAuthToWrite = [
 ];
 
 $withAuthRouteOptions = [
-    'only'          => ['store', 'update', 'destroy','index'],
+    'only'          => ['store', 'update', 'destroy'],
     'middleware'    => ['auth:api'],
 ];
 
 $withoutAuthRouteOptions = [
-    'only'          => [ 'show']
+    'only'          => ['index','show']
 ];
 
 foreach ($resourcesRequireAuthToWrite as $name => $controller) {

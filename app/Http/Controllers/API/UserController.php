@@ -59,15 +59,6 @@ class UserController extends Controller
             return json_encode($data);
         }
         $loginResp = $this->__login($data['email'], $data['password'], $request);
-        // if($loginResp->getStatusCode() === 200){
-        //     $userObj = \App\User::whereEmail($data['email'])->first();
-        //     Auth::login($userObj);
-        //     $resp = json_decode($loginResp->getContent());
-        //     $resp->cookies = \Crypt::encrypt($cookieEncrypt->decrypt($_COOKIE['bridgit_session']));
-        //     // $resp->_cookie_bridgit_session = $_COOKIE['bridgit_session'];
-        //     // $resp->encrypted = rawurlencode($cookieEncrypt->encrypt('JOjPcce7ZkKCBeDpYeBLAVLG8OhxNj0gmqtc5p3t'));
-        //     $loginResp->setContent(json_encode($resp));
-        // }
         return $loginResp;
     }
 

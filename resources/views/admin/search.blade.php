@@ -136,7 +136,7 @@
     var followUserUrl = '{!! route('followUser') !!}';
     var checkLogin = '{!! route('checkLogin') !!}';
     var userLogout = '{!! route('logoutWeb') !!}';
-    // var bridgitToken = localStorage.getItem('bridgit-token');
+    var bridgitToken = localStorage.getItem('bridgit-token');
     // localStorage.setItem('bridgit-token-web', token);
     var authCheck = '{{Auth::check()}}';
     //test postmessage event
