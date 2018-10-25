@@ -38,7 +38,7 @@ class UserController extends Controller
         return $this->__login($data['email'], $data['password'], $request);
     }
 
-    public function login(Request $request)
+    public function login(Request $request, \Illuminate\Contracts\Encryption\Encrypter $cookieEncrypt)
     {
         $data  = $request->only(['email', 'password']);
         if(!$request->header('Authorization')){
@@ -58,7 +58,17 @@ class UserController extends Controller
             $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
             return json_encode($data);
         }
-        return $this->__login($data['email'], $data['password'], $request);
+        $loginResp = $this->__login($data['email'], $data['password'], $request);
+        // if($loginResp->getStatusCode() === 200){
+        //     $userObj = \App\User::whereEmail($data['email'])->first();
+        //     Auth::login($userObj);
+        //     $resp = json_decode($loginResp->getContent());
+        //     $resp->cookies = \Crypt::encrypt($cookieEncrypt->decrypt($_COOKIE['bridgit_session']));
+        //     // $resp->_cookie_bridgit_session = $_COOKIE['bridgit_session'];
+        //     // $resp->encrypted = rawurlencode($cookieEncrypt->encrypt('JOjPcce7ZkKCBeDpYeBLAVLG8OhxNj0gmqtc5p3t'));
+        //     $loginResp->setContent(json_encode($resp));
+        // }
+        return $loginResp;
     }
 
     private function __login($email, $password, $request) {
@@ -76,7 +86,6 @@ class UserController extends Controller
             'oauth/token',
             'POST'
         );
-
         return \Route::dispatch($proxy);
     }
 }

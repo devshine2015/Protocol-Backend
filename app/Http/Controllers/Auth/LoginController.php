@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Socialite;
 use App\User;
 use Auth;
+use DB;
 class LoginController extends Controller
 {
     /*
@@ -77,5 +78,11 @@ class LoginController extends Controller
         {
             auth()->logout();
             return redirect("/search");
+        }
+        public function logoutWeb(){
+            auth()->logout();
+            $data['deleted'] =  true;
+            return json_encode($data);
+            
         }
 }
