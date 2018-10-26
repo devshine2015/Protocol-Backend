@@ -1,15 +1,19 @@
 $(document).ready(function () {
-var isReload = 2;
-     var messageData = {
+  console.log(bridgitToken);
+ if(!bridgitToken && token != ''){
+      userLogoutData();
+  }
+    var isReload = 2;
+    var messageData = {
        "type": "BRIDGIT-WEB",
        "token":token
      }
+   // console.log(bridgitToken);
     var bridgitToken = messageData.token;
     if (authCheck == 1) {
       window.postMessage(messageData, '*');
     }
      //postmessage
-    
     window.addEventListener('message', function(e) {
       var message = e.data;
       if(e.data.type === 'BRIDGIT-EXTENSION'){
