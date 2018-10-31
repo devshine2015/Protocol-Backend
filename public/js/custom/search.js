@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  console.log(bridgitToken);
+  // console.log(bridgitToken);
  if(!bridgitToken && token != ''){
       userLogoutData();
   }
@@ -10,6 +10,9 @@ $(document).ready(function () {
      }
    // console.log(bridgitToken);
     var bridgitToken = messageData.token;
+    if(!token){
+        var bridgitToken = localStorage.getItem('bridgit-token');
+    }
     if (authCheck == 1) {
       window.postMessage(messageData, '*');
     }
