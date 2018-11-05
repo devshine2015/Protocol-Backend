@@ -36,6 +36,7 @@ class AdminController extends Controller
         $this->model                = $message;
     }
     public function index(){
+        //print_r(Auth::user());exit;
         if(Auth::user()->admin ==1){
             return view('admin.messages.index');
         }

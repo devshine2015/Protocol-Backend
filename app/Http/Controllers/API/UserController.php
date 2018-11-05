@@ -6,15 +6,28 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use App\Message;
 
 class UserController extends Controller
 {
+	protected $messageModel;
+    public function __construct(Message $messageModel)
+    {
+        $this->messageModel                        = $messageModel;
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function loginMessage(Request $request){
+    	$getMessage = $this->messageModel->where('message_categories_id',6)->orderBy('created_at','desc')->first();
+    	return [
+       		'error_code'    => 0,
+       		'data'		=> $getMessage
+    	];
+    }
     public function register(Request $request)
     {
         $data  = $request->only(['email', 'password', 'name']);
@@ -37,7 +50,10 @@ class UserController extends Controller
 
         return $this->__login($data['email'], $data['password'], $request);
     }
-
+    public function logout(Request $request){
+        $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>0]);
+        return $this->apiOk(true);
+    }
     public function login(Request $request, \Illuminate\Contracts\Encryption\Encrypter $cookieEncrypt)
     {
         $data  = $request->only(['email', 'password']);
@@ -56,8 +72,10 @@ class UserController extends Controller
             $data['expires_in'] =  31536000;
             $data['access_token'] =  Auth::user()->createToken('MyApp')->accessToken;
             $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
+            $updateLogin = \App\User::where('email',Auth::user()->email)->update(["isloggedOut"=>1]);
             return json_encode($data);
         }
+        $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>1]);
         $loginResp = $this->__login($data['email'], $data['password'], $request);
         return $loginResp;
     }
