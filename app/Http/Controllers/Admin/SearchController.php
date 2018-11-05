@@ -43,6 +43,8 @@ class SearchController extends Controller
         $this->noteModel = $noteModel;
     }
     public function search(){
+   //print_r(Auth::user());exit;
+            $isLoggedOut = 1;
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
             $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
@@ -69,6 +71,7 @@ class SearchController extends Controller
                         $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
                     })->where('tags', 'NOT LIKE', '%test%')->get();
                 }
+                $isLoggedOut = Auth::user()->isloggedOut;
             // dd(\DB::getQueryLog());
             }else{
                 $bridgeList = $bridgeList->where('tags', 'NOT LIKE', '%test%')->where('privacy',0)->get();
@@ -95,6 +98,7 @@ class SearchController extends Controller
                 }
             });
         }
+        $this->response['isLoggedOut'] = $isLoggedOut;
         $this->response['token'] = $token;
         $this->response['bridge'] = $allData;
         $this->response['count'] = $this->response['bridge']->count();

@@ -138,6 +138,7 @@
     var userLogout = '{!! route('logoutWeb') !!}';
     var bridgitToken = localStorage.getItem('bridgit-token');
     var authCheck = '{{Auth::check()}}';
+    var  isLoggedOut = '{{ $isLoggedOut }}';
     //test postmessage event
     // window.postMessage({
     // "type": "BRIDGIT-WEB",

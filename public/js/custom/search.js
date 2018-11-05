@@ -1,43 +1,47 @@
 $(document).ready(function () {
-  // console.log(bridgitToken);
- if(!bridgitToken && token != ''){
-      userLogoutData();
-  }
-    var isReload = 2;
-    var messageData = {
-       "type": "BRIDGIT-WEB",
-       "token":token
-     }
-   // console.log(bridgitToken);
-    var bridgitToken = messageData.token;
-    if(!token){
-        var bridgitToken = localStorage.getItem('bridgit-token');
-    }
-    if (authCheck == 1) {
-      window.postMessage(messageData, '*');
-    }
-     //postmessage
-    window.addEventListener('message', function(e) {
-      var message = e.data;
-      if(e.data.type === 'BRIDGIT-EXTENSION'){
-        if (e.data.token != '' && authCheck != 1) {
-          messageData.token = e.data.token;
-          bridgitToken = e.data.token;
-          if (authCheck != 1) {
-            isReload = 0;
-            checkLoginUser();
+    setTimeout(function(){ uniformLogin() }, 3000);
+      var isReload = 2;
+      var messageData = {
+         "type": "BRIDGIT-WEB",
+         "token":token
+       }
+      if(isLoggedOut != 1 && token != ''){
+          isReload = 0;
+          userLogoutData();
+          return;
+      }
+    function uniformLogin(){
+      if(!token){
+        bridgitToken = localStorage.getItem('bridgit-token');
+      }
+      if (authCheck == 1) {
+        window.postMessage(messageData, '*');
+      }
+       //postmessage
+      window.addEventListener('message', function(e) {
+        var message = e.data;
+        if(e.data.type === 'BRIDGIT-EXTENSION'){
+          if (e.data.token != '' && authCheck != 1) {
+            messageData.token = e.data.token;
+            bridgitToken = e.data.token;
+            if (authCheck != 1) {
+              isReload = 0;
+              checkLoginUser();
+            }
+          }else if(authCheck == 1 && e.data.token == ''){
+              isReload = 0;
+              userLogoutData();
           }
-        }else if(authCheck == 1 && e.data.token == ''){
-          console.log('call logout');
-            isReload = 0;
-            userLogoutData();
-        }
-      };
-    });
-    if (authCheck != 1) {
-      checkLoginUser();
+        };
+      });
+      //return;
+      if (authCheck != 1 && bridgitToken != '') {
+          checkLoginUser();
+          isReload = 0;
+      }
+      //postmessage
     }
-    //postmessage
+    
     //follow
      $('button[data-id]').each(function () {
       if ($(this).attr('data-follow') == 1) {
@@ -49,10 +53,11 @@ $(document).ready(function () {
     });
       //check login or not
       function checkLoginUser(){
+        var token = localStorage.getItem('bridgit-token');
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN':csrfToken,
-            'Authorization':'Bearer '+bridgitToken
+            'Authorization':'Bearer '+token
           }
         });
         $.ajax({
@@ -71,10 +76,11 @@ $(document).ready(function () {
       }
       //logout
     function userLogoutData(){
+      var token = localStorage.getItem('bridgit-token');
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN':csrfToken,
-          'Authorization':'Bearer '+bridgitToken
+          'Authorization':'Bearer '+token
         }
       });
       $.ajax({
@@ -83,7 +89,8 @@ $(document).ready(function () {
           dataType : 'json',
           success:function(data) {
             if (data.deleted == true && isReload==0) {
-                location.reload();
+              location.reload();
+                //window.location.href = window.location.href;
             }
           }
       });
@@ -108,10 +115,8 @@ $(document).ready(function () {
                 dataType : 'json',
                 success:function(data) {
                   if (data=='') {
-                    console.log('unfollow');
                     $('button[data-id = '+id+']').removeClass('following');
                   }else{
-                    console.log('follow');
                     $('button[data-id = '+id+']').addClass('following');
                   }
                   // location.reload();

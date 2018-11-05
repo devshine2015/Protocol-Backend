@@ -17,7 +17,8 @@ class BridgeController extends Controller
         'tags',
         'desc',
         'privacy',
-        'category'
+        'category',
+        'sub_category'
     ];
 
     /**
@@ -60,6 +61,7 @@ class BridgeController extends Controller
             $bridge->$f = $request->$f;
         }
         $bridge->created_by = $request->user()['id'];
+        $bridge->sub_category = $request->get('sub_category');
         $bridge->save();
          // add point
         $pointData['type'] = 1;
@@ -100,7 +102,7 @@ class BridgeController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $bridge->$f = $request->$f;
         }
-
+        $bridge->sub_category = $request->get('sub_category');
         $bridge->updated_by = $user['id'];
         $bridge->save();
 
