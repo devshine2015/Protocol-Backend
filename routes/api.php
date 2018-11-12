@@ -29,8 +29,8 @@ $resourcesRequireAuthToWrite = [
     'elementFollow'     => 'API\ElementFollowController',
     'noteCategory'      => 'API\NoteCategoryController',
     'contentReport'     => 'API\ContentReportController',
-    'categories'        => 'Api\CategoryController',
-    'sub-category'      => 'Api\SubCategoryController',
+    'categories'        => 'API\CategoryController',
+    'sub-category'      => 'API\SubCategoryController',
 ];
 
 $withAuthRouteOptions = [

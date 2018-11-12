@@ -73,7 +73,7 @@ class UserController extends Controller
             $data['access_token'] =  Auth::user()->createToken('MyApp')->accessToken;
             $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
             $updateLogin = \App\User::where('email',Auth::user()->email)->update(["isloggedOut"=>1]);
-            return json_encode($data);
+            return $this->apiOk($data);
         }
         $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>1]);
         $loginResp = $this->__login($data['email'], $data['password'], $request);

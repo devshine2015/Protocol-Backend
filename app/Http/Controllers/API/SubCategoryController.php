@@ -29,6 +29,7 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $user   = Auth::guard('api')->user();
         $subCategory = new \App\CategoryType;
         foreach ($this->fieldsRequired as $f) {
             $subCategory->$f = $request->$f;
@@ -38,7 +39,7 @@ class SubCategoryController extends Controller
         if (!$checkCategory) {
             return $this->apiErr(404, 'Category does not exist');
         }
-        $checkName = $this->model->where('name','ilike',$request->name)->first();
+        $checkName = $this->model->where('name','ilike',$request->name)->where('created_by',$user->id)->first();
         if ($checkName) {
             return $this->apiErr(404, 'This subcategory is already exist.');
         }

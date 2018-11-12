@@ -52,6 +52,7 @@ class LoginController extends Controller
         );
         $response = \App::handle($proxy);
         $content  = $response->getContent();
+        $updateLogin = \App\User::where('email',$user->email)->update(["isloggedOut"=>1]);
         if($request->query('platform') == 'web'){
             auth()->login(User::whereEmail($user->email)->first());
             return redirect('search');

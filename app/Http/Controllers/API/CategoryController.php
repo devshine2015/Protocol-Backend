@@ -21,7 +21,10 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $category =  $this->model->with('subCategory')->where('status',1)->get();
+        $user   = Auth::guard('api')->user();
+        $category =  $this->model->with(['subCategory'=>function($q)use($user){
+            $q->where('created_by',$user->id);
+        }])->where('status',1)->get();
         if($category){
             return $this->apiOk($category);
         }
