@@ -29,7 +29,7 @@ $(function() {
 
     });
 });
-function callCheck(id) {
+function callCheckCategory(id) {
     $.ajax({
         url: 'change-status'+'/'+id,
         data: {},

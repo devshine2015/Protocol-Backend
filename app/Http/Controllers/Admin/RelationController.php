@@ -66,7 +66,7 @@ class RelationController extends Controller
         return $this->apiErr('failed');
     }
     public function anyData(){
-        $getData = $this->model->with('user')->orderBy('created_at','desc');
+        $getData = $this->model->with('user')->orderBy('is_approved','asc')->orderBy('created_at','desc');;
         // print_r($getData->get()->toArray());exit;
         return \DataTables::of($getData->get())->addColumn('editAction', function ($relation) {
 
