@@ -66,7 +66,7 @@ class RelationController extends Controller
         return $this->apiErr('failed');
     }
     public function anyData(){
-        $getData = $this->model->with('user')->orderBy('created_at','desc');
+        $getData = $this->model->with('user')->orderBy('is_approved','asc')->orderBy('created_at','desc');;
         // print_r($getData->get()->toArray());exit;
         return \DataTables::of($getData->get())->addColumn('editAction', function ($relation) {
             return '<a data-toggle="modal" data-target="#modal-right" href="' . route('relations.edit', ['id' => encrypt($relation->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="relationsEditSuccess" data-error-callback="relationsDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;';
