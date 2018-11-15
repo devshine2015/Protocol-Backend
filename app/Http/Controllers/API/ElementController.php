@@ -76,16 +76,19 @@ class ElementController extends Controller
         return $this->apiOk($element);
     }
     public function elementData(Request $request){
-        $data  = $request->only(['element_id']);
+        $data  = $request->all();
         $valid = Validator::make($data, [
-            'element_id'     => 'required|exists:elements,id'
+            'element_id'     => 'required|exists:elements,id',
+            'category_id'    => 'required|exists:categories,id',
+            'tags'           => 'required',
+            'sub_category'   => 'required'
         ]);
         if ($valid->fails()) {
             return $this->apiErr(22001, $valid->messages(), 422);
         }
         $checkElement = \App\Element::whereId($request->get('element_id'))->first();
         if($checkElement){
-            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc')]);
+            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc'),'tags'=>$request->get('tags'),'category_id'=>$request->get('category_id'),'sub_category'=>$request->get('sub_category')]);
             if($checkElement){
                 return $this->apiOk($checkElement->fresh());
             }
