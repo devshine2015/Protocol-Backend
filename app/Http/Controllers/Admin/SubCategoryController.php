@@ -70,7 +70,7 @@ class SubCategoryController extends Controller
         $getData = $this->model->with('category','user')->orderBy('created_at','desc');
         // print_r($getData[0]->category);
         return \DataTables::of($getData->get())->addColumn('editAction', function ($subCategory) {
-            return '<a data-toggle="modal" data-target="#modal-right" href="' . route('subCategories.edit', ['id' => encrypt($subCategory->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="subCategoriesEditSuccess" data-error-callback="subCategoriesDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;<a href="' . route('subCategories.destroy', ['id' => encrypt($subCategory->id)]) .'"  data-success-callback="subCategoriesDeleteSuccess" name= "subCategory" data-error-callback="subCategoryiesSaveError" class="confirm-delete edit_name" ><i class="fa fa-trash"></i></a>';
+            return '<a data-toggle="modal" data-target="#modal-right" href="' . route('subCategories.edit', ['id' => encrypt($subCategory->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="subCategoriesEditSuccess" data-error-callback="subCategoriesDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;';
         })->addColumn('created_by', function ($subCategory) {
             return (isset($subCategory->user->name))?$subCategory->user->name:'';
         })->addColumn('category_id', function ($subCategory) {
