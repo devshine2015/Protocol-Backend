@@ -25,10 +25,6 @@ $(function() {
 
     });
 });
-
-
-
-$.fn.dataTable.ext.errMode = "none";
 function messageSaveSuccess(data) {
     messageListObj.ajax.reload();
     $("#modal-right").modal("toggle");

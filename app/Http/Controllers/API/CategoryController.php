@@ -23,8 +23,11 @@ class CategoryController extends Controller
     {
         $user   = Auth::guard('api')->user();
         $category =  $this->model->with(['subCategory'=>function($q)use($user){
-            $q->where('created_by',$user->id);
-        }])->where('status',1)->get();
+            if($user->admin != 1){
+                $q->where('created_by',$user->id);
+            };
+            $q->where('is_approved',1)->orderBy('name','asc');
+        }])->where('status',1)->orderBy('name','asc')->get();
         if($category){
             return $this->apiOk($category);
         }

@@ -69,8 +69,8 @@ class RelationController extends Controller
         $getData = $this->model->with('user')->orderBy('created_at','desc');
         // print_r($getData->get()->toArray());exit;
         return \DataTables::of($getData->get())->addColumn('editAction', function ($relation) {
-            return '<a data-toggle="modal" data-target="#modal-right" href="' . route('relations.edit', ['id' => encrypt($relation->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="relationsEditSuccess" data-error-callback="relationsDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;
-            <a href="' . route('relations.destroy', ['id' => encrypt($relation->id)]) .'"  data-success-callback="relationsDeleteSuccess" name= "relation" data-error-callback="relationsSaveError" class="confirm-delete edit_name" ><i class="fa fa-trash"></i></a>';
+
+            return '<a data-toggle="modal" data-target="#modal-right" href="' . route('relations.edit', ['id' => encrypt($relation->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="relationsEditSuccess" data-error-callback="relationsDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;';
         })->addColumn('created_by', function ($relation) {
             return (isset($relation->user->name))?$relation->user->name:'';
         })->addColumn('is_approved', function ($relation) {
