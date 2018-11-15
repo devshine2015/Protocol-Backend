@@ -9,7 +9,7 @@ class Element extends Model
 {
     protected $table = 'elements';
     protected $fillable = [
-        'type', 'url', 'start_locator','start_offset','end_locator','end_offset','image','text','rect','status','name','desc'
+        'type', 'url', 'start_locator','start_offset','end_locator','end_offset','image','text','rect','status','name','desc','category_id','sub_category','tags'
     ];
     public function toArray($options = 0)
     {
