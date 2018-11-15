@@ -43,6 +43,9 @@ class SubCategoryController extends Controller
         if ($checkName) {
             return $this->apiErr(404, 'This subcategory is already exist.');
         }
+        if ($user->admin == 1) {
+            $subCategory->is_approved = 1;
+        }
         $subCategory->created_by = $request->user()['id'];
         $subCategory->save();
         return $this->apiOk($subCategory);

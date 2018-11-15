@@ -38,9 +38,18 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get("{name}/dashboard","UserController@dashboard")->name('dashboard');
         Route::post("followUser","UserController@followUser")->name('followUser');
         Route::post("updatenotify","UserController@updateNotification")->name('updatenotify');
+        //meassge data
         Route::resource('messages','AdminController');
         Route::get('message-list', ['as' => 'message.data', 'uses' => 'AdminController@anyData']);
         Route::post("checkDate","AdminController@checkDate")->name('checkDate');
+        //category data
+        Route::resource('subCategories','SubCategoryController');
+        Route::get('category-list', ['as' => 'category.data', 'uses' => 'SubCategoryController@anyData']);
+        Route::get('change-status/{id}','SubCategoryController@changeStatus');
+        //relation data
+        Route::resource('relations','RelationController');
+        Route::get('relation-list', ['as' => 'relation.data', 'uses' => 'RelationController@anyData']);
+        Route::get('relation-status/{id}','RelationController@changeStatus');
         //Route::resource('share','ShareController');
         Route::get('bridges/{id}','ShareController@shareBridge');
         Route::get('notes/{id}','ShareController@shareNote');

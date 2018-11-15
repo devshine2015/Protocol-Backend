@@ -28,8 +28,33 @@ btn.focus, .btn:focus {
     background-color: #EF5D8F;
 }*/
 /*admin-message*/
+.apporve{
+    margin-right:20px !important;
+}
+.toggle{
+    width: 120px !important;
+}
+.toggle.ios{
+    border-radius: 5px;
+    padding-top: 0px !important;
+ }
+.toggle-off {
+    background-color: #ee467a !important;
+    padding-top: 5px !important;
+ }
+.toggle-on {
+    padding-top: 5px !important;
+ }
 .messgeData td{
     border-top: 0px;
+}
+.relationData td{
+    border-top: 0px;
+    padding-right: 1.75em !important;
+}
+.categoryData td{
+    border-top: 0px;
+    padding-right: 1.75em !important;
 }
 .note-popover{
     display: none;
