@@ -67,7 +67,7 @@ class SubCategoryController extends Controller
         return $this->apiErr('failed');
     }
     public function anyData(){
-        $getData = $this->model->with('category','user')->orderBy('created_at','desc');
+        $getData = $this->model->with('category','user')->orderBy('is_approved','asc')->orderBy('created_at','desc');
         // print_r($getData[0]->category);
         return \DataTables::of($getData->get())->addColumn('editAction', function ($subCategory) {
             return '<a data-toggle="modal" data-target="#modal-right" href="' . route('subCategories.edit', ['id' => encrypt($subCategory->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="subCategoriesEditSuccess" data-error-callback="subCategoriesDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;';
@@ -79,7 +79,7 @@ class SubCategoryController extends Controller
          ->addColumn('is_approved', function ($subCategory) {
            ($subCategory->is_approved==1)?$state = 'checked' : $state = '';
             // return '<input type = "checkbox" class="my-checkbox" name="status" id= "checkBox-'.$subCategory->id.'" onchange="callCheck('.$subCategory->id.');" data-objectId = "'.$subCategory->id.'" data-on-text="Approved" data-off-text = "Not Approved" '.$state.'  value="'.$subCategory->id.'">';
-            return '<input type = "checkbox" class="my-checkbox" name="status" data-toggle="toggle" id= "checkBox-'.$subCategory->id.'" onchange="callCheck('.$subCategory->id.');" data-objectId = "'.$subCategory->id.'" data-on="Approved" data-off = "Not Approved" '.$state.'  value="'.$subCategory->id.'" data-onstyle="success" data-offstyle="danger" data-size="small" data-style="ios">';
+            return '<input type = "checkbox" class="my-checkbox" name="status" data-toggle="toggle" id= "checkBox-'.$subCategory->id.'" onchange="callCheckCategory('.$subCategory->id.');" data-objectId = "'.$subCategory->id.'" data-on="Approved" data-off = "Not Approved" '.$state.'  value="'.$subCategory->id.'" data-onstyle="success" data-offstyle="danger" data-size="small" data-style="ios">';
         })
         ->rawColumns(['editAction','is_approved'])->make(true);
     }

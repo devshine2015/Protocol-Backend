@@ -66,7 +66,7 @@ class RelationController extends Controller
         return $this->apiErr('failed');
     }
     public function anyData(){
-        $getData = $this->model->with('user')->orderBy('created_at','desc');
+        $getData = $this->model->with('user')->orderBy('is_approved','asc')->orderBy('created_at','desc');;
         // print_r($getData->get()->toArray());exit;
         return \DataTables::of($getData->get())->addColumn('editAction', function ($relation) {
 
@@ -87,7 +87,7 @@ class RelationController extends Controller
                 return json_encode(['status' => '1','message' => 'relation approved by admin']);
             }else{
                 return json_encode(['status' => '1','message' => 'relation rejected by admin']);
-            }            
+            }
         }
         return json_encode(['status' => '0','message' => "something is wrong"]);
     }
