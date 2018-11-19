@@ -34,13 +34,12 @@ class CategoryController extends Controller
                 $q->where('created_by',$user->id);
             };
             $q->where('is_approved',1)->orderBy('name','asc');
-        }])->where('status',1)->orderBy('name','asc')->get();
+        }])->with('bridges','notes')->where('status',1)->orderBy('name','asc')->get();
         $tags = array();
         $category->filter(function($q)use(&$tags){
-            $getNoteTag = $this->bridges->where('category',$q->id)->pluck('tags');
-            $getBridgeTag = $this->notes->where('category',$q->id)->pluck('tags');
+            $getNoteTag = $q->notes->pluck('tags');
+            $getBridgeTag = $q->bridges->pluck('tags');
             $getTag = $getNoteTag->merge($getBridgeTag);
-            // print_r($getTag);exit;
             $tagList = collect($getTag)->filter(function($t)use(&$tags){
                 $tagData = explode(',',$t);
                 $mergeTag = array_push($tags,$tagData);
