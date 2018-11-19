@@ -6,13 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Category;
+use App\Note;
+use App\Bridge;
+
 
 class CategoryController extends Controller
 {
     protected $model;
-    public function __construct(Category $category)
+    protected $bridges;
+    protected $notes;
+    public function __construct(Category $category,Note $notes,Bridge $bridges)
     {
         $this->model                        = $category;
+        $this->notes                        = $notes;
+        $this->bridges                      = $bridges;
     }
     /**
      * Display a listing of the resource.
@@ -28,6 +35,21 @@ class CategoryController extends Controller
             };
             $q->where('is_approved',1)->orderBy('name','asc');
         }])->where('status',1)->orderBy('name','asc')->get();
+        $tags = array();
+        $category->filter(function($q)use(&$tags){
+            $getNoteTag = $this->bridges->where('category',$q->id)->pluck('tags');
+            $getBridgeTag = $this->notes->where('category',$q->id)->pluck('tags');
+            $getTag = $getNoteTag->merge($getBridgeTag);
+            // print_r($getTag);exit;
+            $tagList = collect($getTag)->filter(function($t)use(&$tags){
+                $tagData = explode(',',$t);
+                $mergeTag = array_push($tags,$tagData);
+            });
+            $tags = array_collapse($tags);
+            $vals = array_count_values($tags);
+            arsort( $vals );
+            $q->tags = array_keys($vals);
+        });
         if($category){
             return $this->apiOk($category);
         }

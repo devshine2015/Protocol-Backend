@@ -87,7 +87,7 @@ class RelationController extends Controller
                 return json_encode(['status' => '1','message' => 'relation approved by admin']);
             }else{
                 return json_encode(['status' => '1','message' => 'relation rejected by admin']);
-            }            
+            }
         }
         return json_encode(['status' => '0','message' => "something is wrong"]);
     }
