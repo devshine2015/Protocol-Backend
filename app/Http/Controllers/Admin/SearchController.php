@@ -110,6 +110,8 @@ class SearchController extends Controller
          if(isset($request->all_result)){
             unset($request['my_result']);
         };
+        $token = '';
+        $isLoggedOut = 1;
         $bridges =  $this->model->where('tags', 'NOT LIKE', '%test%')
         ->where(function($q)use($request){
         if(isset($request->my_result)){
@@ -140,6 +142,9 @@ class SearchController extends Controller
             })->with('relationData','user','targetData')->orderBy('created_at','desc');
         //check auth
         if(\Auth::check()){
+            $user = Auth::user();
+            $isLoggedOut = Auth::user()->isloggedOut;
+            $token =  $user->createToken('MyApp')->accessToken;
             $bridgeData = $bridges
                 ->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
@@ -185,8 +190,10 @@ class SearchController extends Controller
             $allData->withPath(url('searchData'));
         }
         $this->response['bridge'] = $allData;
-
+        $this->response['isLoggedOut'] = $isLoggedOut;
         $this->response['search'] = $search;
+        $this->response['token'] = $token;
+        $this->response['bridge'] = $allData;
         $this->response['my_result'] = isset($request->my_result)?1:0;
         $this->response['all_result'] = isset($request->all_result)?1:0;
         $this->response['page_based'] = isset($request->page_based)?1:0;
