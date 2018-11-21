@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Message;
+use App\User;
 
 class UserController extends Controller
 {
 	protected $messageModel;
-    public function __construct(Message $messageModel)
+    protected $user;
+    public function __construct(Message $messageModel,User $user)
     {
         $this->messageModel                        = $messageModel;
+        $this->model                               = $user;
     }
     /**
      * Store a newly created resource in storage.
@@ -42,8 +45,9 @@ class UserController extends Controller
         }
 
         $userData   = [
-            'email'     => $data['email'],
-            'name'      => $data['name'],
+            'email'             => $data['email'],
+            'name'              => $data['name'],
+            'referral_code'     => $this->createUniqueReferralCode(),
             'password'  => bcrypt($data['password'])
         ];
         $user       = \App\User::create($userData);
@@ -96,5 +100,12 @@ class UserController extends Controller
             'POST'
         );
         return \Route::dispatch($proxy);
+    }
+    public function createUniqueReferralCode()
+    {
+        $temp = strtoupper(str_random(10));
+            while (User::where('referral_code', $temp)->first() == "") {
+                return $temp;
+            }
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Input;
 use Validator;
 use App\FollowUser;
 use App\NotificationStatus;
+use App\UserPoint;
 class UserController extends Controller
 {
     /*
@@ -30,12 +31,13 @@ class UserController extends Controller
     protected $model;
     protected $notification;
     protected $bridgemodel;
+    protected $userPoint;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status)
+    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status,UserPoint $userPoint)
     {
         $this->middleware('guest')->except('logout');
         $this->model                = $user;
@@ -43,6 +45,7 @@ class UserController extends Controller
         $this->noteModel            = $note;
         $this->followUserModel      = $followUser;
         $this->notification         = $notification_status;
+        $this->userPoint            = $userPoint;
     }
     public function checkLogin(Request $request){
         if(auth::check()){
@@ -87,6 +90,7 @@ class UserController extends Controller
      public function dashboard(){
         $id = Auth::user()->id;
         $getallData = $this->getbridgeData();
+        $getPoint = $this->userPoint->where('user_id',$id)->pluck('point');
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
         $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
@@ -170,6 +174,7 @@ class UserController extends Controller
                 }
             });
         }
+        $this->response['userPoint'] = $getPoint->sum();
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
         $this->response['notification_count'] = $allNotification->count() - $readData;

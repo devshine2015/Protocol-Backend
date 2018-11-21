@@ -56,7 +56,6 @@ class ElementController extends Controller
     public function store(Request $request)
     {
         $element = new \App\Element;
-
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
@@ -118,12 +117,8 @@ class ElementController extends Controller
     {
         $element = \App\Element::findOrFail($id);
 
-        foreach ($this->fieldsRequired as $f) {
-            $element->$f = $request->$f;
-        }
-
-        $element->updated_by = $request->user()['id'];
-        $element->save();
+        $request['updated_by'] = $request->user()['id'];
+        $element->update($request->all());
 
         return $this->apiOk($element);
     }

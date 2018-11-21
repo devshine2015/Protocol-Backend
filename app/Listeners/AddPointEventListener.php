@@ -29,9 +29,9 @@ class AddPointEventListener
      */
     public function handle(AddPointEvent $event)
     {
-        $user     = Auth::guard('api')->user();
+        // 0 = bridges, 1 = notes , 3 = bridge like , 4 = listner
         $userPoint = new UserPoint;
-        $userPoint->user_id     = $user->id;
+        $userPoint->user_id     = $event->pointData['user_id'];
         $userPoint->type        = $event->pointData['type'];
         $userPoint->point       = $event->pointData['point'];
         $userPoint->type_id     = $event->pointData['type_id'];

@@ -64,6 +64,7 @@ class BridgeController extends Controller
         $bridge->sub_category = $request->get('sub_category');
         $bridge->save();
          // add point
+        $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 1;
         $pointData['type_id'] = $bridge->id;
         $pointData['point'] = 100;

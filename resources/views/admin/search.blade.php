@@ -130,7 +130,7 @@
 @endsection
 @section('pageScript')
 <script>
-    var token = '<? if(isset($token)){{ $token}}?>';
+    var token = '{{ $token}}';
     var  isLoggedOut = '{{ $isLoggedOut }}';
     var csrfToken = '{{ csrf_token() }}';
     var error = '{{ $errors->first('email') }}';
