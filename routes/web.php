@@ -27,6 +27,7 @@ Route::group(['namespace' => 'Auth'], function () {
         });
 });
 Route::get('logoutWeb', "Auth\LoginController@logoutWeb")->name('logoutWeb');
+Route::get('register/{code}', "Auth\RegisterController@checkCode");
 Route::get("checkLogin","Admin\UserController@checkLogin")->name('checkLogin')->middleware('auth:api');
 Route::group(['namespace' => 'Admin'], function () {
     Route::group(['middleware' => 'web'], function () {

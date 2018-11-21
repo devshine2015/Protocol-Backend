@@ -67,6 +67,7 @@ class NoteController extends Controller
         $note->created_by = $request->user()['id'];
         $note->sub_category = $request->get('sub_category');
         $note->save();
+        $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 2;
         $pointData['type_id'] = $note->id;
         $pointData['point'] = 50;
