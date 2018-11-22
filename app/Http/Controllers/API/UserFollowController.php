@@ -6,16 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\FollowUser;
+use App\Bridge;
 use App\ContenLike;
 use Validator;
+use App\Events\AddPointEvent;
 
 class UserFollowController extends Controller
 {
     protected $model;
-    public function __construct(FollowUser $followUser,ContenLike $contentLike)
+    public function __construct(FollowUser $followUser,ContenLike $contentLike,Bridge $bridge)
     {
         $this->model                        = $followUser;
         $this->contentLike                  = $contentLike;
+        $this->bridge                       = $bridge;
     }
     /**
      * Display a listing of the resource.
@@ -60,6 +63,7 @@ class UserFollowController extends Controller
         $user = Auth::guard('api')->user();
         $data  = $request->only(['user_id','type','type_id']);
         $type_id = 'required';
+        $typeId = $request->get('type_id');
         if($request->type ==0){
             $type_id .='|exists:bridges,id';
         }
@@ -74,14 +78,22 @@ class UserFollowController extends Controller
             return $this->apiErr(22001, $valid->messages(), 422);
         }
         $request['user_id'] = $user->id;
-        $check_content= $this->contentLike->where('user_id',$user->id)->where('type_id',$request->get('type_id'))->where('type',$request->get('type'))->first();
+        $check_content= $this->contentLike->where('user_id',$user->id)->where('type_id',$typeId)->where('type',$request->get('type'))->first();
         if (!$check_content) {
             $this->contentLike->fill($request->only('user_id','type_id', 'type', 'emoji_type'));
             if($this->contentLike->save()){
-              return $this->apiOk($this->contentLike->fresh());
+                //Add point on like
+                if ($request->type == 0) {
+                    $pointData['user_id'] =  $this->bridge->where('id',$typeId)->pluck('created_by')->first();
+                    $pointData['type'] = 3;
+                    $pointData['type_id'] = $typeId;
+                    $pointData['point'] = 50;
+                    event(new AddPointEvent($pointData));
+                }
+                return $this->apiOk($this->contentLike->fresh());
             }
         }else{
-             $deleteLikeContent = $this->contentLike->where('user_id',$user->id)->where('type_id',$request->get('type_id'))->where('type',$request->get('type'))->delete();
+             $deleteLikeContent = $this->contentLike->where('user_id',$user->id)->where('type_id',$typeId)->where('type',$request->get('type'))->delete();
             if ($deleteLikeContent) {
                 return $this->apiOk(true);
             }

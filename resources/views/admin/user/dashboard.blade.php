@@ -24,6 +24,12 @@
                     @endif</span>
                    </h5>
                     <h6 class="text-xs-center">Bridgit <span class="log-detail">#{{ Auth::user()->id }}</span></h6>
+                    @if(isset($userPoint))
+                    <h6 class="text-xs-center">Rewards Point <span class="log-detail">#{{ $userPoint }}</span></h6>
+                    @endif
+                    @if(Auth::user()->referral_code)
+                    <h6 class="text-xs-center">Referral Link: <span class="log-detail username"><a href="{{ url('/')}}/register/?ref={{ Auth::user()->referral_code }}">{{ url('/')}}/register/?ref={{ Auth::user()->referral_code }}</a></span></h6>
+                    @endif
                 </div>
                 @if(!Auth::check())
                     <div class=" pull-lg-6 text-xs-center">
@@ -41,7 +47,9 @@
                         <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Bridgework</a>
                     </li>
                     <li class="nav-item notificationData">
+                    @if($notification_count>0)
                         <span class="notification_count">{{$notification_count}}</span>
+                    @endif
                         <a href="" data-target="#notification" data-toggle="tab" class="nav-link edit-profile"> Notifications&nbsp&nbsp </a>
                     </li>
                 </ul>

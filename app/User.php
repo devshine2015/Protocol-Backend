@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar',
+        'name', 'email', 'password','avatar','isLoggedOut','referral_code','referred_by'
     ];
 
     /**
@@ -33,5 +33,9 @@ class User extends Authenticatable
             return ($value) ? ($value) : url('images/avtar.png');
         }
         return ($value) ? url('images/user/'.$value) : url('images/avtar.png');
+    }
+    public function userPoint()
+    {
+        return $this->hasMany('App\UserPoint', 'user_id','id');
     }
 }

@@ -43,12 +43,17 @@ class SearchController extends Controller
         $this->noteModel = $noteModel;
     }
     public function search(){
+   //print_r(Auth::user());exit;
+            $isLoggedOut = 1;
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
             $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
             //check for user login
             \DB::enableQueryLog();
+            $token = '';
            if(\Auth::check()){
                 //check privacy for bridge
+                $user = Auth::user();
+                $token =  $user->createToken('MyApp')->accessToken;
                 if(\Auth::user()->admin == 1){
                    $bridgeList = $bridgeList->get();
                    $notesData = $notes->get();
@@ -66,6 +71,7 @@ class SearchController extends Controller
                         $q->where('privacy',0)->where('created_by','!=',Auth::user()->id);
                     })->where('tags', 'NOT LIKE', '%test%')->get();
                 }
+                $isLoggedOut = Auth::user()->isloggedOut;
             // dd(\DB::getQueryLog());
             }else{
                 $bridgeList = $bridgeList->where('tags', 'NOT LIKE', '%test%')->where('privacy',0)->get();
@@ -92,6 +98,8 @@ class SearchController extends Controller
                 }
             });
         }
+        $this->response['isLoggedOut'] = $isLoggedOut;
+        $this->response['token'] = $token;
         $this->response['bridge'] = $allData;
         $this->response['count'] = $this->response['bridge']->count();
         return view('admin.search')->with($this->response);
@@ -102,6 +110,8 @@ class SearchController extends Controller
          if(isset($request->all_result)){
             unset($request['my_result']);
         };
+        $token = '';
+        $isLoggedOut = 1;
         $bridges =  $this->model->where('tags', 'NOT LIKE', '%test%')
         ->where(function($q)use($request){
         if(isset($request->my_result)){
@@ -132,6 +142,9 @@ class SearchController extends Controller
             })->with('relationData','user','targetData')->orderBy('created_at','desc');
         //check auth
         if(\Auth::check()){
+            $user = Auth::user();
+            $isLoggedOut = Auth::user()->isloggedOut;
+            $token =  $user->createToken('MyApp')->accessToken;
             $bridgeData = $bridges
                 ->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
@@ -177,8 +190,10 @@ class SearchController extends Controller
             $allData->withPath(url('searchData'));
         }
         $this->response['bridge'] = $allData;
-
+        $this->response['isLoggedOut'] = $isLoggedOut;
         $this->response['search'] = $search;
+        $this->response['token'] = $token;
+        $this->response['bridge'] = $allData;
         $this->response['my_result'] = isset($request->my_result)?1:0;
         $this->response['all_result'] = isset($request->all_result)?1:0;
         $this->response['page_based'] = isset($request->page_based)?1:0;

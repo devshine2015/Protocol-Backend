@@ -1,4 +1,47 @@
 $(document).ready(function () {
+    setTimeout(function(){ uniformLogin() }, 3000);
+      var isReload = 2;
+      var messageData = {
+         "type": "BRIDGIT-WEB",
+         "token":token
+       }
+      if(isLoggedOut != 1 && token != ''){
+          isReload = 0;
+          userLogoutData();
+          return;
+      }
+    function uniformLogin(){
+      if(!token){
+        bridgitToken = localStorage.getItem('bridgit-token');
+      }
+      if (authCheck == 1) {
+        window.postMessage(messageData, '*');
+      }
+       //postmessage
+      window.addEventListener('message', function(e) {
+        var message = e.data;
+        if(e.data.type === 'BRIDGIT-EXTENSION'){
+          if (e.data.token != '' && authCheck != 1) {
+            messageData.token = e.data.token;
+            bridgitToken = e.data.token;
+            if (authCheck != 1) {
+              isReload = 0;
+              checkLoginUser();
+            }
+          }else if(authCheck == 1 && e.data.token == ''){
+              isReload = 0;
+              userLogoutData();
+          }
+        };
+      });
+      //return;
+      if (authCheck != 1 && bridgitToken != '') {
+          checkLoginUser();
+          isReload = 0;
+      }
+      //postmessage
+    }
+    
     //follow
      $('button[data-id]').each(function () {
       if ($(this).attr('data-follow') == 1) {
@@ -7,7 +50,52 @@ $(document).ready(function () {
            $(this).removeClass('following')
       }
 
-    })
+    });
+      //check login or not
+      function checkLoginUser(){
+        var token = localStorage.getItem('bridgit-token');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN':csrfToken,
+            'Authorization':'Bearer '+token
+          }
+        });
+        $.ajax({
+            url: checkLogin,
+            type:"GET",
+            dataType : 'json',
+            success:function(data) {
+              if(data){
+                if (isReload==0) {
+                    location.reload();
+                }
+              }
+            }
+        });
+        //check login
+      }
+      //logout
+    function userLogoutData(){
+      var token = localStorage.getItem('bridgit-token');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN':csrfToken,
+          'Authorization':'Bearer '+token
+        }
+      });
+      $.ajax({
+          url: userLogout,
+          type:"GET",
+          dataType : 'json',
+          success:function(data) {
+            if (data.deleted == true && isReload==0) {
+              location.reload();
+                //window.location.href = window.location.href;
+            }
+          }
+      });
+      //logout
+    }
      $('button[data-id]').click(function(){
           var $this = $(this);
           $this.toggleClass('following')
@@ -27,10 +115,8 @@ $(document).ready(function () {
                 dataType : 'json',
                 success:function(data) {
                   if (data=='') {
-                    console.log('unfollow');
                     $('button[data-id = '+id+']').removeClass('following');
                   }else{
-                    console.log('follow');
                     $('button[data-id = '+id+']').addClass('following');
                   }
                   // location.reload();

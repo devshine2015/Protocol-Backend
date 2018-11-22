@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Socialite;
 use App\User;
 use Auth;
+use DB;
 class LoginController extends Controller
 {
     /*
@@ -30,6 +31,7 @@ class LoginController extends Controller
 
     public function handleProviderCallback(Request $request, $provider)
     {
+
         $user   = Socialite::driver($provider)->stateless()->user();
         $client = \App\OAuthClient::where('password_client', 1)->first();
         //check routr for extension or web
@@ -50,6 +52,7 @@ class LoginController extends Controller
         );
         $response = \App::handle($proxy);
         $content  = $response->getContent();
+        $updateLogin = \App\User::where('email',$user->email)->update(["isloggedOut"=>1]);
         if($request->query('platform') == 'web'){
             auth()->login(User::whereEmail($user->email)->first());
             return redirect('search');
@@ -76,5 +79,11 @@ class LoginController extends Controller
         {
             auth()->logout();
             return redirect("/search");
+        }
+        public function logoutWeb(){
+            auth()->logout();
+            $data['deleted'] =  true;
+            return json_encode($data);
+            
         }
 }

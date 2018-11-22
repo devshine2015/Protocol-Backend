@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Input;
 use Validator;
 use App\FollowUser;
 use App\NotificationStatus;
+use App\UserPoint;
 class UserController extends Controller
 {
     /*
@@ -30,12 +31,13 @@ class UserController extends Controller
     protected $model;
     protected $notification;
     protected $bridgemodel;
+    protected $userPoint;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status)
+    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status,UserPoint $userPoint)
     {
         $this->middleware('guest')->except('logout');
         $this->model                = $user;
@@ -43,6 +45,17 @@ class UserController extends Controller
         $this->noteModel            = $note;
         $this->followUserModel      = $followUser;
         $this->notification         = $notification_status;
+        $this->userPoint            = $userPoint;
+    }
+    public function checkLogin(Request $request){
+        if(auth::check()){
+            $user = Auth::guard('api')->user();
+            $checkUser = Auth::user();
+            if($checkUser){
+                Auth::guard('web')->login(User::whereEmail($user->email)->first());
+                return json_encode($user);
+            }
+        }
     }
     public function userData($name,$id){
         $getallData = $this->getbridgeData($id);
@@ -78,6 +91,7 @@ class UserController extends Controller
         $id = Auth::user()->id;
         $readData = 0;
         $getallData = $this->getbridgeData();
+        $getPoint = $this->userPoint->where('user_id',$id)->pluck('point');
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
         $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
@@ -121,8 +135,12 @@ class UserController extends Controller
         })->get();
         $getReadNotify  = $this->notification->where('user_id',$id)->pluck('type','type_id');
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
+        $readData = 0;
         if(count($allNotification)>0){
+<<<<<<< HEAD
 
+=======
+>>>>>>> e9de5391d68ed23b444f4270d0de121b8bed153a
              $allNotification->filter(function ($q)use($getReadNotify,&$readData){
                 $notifyType = 2;
                 $q->is_read = 0;
@@ -161,6 +179,7 @@ class UserController extends Controller
                 }
             });
         }
+        $this->response['userPoint'] = $getPoint->sum();
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
         $this->response['notification_count'] = $allNotification->count() - $readData;

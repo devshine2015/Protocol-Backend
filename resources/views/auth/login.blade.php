@@ -49,10 +49,12 @@
                              <label class="sr-only" for="exampleInputPassword2">Password</label>
                              <input type="password" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password" required>
                         </div>
+                        <a href="{{ route('password.request') }}">forgot your password?</a>
                         <div class="form-group mt-18">
                              <button type="button" class="btn btn-primary signin">Sign in</button>
                         </div>
                  </form>
+                 
             </div>
         </div>
        <div class="footer-login"><span>2017 © Bridgit | All Rights Reserved</span><br><a href="http://bridgit.io/" target="_blank" class="term-note">Terms &amp; Conditions</a><a href="http://bridgit.io/" target="_blank" class="term-note"> About Us</a></div>

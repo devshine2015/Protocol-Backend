@@ -81,9 +81,11 @@ $('.test_tr').off('click');
                 },
                 dataType : 'json',
                 success:function(data) {
-                  console.log(data);
                   if (data == 1) {
                     var num = notification_count - 1;
+                    if (num == 0) {
+                      $(".notification_count").hide();
+                    }
                     $(".notification_count").html(num);
                   }
                 }

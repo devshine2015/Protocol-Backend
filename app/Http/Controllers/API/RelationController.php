@@ -26,17 +26,21 @@ class RelationController extends Controller
             $relationsQuery = \App\Relation::whereIn('id', $ids);
         } else {
             $relationsQuery = \App\Relation::where(function($query) {
-                $query->where([ 'status' => 0, 'type' => 1 ]);
+                $query->where([ 'status' => 0, 'type' => 1, 'is_approved' => 1 ]);
             });
 
             if (isset($user)) {
                 $relationsQuery = $relationsQuery->orWhere(function($query)  use($user) {
-                    $query->where([ 'status' => 0, 'type' => 0, 'created_by' => $user['id'] ]);
+                    $query->where([ 'status' => 0, 'type' => 0, 'created_by' => $user['id'],'is_approved' => 1 ]);
                 });
             }
         }
+         if(isset($urlQuery['locale']) && $urlQuery['locale'] == 'zh'){
+            $relations = $relationsQuery->get(['relations.chinese_active_name AS active_name','relations.chinese_passive_name AS passive_name','id', 'is_active','created_at','updated_at','created_by','status','type','inactive','chinese_active_name','chinese_passive_name']);
+        }else{
 
-        $relations = $relationsQuery->get();
+            $relations = $relationsQuery->get();
+        }
         return $this->apiOk($relations);
     }
 

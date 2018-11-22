@@ -14,7 +14,9 @@ class NoteController extends Controller
         'title',
         'tags',
         'desc',
-        'privacy'
+        'privacy',
+        'relation',
+        'category'
     ];
 
     /**
@@ -63,7 +65,9 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
         $note->created_by = $request->user()['id'];
+        $note->sub_category = $request->get('sub_category');
         $note->save();
+        $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 2;
         $pointData['type_id'] = $note->id;
         $pointData['point'] = 50;
@@ -102,7 +106,7 @@ class NoteController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $note->$f = $request->$f;
         }
-
+        $note->sub_category = $request->get('sub_category');
         $note->updated_by = $user['id'];
         $note->save();
 

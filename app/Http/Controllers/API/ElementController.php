@@ -56,7 +56,6 @@ class ElementController extends Controller
     public function store(Request $request)
     {
         $element = new \App\Element;
-
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
@@ -76,16 +75,19 @@ class ElementController extends Controller
         return $this->apiOk($element);
     }
     public function elementData(Request $request){
-        $data  = $request->only(['element_id']);
+        $data  = $request->all();
         $valid = Validator::make($data, [
-            'element_id'     => 'required|exists:elements,id'
+            'element_id'     => 'required|exists:elements,id',
+            'category_id'    => 'required|exists:categories,id',
+            'tags'           => 'required',
+            'sub_category'   => 'required'
         ]);
         if ($valid->fails()) {
             return $this->apiErr(22001, $valid->messages(), 422);
         }
         $checkElement = \App\Element::whereId($request->get('element_id'))->first();
         if($checkElement){
-            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc')]);
+            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc'),'tags'=>$request->get('tags'),'category_id'=>$request->get('category_id'),'sub_category'=>$request->get('sub_category')]);
             if($checkElement){
                 return $this->apiOk($checkElement->fresh());
             }
@@ -115,12 +117,8 @@ class ElementController extends Controller
     {
         $element = \App\Element::findOrFail($id);
 
-        foreach ($this->fieldsRequired as $f) {
-            $element->$f = $request->$f;
-        }
-
-        $element->updated_by = $request->user()['id'];
-        $element->save();
+        $request['updated_by'] = $request->user()['id'];
+        $element->update($request->all());
 
         return $this->apiOk($element);
     }
@@ -139,6 +137,17 @@ class ElementController extends Controller
         $element->updated_by   = $request->user()['id'];
         $element->save();
 
+        return $this->apiOk(true);
+    }
+    public function deleteElement(Request $request, $id){
+        $element = \App\Element::with('followElement')->whereId($id)->first();
+        // print_r($element);exit;
+        if($element->followElement){
+            return $this->apiErr(22010, 'You cant delete this element with followers');
+        }
+        $element->status = 1;
+        $element->updated_by   = $request->user()['id'];
+        $element->save();
         return $this->apiOk(true);
     }
 }

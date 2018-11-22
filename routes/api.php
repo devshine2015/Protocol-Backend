@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         'data'          => $request->user()
     ];
 });
-
+Route::get('/login_message','API\UserController@loginMessage');
 $resourcesRequireAuthToWrite = [
     'relations'         => 'API\RelationController',
     'elements'          => 'API\ElementController',
@@ -28,7 +28,9 @@ $resourcesRequireAuthToWrite = [
     'userFollow'        => 'API\UserFollowController',
     'elementFollow'     => 'API\ElementFollowController',
     'noteCategory'      => 'API\NoteCategoryController',
-    'contentReport'      => 'API\ContentReportController',
+    'contentReport'     => 'API\ContentReportController',
+    'categories'        => 'API\CategoryController',
+    'sub-category'      => 'API\SubCategoryController',
 ];
 
 $withAuthRouteOptions = [
@@ -37,18 +39,21 @@ $withAuthRouteOptions = [
 ];
 
 $withoutAuthRouteOptions = [
-    'only'          => ['index', 'show']
+    'only'          => ['index','show']
 ];
 
 foreach ($resourcesRequireAuthToWrite as $name => $controller) {
     Route::apiResource($name, $controller, $withAuthRouteOptions);
     Route::apiResource($name, $controller, $withoutAuthRouteOptions);
 }
+Route::post('/logout', 'API\UserController@logout');
 Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
 Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
-Route::post('/login', 'API\UserController@login');
+// Route::post('/login', 'API\UserController@login')->middleware(['web']);
+Route::get('/login', 'API\UserController@login')->middleware('auth:api');
 Route::post('/search/page', 'API\PageController@search');
+Route::delete('/deleteElement/{id}', 'API\ElementController@deleteElement');
 Route::post('/search/pages', 'API\PageController@batchSearch');
 
 Route::group(['middleware' => ['web']], function () {

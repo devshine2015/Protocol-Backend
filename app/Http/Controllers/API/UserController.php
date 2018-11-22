@@ -5,15 +5,32 @@ namespace App\Http\Controllers\API;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
+use App\Message;
+use App\User;
 
 class UserController extends Controller
 {
+	protected $messageModel;
+    protected $user;
+    public function __construct(Message $messageModel,User $user)
+    {
+        $this->messageModel                        = $messageModel;
+        $this->model                               = $user;
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function loginMessage(Request $request){
+    	$getMessage = $this->messageModel->where('message_categories_id',6)->orderBy('created_at','desc')->first();
+    	return [
+       		'error_code'    => 0,
+       		'data'		=> $getMessage
+    	];
+    }
     public function register(Request $request)
     {
         $data  = $request->only(['email', 'password', 'name']);
@@ -28,28 +45,43 @@ class UserController extends Controller
         }
 
         $userData   = [
-            'email'     => $data['email'],
-            'name'      => $data['name'],
+            'email'             => $data['email'],
+            'name'              => $data['name'],
+            'referral_code'     => $this->createUniqueReferralCode(),
             'password'  => bcrypt($data['password'])
         ];
         $user       = \App\User::create($userData);
 
         return $this->__login($data['email'], $data['password'], $request);
     }
-
-    public function login(Request $request)
+    public function logout(Request $request){
+        $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>0]);
+        return $this->apiOk(true);
+    }
+    public function login(Request $request, \Illuminate\Contracts\Encryption\Encrypter $cookieEncrypt)
     {
         $data  = $request->only(['email', 'password']);
-        $valid = Validator::make($data, [
-            'email'     => 'required|string|email|max:255',
-            'password'  => 'required|string|min:6'
-        ]);
+        if(!$request->header('Authorization')){
+            $valid = Validator::make($data, [
+                'email'     => 'required|string|email|max:255',
+                'password'  => 'required|string|min:6'
+            ]);
 
-        if ($valid->fails()) {
-            return $this->apiErr(22002, $valid->messages(), 422);
+            if ($valid->fails()) {
+                return $this->apiErr(22002, $valid->messages(), 422);
+            }
+        }else{
+            //generate for refresh token
+            $data['token_type'] =  "Bearer";
+            $data['expires_in'] =  31536000;
+            $data['access_token'] =  Auth::user()->createToken('MyApp')->accessToken;
+            $data['refresh_token'] =  Auth::user()->createToken('MyApp')->accessToken;
+            $updateLogin = \App\User::where('email',Auth::user()->email)->update(["isloggedOut"=>1]);
+            return $this->apiOk($data);
         }
-
-        return $this->__login($data['email'], $data['password'], $request);
+        $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>1]);
+        $loginResp = $this->__login($data['email'], $data['password'], $request);
+        return $loginResp;
     }
 
     private function __login($email, $password, $request) {
@@ -67,7 +99,13 @@ class UserController extends Controller
             'oauth/token',
             'POST'
         );
-
         return \Route::dispatch($proxy);
+    }
+    public function createUniqueReferralCode()
+    {
+        $temp = strtoupper(str_random(10));
+            while (User::where('referral_code', $temp)->first() == "") {
+                return $temp;
+            }
     }
 }
