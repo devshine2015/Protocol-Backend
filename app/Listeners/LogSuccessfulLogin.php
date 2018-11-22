@@ -29,6 +29,13 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $updateLogin = \App\User::where('email',Auth::user()->email)->update(["isloggedOut"=>1]);
+        $referralCode = '';
+        if(empty(Auth::user()->referral_code)){
+            $referral_code = strtoupper(str_random(10));
+        }else{
+            $referral_code = Auth::user()->referral_code;
+        }
+
+        $updateLogin = \App\User::where('email',Auth::user()->email)->update(["isloggedOut"=>1,"referral_code"=>$referral_code]);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Events\AddPointEvent;
 use App\Events\AddNotificationEvent;
+use App\BridgeCross;
 
 class BridgeController extends Controller
 {
@@ -70,6 +71,17 @@ class BridgeController extends Controller
         $pointData['point'] = 100;
         event(new AddPointEvent($pointData));
         return $this->apiOk($bridge);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function  bridgeCross(Request $request){
+        $bridgeList = $request->all();
+        $addbridgeCross = \App\BridgeCross::insert($bridgeList['data']);
+        return $this->apiOk($addbridgeCross);
     }
 
     /**
