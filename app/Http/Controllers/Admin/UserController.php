@@ -137,10 +137,6 @@ class UserController extends Controller
         $allNotification = $bridgeNotification->merge($notesNotification)->sortByDesc('created_at');
         $readData = 0;
         if(count($allNotification)>0){
-<<<<<<< HEAD
-
-=======
->>>>>>> e9de5391d68ed23b444f4270d0de121b8bed153a
              $allNotification->filter(function ($q)use($getReadNotify,&$readData){
                 $notifyType = 2;
                 $q->is_read = 0;
