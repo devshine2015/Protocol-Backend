@@ -48,6 +48,7 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
 }
 Route::post('/logout', 'API\UserController@logout');
 Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
+Route::post('/bridgeCross', 'API\BridgeController@bridgeCross')->middleware('auth:api');
 Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
 // Route::post('/login', 'API\UserController@login')->middleware(['web']);

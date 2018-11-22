@@ -38,7 +38,6 @@ class CategoryTypes extends FormRequest
      */
     public function response(array $errors)
     {
-        print_r('sdasd');exit;
         if (Request::ajax() || $this->wantsJson())
         {
             error($errors[0], 0);
