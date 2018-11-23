@@ -53,6 +53,7 @@ Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware(
 Route::post('/register', 'API\UserController@register');
 // Route::post('/login', 'API\UserController@login')->middleware(['web']);
 Route::get('/login', 'API\UserController@login')->middleware('auth:api');
+Route::get('/categoryList', 'API\CategoryController@categoryList')->middleware('auth:api');
 Route::post('/search/page', 'API\PageController@search');
 Route::delete('/deleteElement/{id}', 'API\ElementController@deleteElement');
 Route::post('/search/pages', 'API\PageController@batchSearch');
