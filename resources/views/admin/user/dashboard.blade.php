@@ -140,6 +140,32 @@
             </div>
     </div>
         {!! Form::close() !!}
+        {{-- check content element --}}
+    <div class="container-fluid  mt-5">
+        <h4 class="ml-3">My Board</h4>
+    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="90000">
+        <div class="carousel-inner row w-100 mx-auto" role="listbox">
+            @foreach($elementData as $key=>$elements)
+                @if($key == 0)
+                    <div class="carousel-item col-sm-3 active slider-content">
+                @else
+                    <div class="carousel-item col-sm-3 slider-content">
+                @endif
+                    <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">
+                </div>
+            @endforeach
+        </div>
+        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+            <i class="fa fa-chevron-left fa-lg text-muted"></i>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next text-faded" href="#carouselExample" role="button" data-slide="next">
+            <i class="fa fa-chevron-right fa-lg text-muted"></i>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+  </div>
 </div>
 @endsection
 @section('pageScript')

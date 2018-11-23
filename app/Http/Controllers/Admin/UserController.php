@@ -9,6 +9,7 @@ use App\User;
 use Auth;
 use App\Bridge;
 use App\Note;
+use App\Element;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use App\FollowUser;
@@ -32,12 +33,13 @@ class UserController extends Controller
     protected $notification;
     protected $bridgemodel;
     protected $userPoint;
+    protected $element;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status,UserPoint $userPoint)
+    public function __construct(User $user, Bridge $bridge,Note $note,FollowUser $followUser,NotificationStatus $notification_status,UserPoint $userPoint,Element $element)
     {
         $this->middleware('guest')->except('logout');
         $this->model                = $user;
@@ -45,6 +47,7 @@ class UserController extends Controller
         $this->noteModel            = $note;
         $this->followUserModel      = $followUser;
         $this->notification         = $notification_status;
+        $this->element              = $element;
         $this->userPoint            = $userPoint;
     }
     public function checkLogin(Request $request){
@@ -95,6 +98,8 @@ class UserController extends Controller
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
         $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
+        $elementData = $this->element->where('saveBoard',1)->where('created_by',$id)->get();
+        // echo "<pre>";print_r($elementData->toArray());exit;
         if(count($allData)>0){
              $allData->filter(function ($q){
                 if(isset($q->title)){
@@ -175,6 +180,7 @@ class UserController extends Controller
                 }
             });
         }
+        $this->response['elementData'] = $elementData;
         $this->response['userPoint'] = $getPoint->sum();
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
