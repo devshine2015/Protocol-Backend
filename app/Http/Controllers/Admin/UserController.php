@@ -185,6 +185,7 @@ class UserController extends Controller
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
         $this->response['notification_count'] = $allNotification->count() - $readData;
+        // print_r($elementData);exit;
         return view('admin.user.dashboard')->with($this->response);
     }
     public function followUser(Request $request){

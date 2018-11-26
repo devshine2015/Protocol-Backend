@@ -1,4 +1,5 @@
 //update profile
+// alert("sdasd");
     $('#edit').click(function () {
         var dad = $(this).parent().parent();
         $('.username').css('display','none');
@@ -76,6 +77,7 @@
         }
     //update profile
         $(document).delegate("a.confirm-delete", "click", function (e) {
+
             e.preventDefault();
         var title = $(this).attr("name");
         text = "Are you sure want to delete this "+title+" ?";

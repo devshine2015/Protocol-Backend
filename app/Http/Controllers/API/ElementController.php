@@ -18,6 +18,8 @@ class ElementController extends Controller
         'end_offset',
         'image',
         'text',
+        'status',
+        'saveBoard',
         'rect'
     ];
 
@@ -59,6 +61,7 @@ class ElementController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
+        print_r($element);exit;
 
         $fileObj = $request->file('image');
 
