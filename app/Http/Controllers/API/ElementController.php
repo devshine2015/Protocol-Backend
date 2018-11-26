@@ -61,7 +61,6 @@ class ElementController extends Controller
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
-        print_r($element);exit;
 
         $fileObj = $request->file('image');
 

@@ -127,7 +127,6 @@ class UserController extends Controller
                     $query->where('user_id',Auth::user()->id);
             })->with('followtoElement');
         })->get();
-        // echo "<pre>";print_r( $notifyData['notes']->with('follownoteElement')->get()->toArray());exit;
         $notesNotification = $notifyData['notes']->with(['follownoteElement'=> function($query){
                 $query->where('user_id',Auth::user()->id);
             }])->where('created_by','!=',Auth::user()->id)->where('privacy',0)->where(function($q){
@@ -185,7 +184,6 @@ class UserController extends Controller
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;
         $this->response['notification_count'] = $allNotification->count() - $readData;
-        // print_r($elementData);exit;
         return view('admin.user.dashboard')->with($this->response);
     }
     public function followUser(Request $request){

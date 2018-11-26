@@ -1,5 +1,4 @@
 //update profile
-// alert("sdasd");
     $('#edit').click(function () {
         var dad = $(this).parent().parent();
         $('.username').css('display','none');
