@@ -76,6 +76,7 @@
         }
     //update profile
         $(document).delegate("a.confirm-delete", "click", function (e) {
+
             e.preventDefault();
         var title = $(this).attr("name");
         text = "Are you sure want to delete this "+title+" ?";

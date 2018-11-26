@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Events\AddPointEvent;
 use App\Events\AddNotificationEvent;
+use App\Events\UpdateSaveBoardEvent;
 use App\BridgeCross;
 
 class BridgeController extends Controller
@@ -69,7 +70,9 @@ class BridgeController extends Controller
         $pointData['type'] = 1;
         $pointData['type_id'] = $bridge->id;
         $pointData['point'] = 100;
+        $request['is_note'] = 0;
         event(new AddPointEvent($pointData));
+        event(new UpdateSaveBoardEvent($request->all()));
         return $this->apiOk($bridge);
     }
     /**

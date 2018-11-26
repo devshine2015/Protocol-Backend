@@ -49,6 +49,7 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('change-status/{id}','SubCategoryController@changeStatus');
         //relation data
         Route::resource('relations','RelationController');
+        Route::resource('elements','ElementController');
         Route::get('relation-list', ['as' => 'relation.data', 'uses' => 'RelationController@anyData']);
         Route::get('relation-status/{id}','RelationController@changeStatus');
         //Route::resource('share','ShareController');

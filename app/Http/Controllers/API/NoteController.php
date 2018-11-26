@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Events\AddPointEvent;
 use App\Events\AddNotificationEvent;
+use App\Events\UpdateSaveBoardEvent;
 class NoteController extends Controller
 {
     private $fieldsRequired = [
@@ -67,11 +68,15 @@ class NoteController extends Controller
         $note->created_by = $request->user()['id'];
         $note->sub_category = $request->get('sub_category');
         $note->save();
+        // Update referral point
         $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 2;
         $pointData['type_id'] = $note->id;
         $pointData['point'] = 50;
+        //update change status of the saveboard element
+        $request['is_note'] = 1;
         event(new AddPointEvent($pointData));
+        event(new UpdateSaveBoardEvent($request->all()));
         return $this->apiOk($note);
     }
 
