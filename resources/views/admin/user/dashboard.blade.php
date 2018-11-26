@@ -141,41 +141,44 @@
     </div>
         {!! Form::close() !!}
         {{-- check content element --}}
-   <div class="container-fluid mt-5">
-        <h4 class="ml-3">My Board</h4>
-    <div id="carouselExample" class="carousel slide my-board-slider " data-ride="carousel" data-interval="9000">
-        <div class="carousel-inner row w-100 mx-auto" role="listbox">
-             @foreach($elementData as $key=>$elements)
-              @if($key == 0)
-                <div class="carousel-item col-md-3  active slider-content">
-              @else
-                 <div class="carousel-item col-md-3 slider-content">
-              @endif
-               <div class="panel panel-default">
-                  <div class="panel-thumbnail">
-                    <a href="#" title="image 1" class="thumb">
-                        <div class="profile-pic">
-                            <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">
-                            <div class="edit"><a href= {{ route('elements.destroy', ['id' => encrypt($elements->id)]) }}  data-success-callback="elementsDeleteSuccess" name= "Element from board" data-error-callback="elementsSaveError" class="edit_name confirm-delete"><i class="fa fa-trash fa-lg"></i></a></div>
-                         </div>
-                    </a>
-                  </div>
+
+    @if(count($elementData)>0)
+        <div class="container-fluid mt-5">
+            <h4 class="ml-3">My Board</h4>
+            <div id="carouselExample" class="carousel slide my-board-slider " data-ride="carousel" data-interval="9000">
+                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                     @foreach($elementData as $key=>$elements)
+                      @if($key == 0)
+                        <div class="carousel-item col-md-3  active slider-content">
+                      @else
+                         <div class="carousel-item col-md-3 slider-content">
+                      @endif
+                       <div class="panel panel-default">
+                          <div class="panel-thumbnail">
+                            <a href="#" title="image 1" class="thumb">
+                                <div class="profile-pic">
+                                    <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">
+                                    <div class="edit"><a href= {{ route('elements.destroy', ['id' => encrypt($elements->id)]) }}  data-success-callback="elementsDeleteSuccess" name= "Element from board" data-error-callback="elementsSaveError" class="edit_name confirm-delete"><i class="fa fa-trash fa-lg"></i></a></div>
+                                 </div>
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                     @endforeach
                 </div>
+                @if(count($elementData)>4)
+                <a class="carousel-control-prev control-dir" href="#carouselExample" role="button" data-slide="prev">
+                    <span class="fa fa-chevron-left fa-lg text-muted"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next text-faded control-dir" href="#carouselExample" role="button" data-slide="next">
+                    <span class="fa fa-chevron-right fa-lg text-muted" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                @endif
             </div>
-             @endforeach
         </div>
-        @if(count($elementData)>4)
-        <a class="carousel-control-prev control-dir" href="#carouselExample" role="button" data-slide="prev">
-            <span class="fa fa-chevron-left fa-lg text-muted"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next text-faded control-dir" href="#carouselExample" role="button" data-slide="next">
-            <span class="fa fa-chevron-right fa-lg text-muted" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-        @endif
-    </div>
-</div>
+    @endif
 
 </div>
 @endsection
