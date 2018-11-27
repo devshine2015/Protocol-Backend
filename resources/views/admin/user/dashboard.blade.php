@@ -155,7 +155,7 @@
                       @endif
                        <div class="panel panel-default">
                         <?php $id = ''; $findId = preg_split('/"/', $elements->start_locator, NULL, PREG_SPLIT_NO_EMPTY); if(isset($findId[1])) $id = '#'.$findId[1]; ?>
-                        <a href={{$elements->url}}{{$id}} title="image 1">
+                        <a href={{$elements->url}}{{$id}} title="image 1" target="_blank">
                             <div class="panel-thumbnail">
                                 <div class="profile-pic">
                                     <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">

@@ -80,7 +80,7 @@ class ElementController extends Controller
         $data  = $request->all();
         $valid = Validator::make($data, [
             'element_id'     => 'required|exists:elements,id',
-            'category_id'    => 'required|exists:categories,id',
+            'category'    => 'required|exists:categories,id',
             'tags'           => 'required',
             'sub_category'   => 'required'
         ]);
@@ -89,7 +89,7 @@ class ElementController extends Controller
         }
         $checkElement = \App\Element::whereId($request->get('element_id'))->first();
         if($checkElement){
-            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc'),'tags'=>$request->get('tags'),'category_id'=>$request->get('category_id'),'sub_category'=>$request->get('sub_category')]);
+            $checkElement->update(['name'=>$request->get('name'),'desc'=>$request->get('desc'),'tags'=>$request->get('tags'),'category'=>$request->get('category'),'sub_category'=>$request->get('sub_category')]);
             if($checkElement){
                 return $this->apiOk($checkElement->fresh());
             }
