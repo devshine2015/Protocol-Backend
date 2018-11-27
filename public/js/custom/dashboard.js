@@ -23,7 +23,7 @@ $('#carouselExample').on('slide.bs.carousel', function (e) {
 
 
   $('#carouselExample').carousel({ 
-                interval: 20000
+                interval: 200000
         });
 
 
@@ -173,3 +173,6 @@ $('.test_tr').off('click');
         })
     //unfollow
 });
+function elementsDeleteSuccess(data) {
+   location.reload();
+}

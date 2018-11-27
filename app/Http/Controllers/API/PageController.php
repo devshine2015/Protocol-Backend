@@ -41,7 +41,7 @@ class PageController extends Controller
             }])->get();
             $elements = $this->checkFollowElement($checkElement);
         }else{
-            $elements = $elementData->get();
+            $elements = $elementData->where('saveBoard',0)->get();
         }
 
         $eids     = array_map(function ($v) { return $v['id']; }, $elements->toArray());
@@ -57,7 +57,7 @@ class PageController extends Controller
             $notesData = $this->checkFollowElement($checkNotes);
             $notesData = $this->checkLike($notesData);
         }else{
-            $notesData = $notesQuery->get();
+            $notesData = $notesQuer->get();
         }
         $notes          = $notesData->toArray();
 
