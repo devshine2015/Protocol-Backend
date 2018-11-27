@@ -173,3 +173,6 @@ $('.test_tr').off('click');
         })
     //unfollow
 });
+function elementsDeleteSuccess(data) {
+   location.reload();
+}

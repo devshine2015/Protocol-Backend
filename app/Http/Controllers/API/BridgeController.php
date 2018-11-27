@@ -69,7 +69,7 @@ class BridgeController extends Controller
         $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 1;
         $pointData['type_id'] = $bridge->id;
-        $pointData['point'] = 100;
+        $pointData['point'] = 3;
         $request['is_note'] = 0;
         event(new AddPointEvent($pointData));
         event(new UpdateSaveBoardEvent($request->all()));

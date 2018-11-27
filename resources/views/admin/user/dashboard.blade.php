@@ -154,14 +154,15 @@
                          <div class="carousel-item col-md-3 slider-content">
                       @endif
                        <div class="panel panel-default">
-                          <div class="panel-thumbnail">
-                            <a href="#" title="image 1" class="thumb">
+                        <?php $id = ''; $findId = preg_split('/"/', $elements->start_locator, NULL, PREG_SPLIT_NO_EMPTY); if(isset($findId[1])) $id = '#'.$findId[1]; ?>
+                        <a href={{$elements->url}}{{$id}} title="image 1">
+                            <div class="panel-thumbnail">
                                 <div class="profile-pic">
                                     <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">
-                                    <div class="edit"><a href= {{ route('elements.destroy', ['id' => encrypt($elements->id)]) }}  data-success-callback="elementsDeleteSuccess" name= "Element from board" data-error-callback="elementsSaveError" class="edit_name confirm-delete"><i class="fa fa-trash fa-lg"></i></a></div>
+                                    <div class="edit"><a href= {{ route('elements.destroy', ['id' => encrypt($elements->id)]) }}   name= "Element from board"  data-error-callback="elementsSaveError" data-success-callback="elementsDeleteSuccess" class="edit_name confirm-delete"><i class="fa fa-trash fa-lg"></i></a></div>
                                  </div>
-                            </a>
-                          </div>
+                            </div>
+                        </a>
                         </div>
                     </div>
                      @endforeach
