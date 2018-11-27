@@ -16,11 +16,12 @@
             </div>
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
+              @section('facebook_meta')
+                  <meta property="og:image" content="{{Storage::url($shareData->fromElement->image)}}" />
+                  <meta property="twitter:image" content="{{Storage::url($shareData->fromElement->image)}}" />
+              @endsection
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
-                @section('facebook_meta')
-                    <meta property="og:image" content="{{Storage::url($shareData->fromElement->image)}}" />
-                @endsection
               @else
                 <img src="{{Storage::url($shareData->fromElement->image)}}" height="auto" width="100%;" class="img-fluid">
               @endif
@@ -66,6 +67,10 @@
                   @endif
               </div>
             </div>
+            @section('facebook_meta')
+                  <meta property="og:image" content="{{Storage::url($shareData->targetData->image)}}" />
+                  <meta property="twitter:image" content="{{Storage::url($shareData->targetData->image)}}" />
+            @endsection
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-6  note-title">
                 <span>{{$shareData->title}}</span>
@@ -118,6 +123,10 @@
             </div>
             <div class="clearfix"></div>
             <div class="col-md-12 wrap mt-4">
+            @section('facebook_meta')
+                <meta property="og:image" content="{{Storage::url($shareData->image)}}" />
+                <meta property="twitter:image" content="{{Storage::url($shareData->image)}}" />
+            @endsection
               <div class="col-md-4  element-content">
                @if(isset($shareData->text))
                   {{$shareData->text}}
