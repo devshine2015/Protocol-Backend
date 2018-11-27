@@ -16,10 +16,12 @@
             </div>
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
-              @section('facebook_meta')
-                  <meta property="og:image" content="{{Storage::url($shareData->fromElement->image)}}" />
-                  <meta property="twitter:image" content="{{Storage::url($shareData->fromElement->image)}}" />
-              @endsection
+                @if(isset($shareData->fromElement))
+                  @section('facebook_meta')
+                      <meta property="og:image" content="{{Storage::url($shareData->fromElement->image)}}" />
+                      <meta property="twitter:image" content="{{Storage::url($shareData->fromElement->image)}}" />
+                  @endsection
+                @endif
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
               @else
