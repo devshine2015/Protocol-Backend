@@ -72,7 +72,7 @@ class NoteController extends Controller
         $pointData['user_id'] = $request->user()['id'];
         $pointData['type'] = 2;
         $pointData['type_id'] = $note->id;
-        $pointData['point'] = 50;
+        $pointData['point'] = 1;
         //update change status of the saveboard element
         $request['is_note'] = 1;
         event(new AddPointEvent($pointData));

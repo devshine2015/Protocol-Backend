@@ -57,7 +57,7 @@ class PageController extends Controller
             $notesData = $this->checkFollowElement($checkNotes);
             $notesData = $this->checkLike($notesData);
         }else{
-            $notesData = $notesQuer->get();
+            $notesData = $notesQuery->get();
         }
         $notes          = $notesData->toArray();
 

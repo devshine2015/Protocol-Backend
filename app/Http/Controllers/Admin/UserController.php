@@ -180,9 +180,6 @@ class UserController extends Controller
             });
         }
         $this->response['elementData'] = $elementData;
-        // $data = $elementData->toArray();
-        // $text = $text = preg_split('/"/', $data[1]['start_locator'], NULL, PREG_SPLIT_NO_EMPTY);
-        // echo "<pre>";print_r($text[1]);exit;
         $this->response['userPoint'] = $getPoint->sum();
         $this->response['bridge'] = $allData;
         $this->response['notification'] = $allNotification;

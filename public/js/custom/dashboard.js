@@ -23,7 +23,7 @@ $('#carouselExample').on('slide.bs.carousel', function (e) {
 
 
   $('#carouselExample').carousel({ 
-                interval: 200000
+                interval: 20000
         });
 
 

@@ -77,7 +77,7 @@ class RegisterController extends Controller
                 $pointData['user_id'] =  $getUser->id;
                 $pointData['type'] = 4;
                 $pointData['type_id'] = $getUser->id;
-                $pointData['point'] = 1000;
+                $pointData['point'] = 50;
                 event(new AddPointEvent($pointData));
             }
         }
