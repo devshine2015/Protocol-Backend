@@ -18,6 +18,8 @@ class ElementController extends Controller
         'end_offset',
         'image',
         'text',
+        'status',
+        'saveBoard',
         'rect'
     ];
 

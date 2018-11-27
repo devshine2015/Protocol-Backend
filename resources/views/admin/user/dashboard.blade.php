@@ -140,6 +140,47 @@
             </div>
     </div>
         {!! Form::close() !!}
+        {{-- check content element --}}
+
+    @if(count($elementData)>0)
+        <div class="container-fluid mt-5">
+            <h4 class="ml-3">My Board</h4>
+            <div id="carouselExample" class="carousel slide my-board-slider " data-ride="carousel" data-interval="9000">
+                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                     @foreach($elementData as $key=>$elements)
+                      @if($key == 0)
+                        <div class="carousel-item col-md-3  active slider-content">
+                      @else
+                         <div class="carousel-item col-md-3 slider-content">
+                      @endif
+                       <div class="panel panel-default">
+                        <?php $id = ''; $findId = preg_split('/"/', $elements->start_locator, NULL, PREG_SPLIT_NO_EMPTY); if(isset($findId[1])) $id = '#'.$findId[1]; ?>
+                        <a href={{$elements->url}}{{$id}} title="image 1">
+                            <div class="panel-thumbnail">
+                                <div class="profile-pic">
+                                    <img class="img-fluid mx-auto d-block" src="{{Storage::url($elements->image)}}" alt="slide {{$key}}">
+                                    <div class="edit"><a href= {{ route('elements.destroy', ['id' => encrypt($elements->id)]) }}   name= "Element from board"  data-error-callback="elementsSaveError" data-success-callback="elementsDeleteSuccess" class="edit_name confirm-delete"><i class="fa fa-trash fa-lg"></i></a></div>
+                                 </div>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                     @endforeach
+                </div>
+                @if(count($elementData)>4)
+                <a class="carousel-control-prev control-dir" href="#carouselExample" role="button" data-slide="prev">
+                    <span class="fa fa-chevron-left fa-lg text-muted"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next text-faded control-dir" href="#carouselExample" role="button" data-slide="next">
+                    <span class="fa fa-chevron-right fa-lg text-muted" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                @endif
+            </div>
+        </div>
+    @endif
+
 </div>
 @endsection
 @section('pageScript')
