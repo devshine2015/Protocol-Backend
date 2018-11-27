@@ -98,7 +98,7 @@ class UserController extends Controller
         $bridgeData = $getallData['bridgeList']->where('created_by',$id)->get();
         $noteData = $getallData['notes']->where('created_by',$id)->get();
         $allData = $bridgeData->merge($noteData)->sortByDesc('created_at');
-        $elementData = $this->element->where('saveBoard',1)->where('created_by',$id)->get();
+        $elementData = $this->element->where('saveBoard',1)->where('status',0)->where('created_by',$id)->get();
         // echo "<pre>";print_r($elementData->toArray());exit;
         if(count($allData)>0){
              $allData->filter(function ($q){
