@@ -145,7 +145,7 @@
     @if(count($elementData)>0)
         <div class="container-fluid mt-5">
             <h4 class="ml-3">My Board</h4>
-            <div id="carouselExample" class="carousel slide my-board-slider " data-ride="carousel" data-interval="90000">
+            <div id="carouselExample" class="carousel slide my-board-slider " data-ride="carousel" data-interval="9000">
                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                      @foreach($elementData as $key=>$elements)
                       @if($key == 0)
