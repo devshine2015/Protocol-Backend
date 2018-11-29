@@ -25,6 +25,17 @@ class UserFollowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index(){
+        $user = Auth::guard('api')->user();
+        if ($user) {
+            $getUser = $this->model->where('user_id',$user->id)->with('followUser')->get();
+            if ($getUser) {
+                return $this->apiOk($getUser->pluck('followUser'));
+            }
+            return $this->apiErr(22010,'something is wrong');
+        }
+        return $this->apiErr(22010,'something is wrong');
+    }
     public function store(Request $request)
     {
         $userFollow =  $this->userFollow($request);
