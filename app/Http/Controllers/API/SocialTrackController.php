@@ -44,6 +44,6 @@ class SocialTrackController extends Controller
         $request['user_id'] = $user->id;
         $this->model->fill($request->only('user_id','type_id', 'type', 'social_type'));
         $this->model->save();
-        return $this->apiOk(ok);
+        return $this->apiOk(true);
     }
 }
