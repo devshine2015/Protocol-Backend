@@ -22,7 +22,6 @@
 
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
                   <meta property="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
-                  
               @endsection
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
@@ -77,7 +76,6 @@
 
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
                   <meta property="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
-
             @endsection
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-6  note-title">
