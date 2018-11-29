@@ -31,6 +31,8 @@ $resourcesRequireAuthToWrite = [
     'contentReport'     => 'API\ContentReportController',
     'categories'        => 'API\CategoryController',
     'sub-category'      => 'API\SubCategoryController',
+    'sub-category'      => 'API\SubCategoryController',
+    'trackSocialSiteCross' => 'API\SocialTrackController',
 ];
 
 $withAuthRouteOptions = [
