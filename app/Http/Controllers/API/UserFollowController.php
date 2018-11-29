@@ -25,6 +25,17 @@ class UserFollowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index(){
+        $user = Auth::guard('api')->user();
+        if ($user) {
+            $getUser = $this->model->where('user_id',$user->id)->with('followUser')->get();
+            if ($getUser) {
+                return $this->apiOk($getUser->pluck('followUser'));
+            }
+            return $this->apiErr(22010,'something is wrong');
+        }
+        return $this->apiErr(22010,'something is wrong');
+    }
     public function store(Request $request)
     {
         $userFollow =  $this->userFollow($request);
@@ -64,6 +75,12 @@ class UserFollowController extends Controller
         $data  = $request->only(['user_id','type','type_id']);
         $type_id = 'required';
         $typeId = $request->get('type_id');
+        //for add point and remove point
+        if ($request->type == 0) {
+            $pointData['user_id'] =  $this->bridge->where('id',$typeId)->pluck('created_by')->first();
+            $pointData['type'] = 3;
+            $pointData['type_id'] = $typeId;
+        }//end
         if($request->type ==0){
             $type_id .='|exists:bridges,id';
         }
@@ -84,9 +101,6 @@ class UserFollowController extends Controller
             if($this->contentLike->save()){
                 //Add point on like
                 if ($request->type == 0) {
-                    $pointData['user_id'] =  $this->bridge->where('id',$typeId)->pluck('created_by')->first();
-                    $pointData['type'] = 3;
-                    $pointData['type_id'] = $typeId;
                     $pointData['point'] = 50;
                     event(new AddPointEvent($pointData));
                 }
@@ -94,6 +108,11 @@ class UserFollowController extends Controller
             }
         }else{
              $deleteLikeContent = $this->contentLike->where('user_id',$user->id)->where('type_id',$typeId)->where('type',$request->get('type'))->delete();
+                //Remove point on dislike
+                if ($request->type == 0) {
+                    $pointData['point'] = -50;
+                    event(new AddPointEvent($pointData));
+                }
             if ($deleteLikeContent) {
                 return $this->apiOk(true);
             }
