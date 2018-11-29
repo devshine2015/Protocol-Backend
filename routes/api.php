@@ -46,14 +46,18 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
     Route::apiResource($name, $controller, $withAuthRouteOptions);
     Route::apiResource($name, $controller, $withoutAuthRouteOptions);
 }
+
+Route::post('/bridgeCross', 'API\BridgeController@bridgeCross');
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::post('/elementData', 'API\ElementController@elementData');
+    Route::post('/elementData', 'API\ElementController@elementData');
+    Route::post('/contentLike', 'API\UserFollowController@contentLike');
+    Route::get('/categoryList', 'API\CategoryController@categoryList');
+    Route::get('/login', 'API\UserController@login');
+    Route::post('/sendMail', 'API\UserController@sendMail');
+});
 Route::post('/logout', 'API\UserController@logout');
-Route::post('/elementData', 'API\ElementController@elementData')->middleware('auth:api');
-Route::post('/bridgeCross', 'API\BridgeController@bridgeCross')->middleware('auth:api');
-Route::post('/contentLike', 'API\UserFollowController@contentLike')->middleware('auth:api');
 Route::post('/register', 'API\UserController@register');
-// Route::post('/login', 'API\UserController@login')->middleware(['web']);
-Route::get('/login', 'API\UserController@login')->middleware('auth:api');
-Route::get('/categoryList', 'API\CategoryController@categoryList')->middleware('auth:api');
 Route::post('/search/page', 'API\PageController@search');
 Route::delete('/deleteElement/{id}', 'API\ElementController@deleteElement');
 Route::post('/search/pages', 'API\PageController@batchSearch');
