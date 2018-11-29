@@ -107,12 +107,22 @@
 
         }
         .mt{
-            margin-top: 40px;
+            margin-top: 40px !important;
         }
         .note-title{
             padding: 5px;
             margin: 5px;
             background-color:#FBFBFB;
+            min-height: 40px;
+            border: 1px solid #979797;
+            float: left;
+            border-radius: 8px;
+            color:#6f6c6c;
+            text-align: left
+        }
+        .element-title{
+            background-color:#FBFBFB;
+            min-width: 600px;
             min-height: 40px;
             border: 1px solid #979797;
             float: left;
@@ -148,7 +158,8 @@
         }
         .element-desc{
             background-color:#FBFBFB;
-            min-height: 140px;
+            min-height: 110px;
+            min-width: 100px;
             align-items: right;
             border: 1px solid #979797;
             border-radius: 10px;
@@ -159,9 +170,10 @@
             text-align: center;
         }
         .mb{
-            margin-bottom:40px;
+            margin-bottom:40px !important;
         }
         .element-content{
+            padding:5px;
             margin: 5px;
             background-color:#FBFBFB;
             height: 140px;

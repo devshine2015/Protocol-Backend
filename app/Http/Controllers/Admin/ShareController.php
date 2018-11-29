@@ -62,7 +62,7 @@ class ShareController extends Controller
         return $this->apiErr(222003, 'Not Authorized');
     }
     public function shareElement($element_id){
-        $shareData = $this->shareRepo->shareNote($element_id);
+        $shareData = $this->shareRepo->shareElement($element_id);
         if($shareData){
             return view('admin.share.show',compact('shareData'));
         }

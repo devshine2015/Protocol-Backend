@@ -135,29 +135,33 @@
                   @endif
               </div>
             </div>
-            <div class="col-md-12 wrap mt-4">
-              <div class="col-md-6  note-title">
+            <div class="col-md-12 wrap">
+              <div class="col-md-6  element-title">
                 <span>{{$data->name}}</span>
               </div>
             </div>
             <div class="clearfix"></div>
-            <div class="col-md-12 wrap mt-4">
-            @section('facebook_meta')
-                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($data->image)}}" />
-                <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$data->id }}" />
-                <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($data->image)}}" />
-                <meta property="twitter:url" content="{{ env('APP_URL').'/elements/'.$data->id }}" />
-            @endsection
-              <div class="col-md-4  element-content">
-               @if(isset($data->text))
-                  {{$data->text}}
-                @else
-                  <img src="{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
-                @endif
-              </div>
-              <div class="col-md-6 element-desc mt-2">
-                {{$data->desc}}
-              </div>
+            <div class="col-md-12 wrap">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="col-md-4  element-content mt">
+                       @if(isset($data->text))
+                          {{$data->text}}
+                        @else
+                          <img src="{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
+                        @endif
+                      </div>
+                    </td>
+                    <td>
+                      <div class="col-md-6 element-desc mt">
+                        {{$data->desc}}
+                      </div>
+                    </td>
+                   </tr>
+                </tbody>
+              </table>
             </div>
           @endif
         
