@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Interfaces\ShareInterface;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -31,61 +32,40 @@ class ShareController extends Controller
     protected $noteModel;
     protected $elementModel;
     protected $messageModel;
+    protected $shareRepo;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Bridge $bridgeModel,Note $noteModel,Element $elementModel,Message $messageModel)
+    public function __construct(Bridge $bridgeModel,Note $noteModel,Element $elementModel,Message $messageModel ,ShareInterface $shareRepository)
     {
         $this->middleware('guest')->except('logout');
-        $this->bridgeModel = $bridgeModel;
-        $this->noteModel = $noteModel;
+        $this->bridgeModel  = $bridgeModel;
+        $this->noteModel    = $noteModel;
         $this->elementModel = $elementModel;
         $this->messageModel = $messageModel;
+        $this->shareRepo    = $shareRepository;
     }
-    public function shareBridge($id){
-        $shareData = $this->bridgeModel->with('fromElement','toElement')->find($id);
+    public function shareBridge($bridge_id){
+        $shareData = $this->shareRepo->shareBridge($bridge_id);
         if($shareData){
-            $shareData->type =0;
-            $shareAdminMessage = $this->getMessage(1);
-            if($shareAdminMessage){
-                $shareData->adminMessage = $shareAdminMessage->message;
-            }
             return view('admin.share.show',compact('shareData'));
         }
         return $this->apiErr(222003, 'Not Authorized');
     }
-    public function shareNote($id){
-        $shareData = $this->noteModel->with('targetData','relationData')->find($id);
+    public function shareNote($note_id){
+        $shareData = $this->shareRepo->shareNote($note_id);
         if($shareData){
-            $shareData->type =1;
-            $shareAdminMessage = $this->getMessage(2);
-            if($shareAdminMessage){
-                $shareData->adminMessage = $shareAdminMessage->message;
-            }
             return view('admin.share.show',compact('shareData'));
         }
         return $this->apiErr(222003, 'Not Authorized');
     }
-    public function shareElement($id){
-        $shareData = $this->elementModel->find($id);
-        // echo "<pre>";print_r($shareData);exit;
+    public function shareElement($element_id){
+        $shareData = $this->shareRepo->shareElement($element_id);
         if($shareData){
-            $shareData->type =2;
-            $shareAdminMessage = $this->getMessage(3);
-            if($shareAdminMessage){
-                $shareData->adminMessage = $shareAdminMessage->message;
-            }
             return view('admin.share.show',compact('shareData'));
         }
         return $this->apiErr(222003, 'Not Authorized');
-    }
-    private function getMessage($type){
-        if($messageData = $this->messageModel->where('message_categories_id',$type)->whereDate('start_date', '<=', date("Y-m-d"))
-            ->whereDate('end_date', '>=', date("Y-m-d"))->orderBy('updated_at','desc')->orderBy('created_at','desc')->first()){
-            return $messageData;
-        }
-        return false;
     }
 }
