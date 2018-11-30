@@ -17,10 +17,15 @@
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
               @section('facebook_meta')
-                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+              @if(isset($shareData->fromElement->imagePath))
+                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
+                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
+              @else
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+                <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+              @endif
                   <meta property="og:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
 
-                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
                   <meta property="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
               @endsection
               @if(isset($shareData->fromElement->text))
@@ -71,10 +76,14 @@
               </div>
             </div>
             @section('facebook_meta')
+                @if(isset($shareData->targetData->imagePath))
+                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
+                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
+                @else
                   <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
-                  <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
-
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
+                @endif
+                  <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
                   <meta property="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
             @endsection
             <div class="col-md-12 wrap mt-4">
@@ -130,9 +139,14 @@
             <div class="clearfix"></div>
             <div class="col-md-12 wrap mt-4">
             @section('facebook_meta')
-                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
-                <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+              @if(isset($shareData->imagePath))
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
+                <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
+              @else
                 <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
+              @endif
+                <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
                 <meta property="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
             @endsection
               <div class="col-md-4  element-content">
