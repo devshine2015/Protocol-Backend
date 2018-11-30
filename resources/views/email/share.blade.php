@@ -16,37 +16,25 @@
                       @endif
                     </div>
                   </div>
-                  <table class="mb">
-                    <tbody>
-                      <tr>
-                        <div class="col-md-12 wrap">
-                          <td width="300px;">
-                            <div class="col-md-3  share-left">
-                            @if(isset($data->fromElement->text))
-                              {{$data->fromElement->text}}
-                            @else
-                              <img src="{{Storage::url($data->fromElement->image)}}" height="auto" width="100%;" class="img-fluid">
-                            @endif
-                            </div>
-                          </td>
-                          <td width="100px">
-                            <div class="col-md-2 share-center">
-                              Supports
-                            </div>
-                          </td>
-                          <td width="300px;">
-                            <div class="col-md-3 share-right">
-                             @if(isset($data->toElement->text))
-                              {{$data->toElement->text}}
-                            @else
-                              <img src="{{Storage::url($data->toElement->image)}}" height="auto" width="100%;" class="img-fluid">
-                             @endif
-                            </div>
-                          </td>
-                        </div>
-                      </tr>
-                    </tbody>
-                  <table>
+                    <div class="col-md-9 wrap">
+                      <div class="col-md-4  share-left mb">
+                        @if(isset($data->fromElement->text))
+                          {{$data->fromElement->text}}
+                        @else
+                          <img src="{{Storage::url($data->fromElement->image)}}" height="auto" width="100%;" class="img-fluid">
+                        @endif
+                      </div>
+                      <div class="col-md-1 share-center mb">
+                        Supports
+                      </div>
+                      <div class="col-md-4 share-right mb">
+                       @if(isset($data->toElement->text))
+                        {{$data->toElement->text}}
+                      @else
+                        <img src="{{Storage::url($data->toElement->image)}}" height="auto" width="100%;" class="img-fluid">
+                       @endif
+                      </div>
+                    </div>
                    <div class="clearfix"></div>
                   <div class="col-md-12 mt-4">
                     <div class="admin-message">
@@ -68,31 +56,24 @@
                       </div>
                     </div>
           @elseif($data->type == 1)
-             <div class="col-md-11">
-              <div class="admin-message">
-                  @if(isset($data->adminMessage))
-                    <span>{!! $data->adminMessage !!}</span>
-                  @else
-                    <span>This is shared note</span>
-                  @endif
-              </div>
-            </div>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="col-md-6  note-title">
-                      <span>{{$data->title}}</span>
-                    </div> 
-                  </td>
-                  <td>
-                    <div class="col-md-4 note-support">
-                     <span>{{$data->relationData->name}}</span>
+                     <div class="col-md-11">
+                      <div class="admin-message">
+                          @if(isset($data->adminMessage))
+                            <span>{!! $data->adminMessage !!}</span>
+                          @else
+                            <span>This is shared note</span>
+                          @endif
+                      </div>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="400px;">
+                    <div class="col-md-12 mt-4">
+                      <div class="col-md-6  note-title">
+                        <span>{{$data->title}}</span>
+                      </div> 
+                      <div class="col-md-4 note-support">
+                        <span>{{$data->relationData->name}}</span>
+                      </div>
+                    </div>
+                     <div class="clearfix"></div>
                     <div class="col-md-4  note-content mt">
                       @if(isset($data->targetData->text))
                         {{$data->targetData->text}}
@@ -101,15 +82,9 @@
                       @endif
                       
                     </div>
-                  </td>
-                  <td>
-                      <div class="col-md-6 note-text mt">
-                        {{$data->desc}}
-                      </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <div class="col-md-6 note-text mt">
+                      {{$data->desc}}
+                    </div>
             <div class="container-fluid mt-4">
               <div class="row">
               <span class="mt-2">
@@ -142,26 +117,16 @@
             </div>
             <div class="clearfix"></div>
             <div class="col-md-12 wrap">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="col-md-4  element-content mt">
-                       @if(isset($data->text))
-                          {{$data->text}}
-                        @else
-                          <img src="{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
-                        @endif
-                      </div>
-                    </td>
-                    <td>
-                      <div class="col-md-6 element-desc mt">
-                        {{$data->desc}}
-                      </div>
-                    </td>
-                   </tr>
-                </tbody>
-              </table>
+              <div class="col-md-4  element-content mt">
+               @if(isset($data->text))
+                  {{$data->text}}
+                @else
+                  <img src="{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
+                @endif
+              </div>
+              <div class="col-md-6 element-desc mt">
+                {{$data->desc}}
+              </div>
             </div>
           @endif
         

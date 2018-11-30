@@ -33,6 +33,7 @@
         }
         .admin-message{
              background-color:#FBFBFB;
+             min-width: 600px;
              height: 100px;
              align-items: center;
              border: 1px solid #979797;
@@ -51,7 +52,7 @@
             text-align:center
         }
         .share-left{
-            margin-right: 20px;
+            /*margin-right: 20px;*/
             background-color:#FBFBFB;
             height: 100px;
             border: 1px solid #979797;
@@ -63,6 +64,7 @@
             text-align: left;
             padding:5px;
             border-radius: 3px;
+            min-width: 200px;
         }
         .share-right{
             padding: 5px;
@@ -76,10 +78,9 @@
             overflow: auto;
             word-wrap: break-word;
             overflow-x:hidden;
+            min-width: 200px;
         }
         .note-content{
-            padding:5px;
-            margin: 5px;
             background-color:#FBFBFB;
             height: 100px;
             border: 1px solid #979797;
@@ -91,6 +92,7 @@
             word-wrap: break-word;
             overflow-x:hidden;
             text-align: left;
+            min-width: 250px;
         }
         .share-center{
             background-color:#ee467a;
@@ -104,6 +106,7 @@
             opacity: 0.7;
             color:#fff;
             text-align: center;
+            min-width: 40px;
 
         }
         .mt{
@@ -118,7 +121,8 @@
             float: left;
             border-radius: 8px;
             color:#6f6c6c;
-            text-align: left
+            text-align: left;
+            min-width: 300px;
         }
         .element-title{
             background-color:#FBFBFB;
@@ -140,10 +144,12 @@
             opacity: 0.7;
             color:#fff;
             padding: 6px;
+            min-width: 200px;
+            margin : 18px;
         }
         .note-text{
             background-color:#FBFBFB;
-            min-height:100px;
+            min-height:85px;
             align-items: right;
             border: 1px solid #979797;
             border-radius: 10px;
@@ -155,6 +161,8 @@
             overflow: auto;
             word-wrap: break-word;
             overflow-x:hidden;
+            min-width: 300px;
+            margin-left: 25px;
         }
         .element-desc{
             background-color:#FBFBFB;
@@ -168,6 +176,7 @@
             opacity: 0.7;
             padding: 18px;
             text-align: center;
+            min-width: 250px;
         }
         .mb{
             margin-bottom:40px !important;
@@ -185,6 +194,7 @@
             overflow: auto;
             word-wrap: break-word;
             overflow-x:hidden;
+            min-width: 250px;
         }
 
         .btn-primary, .btn-secondary {
