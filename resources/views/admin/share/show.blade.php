@@ -17,7 +17,7 @@
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
               @section('facebook_meta')
-              @if(isset($shareData->fromElement->imagePath))
+              @if($shareData->fromElement->type == 2 && isset($shareData->fromElement->imagePath))
                   <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
               @else
@@ -27,6 +27,8 @@
                   <meta property="og:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
 
                   <meta property="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
+                  <meta property="og:image:width" content="550" />
+                  <meta property="og:image:height" content="550" />
               @endsection
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
@@ -76,7 +78,7 @@
               </div>
             </div>
             @section('facebook_meta')
-                @if(isset($shareData->targetData->imagePath))
+                @if($shareData->targetData->type == 2 && isset($shareData->targetData->imagePath))
                   <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
                 @else
@@ -85,6 +87,8 @@
                 @endif
                   <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
                   <meta property="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
+                  <meta property="og:image:width" content="550" /> 
+                  <meta property="og:image:height" content="550" />
             @endsection
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-6  note-title">
@@ -139,7 +143,7 @@
             <div class="clearfix"></div>
             <div class="col-md-12 wrap mt-4">
             @section('facebook_meta')
-              @if(isset($shareData->imagePath))
+              @if($shareData->type == 2 && isset($shareData->imagePath))
                 <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
                 <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
               @else
@@ -148,6 +152,8 @@
               @endif
                 <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
                 <meta property="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+                <meta property="og:image:width" content="550" />
+                <meta property="og:image:height" content="550" />
             @endsection
               <div class="col-md-4  element-content">
                @if(isset($shareData->text))

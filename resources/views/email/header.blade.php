@@ -65,6 +65,7 @@
             padding:5px;
             border-radius: 3px;
             min-width: 200px;
+            max-width: 200px;
         }
         .share-right{
             padding: 5px;
@@ -79,6 +80,7 @@
             word-wrap: break-word;
             overflow-x:hidden;
             min-width: 200px;
+            max-width: 200px;
         }
         .note-content{
             background-color:#FBFBFB;
@@ -93,6 +95,8 @@
             overflow-x:hidden;
             text-align: left;
             min-width: 250px;
+            max-width: 250px;
+            margin-right: 10px;
         }
         .share-center{
             background-color:#ee467a;
@@ -107,8 +111,25 @@
             color:#fff;
             text-align: center;
             min-width: 40px;
+            max-width: 110px;
 
         }
+        .share-tags {
+            background: #ee467a;
+            color: #fff;
+            font-size: 14px;
+            min-height: 35px;
+            max-height: 35px;
+            padding-top: 6px;
+            border: 1px solid #979797;
+            border-radius: 5px;
+            margin: 12px;
+            opacity: 0.7;
+            text-align: center;
+            display: table-cell;
+            min-width: 100px;
+        }
+        .share-tags:nth-of-type(even) { background: #ee467a; }
         .mt{
             margin-top: 40px !important;
         }
@@ -122,11 +143,14 @@
             border-radius: 8px;
             color:#6f6c6c;
             text-align: left;
-            min-width: 300px;
+            min-width: 320px;
+            max-width: 320px;
+            margin-bottom: 15px;
         }
         .element-title{
             background-color:#FBFBFB;
             min-width: 600px;
+            max-width: 600px;
             min-height: 40px;
             border: 1px solid #979797;
             float: left;
@@ -145,6 +169,7 @@
             color:#fff;
             padding: 6px;
             min-width: 200px;
+            max-width: 200px;
             margin : 18px;
         }
         .note-text{
@@ -162,7 +187,7 @@
             word-wrap: break-word;
             overflow-x:hidden;
             min-width: 300px;
-            margin-left: 25px;
+            max-width: 300px;
         }
         .element-desc{
             background-color:#FBFBFB;
@@ -177,6 +202,7 @@
             padding: 18px;
             text-align: center;
             min-width: 250px;
+            max-width: 250px;
         }
         .mb{
             margin-bottom:40px !important;
@@ -195,6 +221,7 @@
             word-wrap: break-word;
             overflow-x:hidden;
             min-width: 250px;
+            max-width: 250px;
         }
 
         .btn-primary, .btn-secondary {

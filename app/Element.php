@@ -15,7 +15,9 @@ class Element extends Model
     {
         $json = parent::toArray();
         $json['image'] = env('APP_URL') . Storage::url($json['image']);
-        $json['imagePath'] = env('APP_URL') . Storage::url($json['imagePath']);
+        if (isset($json['imagePath'])) {
+            $json['imagePath'] = env('APP_URL') . Storage::url($json['imagePath']);
+        }
 
         return $json;
     }
