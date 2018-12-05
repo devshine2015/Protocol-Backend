@@ -124,7 +124,7 @@ class UserController extends Controller
                 $email_data['subject'] = $user->name .' sent you a elements.';
                 $shareData = $this->shareRepo->shareElement($getData['id']);
             }
-            // $data = $shareData;
+            $data = $shareData;
             // return view('email.share',compact('data'));
             $email_data['view'] = 'email.share';
             $this->emailRepo->send($email_data, $shareData);
