@@ -26,7 +26,7 @@ class RelationController extends Controller
             $relationsQuery = \App\Relation::whereIn('id', $ids);
         } else {
             $relationsQuery = \App\Relation::where(function($query) {
-                $query->where([ 'status' => 0, 'type' => 1, 'is_approved' => 1 ]);
+                $query->where([ 'status' => 0,'is_approved' => 1 ]);
             });
 
             if (isset($user)) {
