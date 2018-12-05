@@ -6,7 +6,7 @@
     <div class="col-md-12">
         <div class="jumbotron">
           
-                @if($data->type ==0)
+                @if($data->req_type ==0)
                   <div class="col-md-12">
                     <div class="admin-message">
                       @if(isset($data->adminMessage))
@@ -31,7 +31,7 @@
                        @if(isset($data->toElement->text))
                         {{$data->toElement->text}}
                       @else
-                        <img src="{{Storage::url($data->toElement->image)}}" height="auto" width="100%;" class="img-fluid">
+                        <img src="{{ env('APP_URL') }}{{Storage::url($data->toElement->image)}}" height="auto" width="100%;" class="img-fluid">
                        @endif
                       </div>
                     </div>
@@ -55,7 +55,7 @@
                         @endforeach
                       </div>
                     </div>
-          @elseif($data->type == 1)
+          @elseif($data->req_type == 1)
                      <div class="col-md-11">
                       <div class="admin-message">
                           @if(isset($data->adminMessage))
@@ -78,7 +78,7 @@
                       @if(isset($data->targetData->text))
                         {{$data->targetData->text}}
                       @else
-                        <img src="{{Storage::url($data->targetData->image)}}" height="auto" width="100px;" class="img-fluid">
+                        <img src="{{ env('APP_URL') }}{{Storage::url($data->targetData->image)}}" height="auto" width="100px;" class="img-fluid">
                       @endif
                       
                     </div>
@@ -100,7 +100,7 @@
               </div>
             </div>
              
-          @elseif($data->type == 2)
+          @elseif($data->req_type == 2)
              <div class="col-md-11">
               <div class="admin-message">
                   @if(isset($data->adminMessage))
@@ -121,7 +121,7 @@
                @if(isset($data->text))
                   {{$data->text}}
                 @else
-                  <img src="{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
+                  <img src="{{ env('APP_URL') }}{{Storage::url($data->image)}}" height="auto" width="100px;" class="img-fluid">
                 @endif
               </div>
               <div class="col-md-6 element-desc mt">

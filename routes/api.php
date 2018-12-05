@@ -56,8 +56,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/contentLike', 'API\UserFollowController@contentLike');
     Route::get('/categoryList', 'API\CategoryController@categoryList');
     Route::get('/login', 'API\UserController@login');
+    Route::post('/sendMail', 'API\UserController@sendMail');
 });
-    Route::get('/sendMail', 'API\UserController@sendMail');
 Route::post('/logout', 'API\UserController@logout');
 Route::post('/register', 'API\UserController@register');
 Route::post('/search/page', 'API\PageController@search');

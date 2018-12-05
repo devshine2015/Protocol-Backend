@@ -4,7 +4,7 @@
   <div class="row offset-1">
     <div class="col-md-12">
         <div class="jumbotron">
-          @if($shareData->type ==0)
+          @if($shareData->req_type ==0)
             <div class="col-md-12">
               <div class="admin-message">
               @if(isset($shareData->adminMessage))
@@ -67,7 +67,7 @@
                 @endforeach
               </div>
             </div>
-          @elseif($shareData->type == 1)
+          @elseif($shareData->req_type == 1)
              <div class="col-md-11">
               <div class="admin-message">
                   @if(isset($shareData->adminMessage))
@@ -125,7 +125,7 @@
                 @endforeach
               </div>
             </div>
-          @elseif($shareData->type == 2)
+          @elseif($shareData->req_type == 2)
              <div class="col-md-11">
               <div class="admin-message">
                   @if(isset($shareData->adminMessage))

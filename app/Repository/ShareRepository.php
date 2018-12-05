@@ -34,7 +34,7 @@ class ShareRepository implements ShareInterface
     public function shareBridge($bridge_id){
     $shareData = $this->bridgeModel->with('fromElement','toElement')->find($bridge_id);
     if($shareData){
-        $shareData->type =0;
+        $shareData->req_type =0;
         $shareAdminMessage = $this->getMessage(1);
         if($shareAdminMessage){
             $shareData->adminMessage = $shareAdminMessage->message;
@@ -46,7 +46,7 @@ class ShareRepository implements ShareInterface
     public function shareNote($note_id){
         $shareData = $this->noteModel->with('targetData','relationData')->find($note_id);
         if($shareData){
-            $shareData->type =1;
+            $shareData->req_type =1;
             $shareAdminMessage = $this->getMessage(2);
             if($shareAdminMessage){
                 $shareData->adminMessage = $shareAdminMessage->message;
@@ -59,7 +59,7 @@ class ShareRepository implements ShareInterface
         $shareData = $this->elementModel->find($element_id);
         // echo "<pre>";print_r($shareData);exit;
         if($shareData){
-            $shareData->type =2;
+            $shareData->req_type =2;
             $shareAdminMessage = $this->getMessage(3);
             if($shareAdminMessage){
                 $shareData->adminMessage = $shareAdminMessage->message;
