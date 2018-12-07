@@ -19,11 +19,10 @@ class PageController extends Controller
         }
 
         $result = $this->pageInfo($url, $user, true);
-        $checkHost = array();
         if($request->has('host_name')){
-            $checkHost = \App\CheckPageUrl::where('hostname', 'like', '%' . $request->get('host_name') . '%')->get();
+            $checkHost = \App\CheckPageUrl::where('hostname', 'like', '%' . $request->get('host_name') . '%')->select('z_index')->first();
+            $result['z_index'] = $checkHost->z_index;
         }
-        $result['hostDetail'] = $checkHost;
         return $this->apiOk($result);
     }
 
