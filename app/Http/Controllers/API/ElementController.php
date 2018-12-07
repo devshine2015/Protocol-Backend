@@ -58,7 +58,10 @@ class ElementController extends Controller
      */
     public function store(Request $request)
     {
-        $element = new \App\Element;
+        if($request->get('element_id')){
+            $element = \App\Element::find($request->get('element_id'));
+        }else{
+        $element = new \App\Element;}
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
