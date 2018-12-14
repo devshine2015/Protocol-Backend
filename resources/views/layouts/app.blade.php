@@ -11,9 +11,9 @@
       <meta property="og:title" content="{{ env('APP_NAME') }}" />
       <meta property="og:type" content="website" />
       <meta property="og:description" content="Bridgit:the social knowledge network" />
-      <meta property="twitter:title" content="{{ env('APP_NAME') }}" />
-      <meta property="twitter:type" content="website" />
-      <meta property="twitter:description" content="Bridgit:the social knowledge network" />
+      <meta name="twitter:title" content="{{ env('APP_NAME') }}" />
+      <meta name="twitter:type" content="website" />
+      <meta name="twitter:description" content="Bridgit:the social knowledge network" />
     <title>{{ config('app.name', 'Bridgit') }}</title>
 
     <!-- Scripts -->

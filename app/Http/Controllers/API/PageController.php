@@ -13,15 +13,17 @@ class PageController extends Controller
     {
         $user   = Auth::guard('api')->user();
         $url    = $request->input('url');
-
+        $checkLimit = $request->get('setLimit');
         if (is_null($url)) {
             return $this->apiErr(22010, 'url is required');
         }
 
-        $result = $this->pageInfo($url, $user, true);
+        $result = $this->pageInfo($url, $user, true,$checkLimit);
         if($request->has('host_name')){
             $checkHost = \App\CheckPageUrl::where('hostname', 'like', '%' . $request->get('host_name') . '%')->select('z_index')->first();
-            $result['z_index'] = $checkHost->z_index;
+            if ($checkHost) {
+                $result['z_index'] = $checkHost->z_index;
+            }
         }
         return $this->apiOk($result);
     }
@@ -38,7 +40,8 @@ class PageController extends Controller
         return $this->apiOk($results);
     }
 
-    private function pageInfo($url, $user, $withCreatorInfo = false) {
+    private function pageInfo($url, $user, $withCreatorInfo = false,$checkLimit = false) {
+        // print_r($checkLimit);exit;
         $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ]);
         if(isset($user)){
             $checkElement = $elementData->with(['followElement'=>function($q)use($user){
@@ -53,6 +56,14 @@ class PageController extends Controller
 
         $notesQuery = \App\Note::where([ 'status' => 0 ])->withCount('like')->whereIn('target', $eids);
         $notesQuery     = $this->withPrivacyWhere($notesQuery, $user);
+        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->withCount('like')->where(function($query) use($eids)  {
+            $query->whereIn('from', $eids)->orWhereIn('to', $eids);
+        });
+        $bridgesQuery   = $this->withPrivacyWhere($bridgesQuery, $user);
+        if ($checkLimit) {
+            $noteQuery = $notesQuery->take($checkLimit)->orderBy('created_at','desc')->with('relationName','category');
+            $bridgesQuery = $bridgesQuery->take($checkLimit)->orderBy('created_at','desc')->with('relationName','category');
+        }
         if(isset($user)){
             $checkNotes = $notesQuery->with(['followUser'=>function($q)use($user){
                 $q->where('follower_id',$user->id);
@@ -65,11 +76,6 @@ class PageController extends Controller
             $notesData = $notesQuery->get();
         }
         $notes          = $notesData->toArray();
-
-        $bridgesQuery = \App\Bridge::where([ 'status' => 0 ])->withCount('like')->where(function($query) use($eids)  {
-            $query->whereIn('from', $eids)->orWhereIn('to', $eids);
-        });
-        $bridgesQuery   = $this->withPrivacyWhere($bridgesQuery, $user);
         if(isset($user)){
             $checkBridge = $bridgesQuery->with(['followUser'=>function($q)use($user){
                 $q->where('follower_id',$user->id);
@@ -82,7 +88,6 @@ class PageController extends Controller
             $bridgeData = $bridgesQuery->get();
         }
         $bridges        = $bridgeData->toArray();
-
         if ($withCreatorInfo) {
             $uids = array_merge(
                 array_map(function($note) { return $note['created_by']; }, $notes),
@@ -94,13 +99,23 @@ class PageController extends Controller
                 return $prev;
             }, []);
             
-            $notes = array_map(function ($note) use($userMap) {
+            $notes = array_map(function ($note) use($userMap,$checkLimit) {
                 $note['created_by_username'] = $userMap[$note['created_by']]['name'];
+                if($checkLimit){
+                    $note['category_name'] = $note['category']['name'];
+                    $note['relation_name'] = $note['relation_name']['name'];
+                    $note['category'] =  $note['category']['id'];
+                }
                 return $note;
             }, $notes);
 
-            $bridges = array_map(function ($bridge) use($userMap) {
+            $bridges = array_map(function ($bridge) use($userMap,$checkLimit) {
                 $bridge['created_by_username'] = $userMap[$bridge['created_by']]['name'];
+                if($checkLimit){
+                    $bridge['category_name'] = $bridge['category']['name'];
+                    $bridge['relation_name'] = $bridge['relation_name']['name'];
+                    $bridge['category']        = $bridge['category']['id'];
+                }
                 return $bridge;
             }, $bridges);
         }
