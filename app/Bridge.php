@@ -10,6 +10,12 @@ class Bridge extends Model
     public function relationData(){
         return $this->belongsTo(Relation::class,'relation','id');
     }
+    public function relationName(){
+        return $this->belongsTo(NoteCategory::class,'relation','id')->select('name','id','chinese_name');
+    }
+    public function category(){
+        return $this->belongsTo(Category::class,'category','id')->select('name','id');
+    }
     public function user(){
         return $this->belongsTo(User::class,'created_by','id');
     }

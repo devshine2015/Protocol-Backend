@@ -25,8 +25,8 @@
                 <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
               @endif
                   <meta property="og:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
-
-                  <meta property="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
+                  <meta name="twitter:card" content="summary_large_image">
+                  <meta name="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
                   <meta property="og:image:width" content="550" />
                   <meta property="og:image:height" content="550" />
               @endsection
@@ -86,9 +86,10 @@
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
                 @endif
                   <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
-                  <meta property="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
+                  <meta name="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
                   <meta property="og:image:width" content="550" /> 
                   <meta property="og:image:height" content="550" />
+                  <meta name="twitter:card" content="summary_large_image">
             @endsection
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-6  note-title">
@@ -151,9 +152,10 @@
                 <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
               @endif
                 <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
-                <meta property="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+                <meta name="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
                 <meta property="og:image:width" content="550" />
                 <meta property="og:image:height" content="550" />
+                <meta name="twitter:card" content="summary_large_image">
             @endsection
               <div class="col-md-4  element-content">
                @if(isset($shareData->text))
