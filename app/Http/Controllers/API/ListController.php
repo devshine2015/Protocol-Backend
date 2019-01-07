@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\ListModel;
+use App\Events\UpdateSaveBoardEvent;
 
 class ListController extends Controller
 {
     private $fieldsRequired = [
         'target',
         'title',
-        'tag',
+        'tags',
         'desc',
         'privacy'
     ];
@@ -72,7 +73,8 @@ class ListController extends Controller
         $list->category = $request->get('categor');
         $list->sub_category = $request->get('sub_category');
         $list->save();
-
+        $request['is_note'] = 1;
+        event(new UpdateSaveBoardEvent($request->all()));
         return $this->apiOk($list);
     }
 
