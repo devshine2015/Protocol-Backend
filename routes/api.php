@@ -21,18 +21,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/login_message','API\UserController@loginMessage');
 $resourcesRequireAuthToWrite = [
-    'relations'         => 'API\RelationController',
-    'elements'          => 'API\ElementController',
-    'bridges'           => 'API\BridgeController',
-    'notes'             => 'API\NoteController',
-    'userFollow'        => 'API\UserFollowController',
-    'elementFollow'     => 'API\ElementFollowController',
-    'noteCategory'      => 'API\NoteCategoryController',
-    'contentReport'     => 'API\ContentReportController',
-    'categories'        => 'API\CategoryController',
-    'sub-category'      => 'API\SubCategoryController',
-    'sub-category'      => 'API\SubCategoryController',
-    'trackSocialSiteCross' => 'API\SocialTrackController',
+    'relations'             => 'API\RelationController',
+    'elements'              => 'API\ElementController',
+    'bridges'               => 'API\BridgeController',
+    'notes'                 => 'API\NoteController',
+    'userFollow'            => 'API\UserFollowController',
+    'elementFollow'         => 'API\ElementFollowController',
+    'noteCategory'          => 'API\NoteCategoryController',
+    'contentReport'         => 'API\ContentReportController',
+    'categories'            => 'API\CategoryController',
+    'sub-category'          => 'API\SubCategoryController',
+    'sub-category'          => 'API\SubCategoryController',
+    'trackSocialSiteCross'  => 'API\SocialTrackController',
+    'lists'                 =>  'API\ListController'
 ];
 
 $withAuthRouteOptions = [
