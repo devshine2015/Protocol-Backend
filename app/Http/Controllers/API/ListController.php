@@ -32,13 +32,13 @@ class ListController extends Controller
         $whereInFields  = ['eleemnt_id'];
         $queryWhereIn   = array_filter(
             $request->query(),
-            function ($k) use($whereInFields) { return in_array($k, $whereInFields); },
+            function ($key) use($whereInFields) { return in_array($key, $whereInFields); },
             ARRAY_FILTER_USE_KEY
         );
         $builder = $this->model;
-        foreach ($queryWhereIn as $k => $v) {
+        foreach ($queryWhereIn as $key => $v) {
             $arr = is_array($v) ? $v : [$v];
-            $builder = $builder->whereIn($k, $arr);
+            $builder = $builder->whereIn($key, $arr);
         }
 
         $builder = $this->withPrivacyWhere($builder, $user);
@@ -56,14 +56,13 @@ class ListController extends Controller
      */
     public function store(Request $request,$listId = null)
     {
+        $list = new \App\ListModel;
         if($listId){
             $user   = $request->user();
             $list = $this->model->findOrFail($listId);
             if ($user['admin'] !== 1 && $user['id'] !== $list['created_by']) {
                 return $this->apiErr(222003, 'Not Authorized');
             }
-        }else{
-            $list = new \App\ListModel;
         }
 
         foreach ($this->fieldsRequired as $f) {
