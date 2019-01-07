@@ -4,7 +4,7 @@
   <div class="row offset-1">
     <div class="col-md-12">
         <div class="jumbotron">
-          @if($shareData->type ==0)
+          @if($shareData->req_type ==0)
             <div class="col-md-12">
               <div class="admin-message">
               @if(isset($shareData->adminMessage))
@@ -17,11 +17,18 @@
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-3  share-left">
               @section('facebook_meta')
-                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+              @if($shareData->fromElement->type == 2 && isset($shareData->fromElement->imagePath))
+                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
+                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->imagePath)}}" />
+              @else
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+                <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
+              @endif
                   <meta property="og:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
-
-                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->fromElement->image)}}" />
-                  <meta property="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
+                  <meta name="twitter:card" content="summary_large_image">
+                  <meta name="twitter:url" content="{{ env('APP_URL').'/bridges/'.$shareData->id }}" />
+                  <meta property="og:image:width" content="550" />
+                  <meta property="og:image:height" content="550" />
               @endsection
               @if(isset($shareData->fromElement->text))
                 {{$shareData->fromElement->text}}
@@ -60,7 +67,7 @@
                 @endforeach
               </div>
             </div>
-          @elseif($shareData->type == 1)
+          @elseif($shareData->req_type == 1)
              <div class="col-md-11">
               <div class="admin-message">
                   @if(isset($shareData->adminMessage))
@@ -71,11 +78,18 @@
               </div>
             </div>
             @section('facebook_meta')
+                @if($shareData->targetData->type == 2 && isset($shareData->targetData->imagePath))
+                  <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
+                  <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->imagePath)}}" />
+                @else
                   <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
-                  <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
-
                   <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->targetData->image)}}" />
-                  <meta property="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
+                @endif
+                  <meta property="og:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
+                  <meta name="twitter:url" content="{{ env('APP_URL').'/notes/'.$shareData->id }}" />
+                  <meta property="og:image:width" content="550" /> 
+                  <meta property="og:image:height" content="550" />
+                  <meta name="twitter:card" content="summary_large_image">
             @endsection
             <div class="col-md-12 wrap mt-4">
               <div class="col-md-6  note-title">
@@ -112,7 +126,7 @@
                 @endforeach
               </div>
             </div>
-          @elseif($shareData->type == 2)
+          @elseif($shareData->req_type == 2)
              <div class="col-md-11">
               <div class="admin-message">
                   @if(isset($shareData->adminMessage))
@@ -130,10 +144,18 @@
             <div class="clearfix"></div>
             <div class="col-md-12 wrap mt-4">
             @section('facebook_meta')
-                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
-                <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+              @if($shareData->type == 2 && isset($shareData->imagePath))
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
+                <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->imagePath)}}" />
+              @else
                 <meta name="twitter:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
-                <meta property="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+                <meta property="og:image" content="{{ env('APP_URL') }}{{Storage::url($shareData->image)}}" />
+              @endif
+                <meta property="og:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+                <meta name="twitter:url" content="{{ env('APP_URL').'/elements/'.$shareData->id }}" />
+                <meta property="og:image:width" content="550" />
+                <meta property="og:image:height" content="550" />
+                <meta name="twitter:card" content="summary_large_image">
             @endsection
               <div class="col-md-4  element-content">
                @if(isset($shareData->text))

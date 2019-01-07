@@ -9,12 +9,15 @@ class Element extends Model
 {
     protected $table = 'elements';
     protected $fillable = [
-        'type', 'url', 'start_locator','start_offset','end_locator','end_offset','image','text','rect','status','name','desc','category_id','sub_category','tags','saveBoard'
+        'type', 'url', 'start_locator','start_offset','end_locator','end_offset','image','imagePath','text','rect','status','name','desc','category_id','sub_category','tags','saveBoard'
     ];
     public function toArray($options = 0)
     {
         $json = parent::toArray();
         $json['image'] = env('APP_URL') . Storage::url($json['image']);
+        if (isset($json['imagePath'])) {
+            $json['imagePath'] = env('APP_URL') . Storage::url($json['imagePath']);
+        }
 
         return $json;
     }

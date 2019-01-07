@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'bridgitnow@gmail.com '),
-        'name' => env('MAIL_FROM_NAME', 'Bridgit-Change your password'),
+        'name' => env('MAIL_FROM_NAME', 'Bridgit'),
     ],
 
     /*

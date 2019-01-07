@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Events\AddNotificationEvent;
+use Image;
+use Storage;
 
 class ElementController extends Controller
 {
@@ -56,13 +58,22 @@ class ElementController extends Controller
      */
     public function store(Request $request)
     {
-        $element = new \App\Element;
+        if($request->get('element_id')){
+            $element = \App\Element::find($request->get('element_id'));
+        }else{
+        $element = new \App\Element;}
         foreach ($this->fieldsRequired as $f) {
             $element->$f = $request->$f;
         }
+        $path = $request->get('image_path');
+        if (isset($path)) {
+            $fileObj = file_get_contents($path);
+            $name = time() . '-' . str_random().'_'.substr($path, strrpos($path, '/') + 1);
+            $filePath =  Storage::disk('public_element')->put($name, $fileObj);
+            $element->imagePath = 'public/elements/'.$name;
+        }
 
         $fileObj = $request->file('image');
-
         if (is_null($fileObj)) {
             return $this->apiErr(22100, 'image should be an image file', 422);
         }
