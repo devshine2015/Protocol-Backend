@@ -10,7 +10,7 @@ use App\ListModel;
 class ListController extends Controller
 {
     private $fieldsRequired = [
-        'element_id',
+        'target',
         'title',
         'tag',
         'desc',
@@ -29,7 +29,7 @@ class ListController extends Controller
     public function index(Request $request)
     {
         $user           = Auth::guard('api')->user();
-        $whereInFields  = ['eleemnt_id'];
+        $whereInFields  = ['target'];
         $queryWhereIn   = array_filter(
             $request->query(),
             function ($key) use($whereInFields) { return in_array($key, $whereInFields); },
@@ -69,8 +69,8 @@ class ListController extends Controller
             $list->$f = $request->$f;
         }
         $list->created_by = $request->user()['id'];
-        $list->category_id = $request->get('category_id');
-        $list->sub_category_id = $request->get('sub_category_id');
+        $list->category = $request->get('categor');
+        $list->sub_category = $request->get('sub_category');
         $list->save();
 
         return $this->apiOk($list);

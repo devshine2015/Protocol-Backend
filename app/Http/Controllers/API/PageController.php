@@ -41,7 +41,6 @@ class PageController extends Controller
     }
 
     private function pageInfo($url, $user, $withCreatorInfo = false,$checkLimit = false) {
-        // print_r($checkLimit);exit;
         $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ]);
         if(isset($user)){
             $checkElement = $elementData->with(['followElement'=>function($q)use($user){
@@ -60,9 +59,15 @@ class PageController extends Controller
             $query->whereIn('from', $eids)->orWhereIn('to', $eids);
         });
         $bridgesQuery   = $this->withPrivacyWhere($bridgesQuery, $user);
+        // list data
+        $listQuery = \App\ListModel::whereIn('target', $eids);
+        $listQuery     = $this->withPrivacyWhere($listQuery, $user);
+        $listData = $listQuery->get()->toArray();
+        // complete list data
         if ($checkLimit) {
             $noteQuery = $notesQuery->take($checkLimit)->orderBy('created_at','desc')->with('relationName','category');
             $bridgesQuery = $bridgesQuery->take($checkLimit)->orderBy('created_at','desc')->with('relationName','category');
+            $listData = $listData->take($checkLimit)->orderBy('created_at','desc')->with('category');
         }
         if(isset($user)){
             $checkNotes = $notesQuery->with(['followUser'=>function($q)use($user){
@@ -91,7 +96,8 @@ class PageController extends Controller
         if ($withCreatorInfo) {
             $uids = array_merge(
                 array_map(function($note) { return $note['created_by']; }, $notes),
-                array_map(function($bridge) { return $bridge['created_by']; }, $bridges)
+                array_map(function($bridge) { return $bridge['created_by']; }, $bridges),
+                array_map(function($lists) { return $lists['created_by']; }, $listData)
             );
             $users      = \App\User::whereIn('id', $uids)->get()->toArray();
             $userMap    = array_reduce($users, function($prev, $user) {
@@ -118,12 +124,20 @@ class PageController extends Controller
                 }
                 return $bridge;
             }, $bridges);
+            $listData = array_map(function ($lists) use($userMap,$checkLimit) {
+                $lists['created_by_username'] = $userMap[$lists['created_by']]['name'];
+                 if($checkLimit){
+                    $lists['category_name'] = $lists['category']['name'];
+                }
+                return $lists;
+            }, $listData);
         }
 
         return [
             'elements'  => $elements,
             'bridges'   => $bridges,
-            'notes'     => $notes
+            'notes'     => $notes,
+            'lists'     => $listData
         ];
     }
 }
