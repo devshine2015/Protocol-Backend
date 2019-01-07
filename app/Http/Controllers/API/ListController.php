@@ -78,28 +78,6 @@ class ListController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -117,12 +95,12 @@ class ListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($listId)
     {
         $user      = Request()->user();
-        $list       = $this->model->findOrFail($id);
+        $list       = $this->model->findOrFail($listId);
 
-        if ($user['admin'] !== 1 && $user['id'] !== $note['created_by']) {
+        if ($user['admin'] !== 1 && $user['id'] !== $list['created_by']) {
             return $this->apiErr(222003, 'Not Authorized');
         }
         $list->delete();
