@@ -43,6 +43,8 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::resource('messages','AdminController');
         Route::get('message-list', ['as' => 'message.data', 'uses' => 'AdminController@anyData']);
         Route::post("checkDate","AdminController@checkDate")->name('checkDate');
+        //inbox data
+        Route::get('share-list', ['as' => 'share.data', 'uses' => 'ShareController@anyData']);
         //category data
         Route::resource('subCategories','SubCategoryController');
         Route::get('category-list', ['as' => 'category.data', 'uses' => 'SubCategoryController@anyData']);

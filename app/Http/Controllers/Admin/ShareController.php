@@ -14,6 +14,8 @@ use App\Bridge;
 use App\Note;
 use App\Element;
 use App\Message;
+use App\SocialTrack;
+use Carbon\Carbon;
 class ShareController extends Controller
 {
     /*
@@ -67,5 +69,15 @@ class ShareController extends Controller
             return view('admin.share.show',compact('shareData'));
         }
         return $this->apiErr(222003, 'Not Authorized');
+    }
+    public function anyData(){
+        $getData = SocialTrack::with('user')->where('social_type',4)->where('shared_with',Auth::user()->id)
+        ->with('bridge','note','element')
+        ->orderBy('created_at','desc');
+        // print_r($getData->get());exit;
+        return \DataTables::of($getData->get())->addColumn('name', function ($shareData) {
+            return '<span class="badge">'.ucfirst($shareData->user->name[0]).'</span>  <span class="inboxFont">'. ucfirst($shareData->user->name).' sent</span><span class="inboxFont" style="float:right;">'. $shareData->created_at->diffForHumans().'</span> <br><span class="ml-4">'.ucfirst($shareData->shared_message).'</span><br><span class="ml-4 inboxFont">'.'sdasdasdasdasd</span>';
+        })
+        ->rawColumns(['name'])->make(true);
     }
 }

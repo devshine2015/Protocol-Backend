@@ -25,7 +25,7 @@
                    </h5>
                     <h6 class="text-xs-center">Bridgit <span class="log-detail">#{{ Auth::user()->id }}</span></h6>
                     @if(isset($userPoint))
-                    <h6 class="text-xs-center">Rewards Point <span class="log-detail">#{{ $userPoint }}</span></h6>
+                    <h6 class="text-xs-center">Rewards Point <span class="log-detail">{{ $userPoint }}</span></h6>
                     @endif
                     @if(Auth::user()->referral_code)
                     <h6 class="text-xs-center">Referral Link: <span class="log-detail username"><a href="{{ url('/')}}/register/?ref={{ Auth::user()->referral_code }}">{{ url('/')}}/register/?ref={{ Auth::user()->referral_code }}</a></span></h6>
@@ -51,6 +51,9 @@
                         <span class="notification_count">{{$notification_count}}</span>
                     @endif
                         <a href="" data-target="#notification" data-toggle="tab" class="nav-link edit-profile"> Notifications&nbsp&nbsp </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#inbox" data-toggle="tab" class="nav-link">Inbox</a>
                     </li>
                 </ul>
                 <div>
@@ -136,6 +139,10 @@
                         </table>
                         <div id="loadnotify"><p id="loadNotification" class="hidden">Load more</p></div>
                     </div>
+                    <div class="tab-pane" id="inbox">
+                        @include('admin.inbox.list')
+                        <div id="loadnotify"><p id="loadNotification" class="hidden">Load more</p></div>
+                    </div>
                 </div>
             </div>
     </div>
@@ -190,8 +197,10 @@ var error = '{{ $errors->first('email') }}';
 var followUserUrl = '{!! route('followUser') !!}';
 var updatenotify = '{!! route('updatenotify') !!}';
  var updateUserUrl = '{{route('update-profile')}}';
+ var shareInboxUrl = '{!! route('share.data') !!}';
 </script>
 <script src="{{ asset('js/custom/dashboard.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('js/custom/inbox.js') }}"></script>
 @endsection
 
