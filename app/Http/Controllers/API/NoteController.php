@@ -16,8 +16,7 @@ class NoteController extends Controller
         'tags',
         'desc',
         'privacy',
-        'relation',
-        'category'
+        'relation'
     ];
 
     /**
@@ -66,6 +65,7 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
         $note->created_by = $request->user()['id'];
+        $note->category = $request->get('category');
         $note->sub_category = $request->get('sub_category');
         $note->save();
         // Update referral point
@@ -112,6 +112,7 @@ class NoteController extends Controller
             $note->$f = $request->$f;
         }
         $note->sub_category = $request->get('sub_category');
+        $note->category = $request->get('category');
         $note->updated_by = $user['id'];
         $note->save();
 
