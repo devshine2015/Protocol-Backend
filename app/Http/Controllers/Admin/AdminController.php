@@ -35,17 +35,29 @@ class AdminController extends Controller
         $this->middleware('guest')->except('logout');
         $this->model                = $message;
     }
+    /**
+     * message screen only if user role is admin
+     * @return search screen
+     */
     public function index(){
-        //print_r(Auth::user());exit;
         if(Auth::user()->admin ==1){
             return view('admin.messages.index');
         }
         return redirect('search');
     }
+    /**
+     * create view for message module
+     * @return on message loaded
+     */
     public function create()
     {
         return view('admin.messages.create');
     }
+    /**
+     * Store created message data
+     * @param  \Illuminate\Http\Request  $request
+     * @return  redirect back to the message screen with added data
+     */
      public function store(Request $request)
     {
         
@@ -61,6 +73,11 @@ class AdminController extends Controller
         }
         return Redirect::back()->withError(['msg', 'error']);
     }
+    /**
+    * edit model for message data
+    * @param  int $id
+    * @return  redirect back to the message screen with updated data
+    */
     public function edit($message_id)
     {
         $message = $this->model->with('messageCategory','messageCriteria')->find(decrypt($message_id));
@@ -70,6 +87,11 @@ class AdminController extends Controller
         return error('failed!');
         
     }
+     /**
+     * Update message data
+    * @param  \Illuminate\Http\Request  $request
+     * @return  redirect back to the message screen with updated data
+     */
     public function update(Request $request, $message_id)
     {
         $message = $this->model->find(decrypt($message_id));
@@ -86,6 +108,11 @@ class AdminController extends Controller
         }
         return Redirect::back()->withError(['msg', 'error']);
     }
+    /**
+    * delete any message
+    * @param  int $id
+    * @return  redirect back to the message screen with data
+    */
     public function destroy($message_id)
     {
         $message = $this->model->find(decrypt($message_id));
@@ -95,6 +122,11 @@ class AdminController extends Controller
         }
         return $this->apiErr('failed');
     }
+    /**
+     * check date  to show message on share data
+     * @param  \Illuminate\Http\Request  $request
+     * @return unique date
+     */
     public function checkDate(Request $request){
         // print_r($request->all());exit;
         $getSelected = $request->get('start_date');
@@ -114,6 +146,10 @@ class AdminController extends Controller
         }
         return $getDate;
     }
+    /**
+     * List of messages created by admin
+     * @return lst of message
+     */
     public function anyData(){
         $getData = Message::with('messageCategory','messageCriteria')->orderBy('created_at','desc');
 

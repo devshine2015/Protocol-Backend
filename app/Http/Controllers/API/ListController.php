@@ -70,7 +70,7 @@ class ListController extends Controller
             $list->$f = $request->$f;
         }
         $list->created_by = $request->user()['id'];
-        $list->category = $request->get('categor');
+        $list->category = $request->get('category');
         $list->sub_category = $request->get('sub_category');
         $list->save();
         $request['is_note'] = 1;

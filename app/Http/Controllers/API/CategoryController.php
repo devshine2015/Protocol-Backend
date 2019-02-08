@@ -54,6 +54,10 @@ class CategoryController extends Controller
         }
         return $this->apiErr(22010, 'something is wrong in user follow');
     }
+    /**
+     * categoryList List of the category which displays to the bridge,notes,list
+     * @return [\Illuminate\Http\Response
+     */
     public function categoryList(Request $request)
     {
         $user   = Auth::guard('api')->user();

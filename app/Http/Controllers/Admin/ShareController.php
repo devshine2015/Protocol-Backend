@@ -49,6 +49,11 @@ class ShareController extends Controller
         $this->messageModel = $messageModel;
         $this->shareRepo    = $shareRepository;
     }
+    /**
+     * sharebridge by the user
+     * @param  int $bridge_id
+     * @return  redirect in share bridge page with bridge info
+     */
     public function shareBridge($bridge_id){
         $shareData = $this->shareRepo->shareBridge($bridge_id);
         if($shareData){
@@ -56,6 +61,11 @@ class ShareController extends Controller
         }
         return $this->apiErr(222003, 'Not Authorized');
     }
+     /**
+     * sharebridge by the user
+     * @param  int $note_id
+     * @return  redirect in share note page with note info
+     */
     public function shareNote($note_id){
         $shareData = $this->shareRepo->shareNote($note_id);
         if($shareData){
@@ -63,6 +73,11 @@ class ShareController extends Controller
         }
         return $this->apiErr(222003, 'Not Authorized');
     }
+     /**
+     * sharebridge by the user
+     * @param  int $element_id
+     * @return  redirect in share element page with element info
+     */
     public function shareElement($element_id){
         $shareData = $this->shareRepo->shareElement($element_id);
         if($shareData){
@@ -70,11 +85,14 @@ class ShareController extends Controller
         }
         return $this->apiErr(222003, 'Not Authorized');
     }
+    /**
+     * List of the shared data
+     * @return with share data
+     */
     public function anyData(){
         $getData = SocialTrack::with('user')->where('social_type',4)->where('shared_with',Auth::user()->id)
         ->with('bridge','note','element')
         ->orderBy('created_at','desc');
-        // print_r($getData->get());exit;
         return \DataTables::of($getData->get())->addColumn('name', function ($shareData) {
             return '<span class="badge">'.ucfirst($shareData->user->name[0]).'</span>  <span class="inboxFont">'. ucfirst($shareData->user->name).' sent</span><span class="inboxFont" style="float:right;">'. $shareData->created_at->diffForHumans().'</span> <br><span class="ml-4">'.ucfirst($shareData->shared_message).'</span><br><span class="ml-4 inboxFont">'.'sdasdasdasdasd</span>';
         })

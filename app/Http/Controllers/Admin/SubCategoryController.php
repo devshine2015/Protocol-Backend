@@ -35,6 +35,11 @@ class SubCategoryController extends Controller
         $this->middleware('guest')->except('logout');
         $this->model                = $category;
     }
+     /**
+     * edit model for update subcategory
+     * @param  int  $relation_id
+     * @return open model of relation update
+     */
      public function edit($category_id)
     {
         $category = $this->model->with('category','user')->find(decrypt($category_id));
@@ -44,6 +49,12 @@ class SubCategoryController extends Controller
         return error('failed!');
         
     }
+    /**
+     * Update subcategory data by admin which are created by the extension user
+     * @param  Request $request
+     * @param  int  $category_id
+     * @return  redirect back to the subcategory list page
+     */
     public function update(Request $request, $category_id)
     {
         // print_r($request->all());exit;
@@ -57,6 +68,11 @@ class SubCategoryController extends Controller
         }
         return Redirect::back()->withError(['msg', 'error']);
     }
+    /**
+     * Admin can delete any subcategory
+     * @param  int $category_id
+     * @return boolean    return true or false
+     */
     public function destroy($category_id)
     {
         $category = $this->model->find(decrypt($category_id));
@@ -66,9 +82,12 @@ class SubCategoryController extends Controller
         }
         return $this->apiErr('failed');
     }
+    /**
+     * list of subcategory data to show in data table
+     * @return list of subcategory which are added by the user
+     */
     public function anyData(){
         $getData = $this->model->with('category','user')->orderBy('is_approved','asc')->orderBy('created_at','desc');
-        // print_r($getData[0]->category);
         return \DataTables::of($getData->get())->addColumn('editAction', function ($subCategory) {
             return '<a data-toggle="modal" data-target="#modal-right" href="' . route('subCategories.edit', ['id' => encrypt($subCategory->id)]) . '" class="btn edit_name mr-2"><i data-success-callback="subCategoriesEditSuccess" data-error-callback="subCategoriesDeleteError" class="fa fa-edit"></i></a>&nbsp;&nbsp&nbsp;&nbsp;';
         })->addColumn('created_by', function ($subCategory) {
@@ -83,6 +102,11 @@ class SubCategoryController extends Controller
         })
         ->rawColumns(['editAction','is_approved'])->make(true);
     }
+    /**
+     * admin can apporve or reject subcategory which are added by the user
+     * @param  int $category_id
+     * @return Redirect back with status change
+     */
     public function changeStatus($category_id){
         if($subCategory = $this->model->whereId($category_id)->first()){
             $subCategory->is_approved = ($subCategory->is_approved != '1') ? : 0;

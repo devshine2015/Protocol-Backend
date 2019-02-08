@@ -25,7 +25,7 @@ class ElementController extends Controller
     ];
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the element data.
      *
      * @return \Illuminate\Http\Response
      */
@@ -86,6 +86,11 @@ class ElementController extends Controller
 
         return $this->apiOk($element);
     }
+    /**
+     * Update element data
+     * @param   \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function elementData(Request $request){
         $data  = $request->all();
         $valid = Validator::make($data, [
@@ -151,9 +156,14 @@ class ElementController extends Controller
 
         return $this->apiOk(true);
     }
+    /**
+     * deleteElement only if user does not folloe that element
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
     public function deleteElement(Request $request, $id){
         $element = \App\Element::with('followElement')->whereId($id)->first();
-        // print_r($element);exit;
         if($element->followElement){
             return $this->apiErr(22010, 'You cant delete this element with followers');
         }

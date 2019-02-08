@@ -26,7 +26,7 @@ class UserController extends Controller
         $this->shareRepo                           = $shareRepository;
     }
     /**
-     * Store a newly created resource in storage.
+     * Show login message to share share section and web message model
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -38,6 +38,11 @@ class UserController extends Controller
        		'data'		=> $getMessage
     	];
     }
+    /**
+     * Register new user using laravel oAuth
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(Request $request)
     {
         $data  = $request->only(['email', 'password', 'name']);
@@ -61,10 +66,21 @@ class UserController extends Controller
 
         return $this->__login($data['email'], $data['password'], $request);
     }
+    /**
+     * remove oauth token and manage web and extension login and logout
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean              return true or false
+     */
     public function logout(Request $request){
         $updateLogin = \App\User::where('email',$request->email)->update(["isloggedOut"=>0]);
         return $this->apiOk(true);
     }
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request, \Illuminate\Contracts\Encryption\Encrypter $cookieEncrypt)
     {
         $data  = $request->only(['email', 'password']);
@@ -108,6 +124,11 @@ class UserController extends Controller
         );
         return \Route::dispatch($proxy);
     }
+    /**
+     * send mail for share note,bridge and elements
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean           return true and false
+     */
     public function sendMail(Request $request) {
             $user = Auth::user();
             $shareData = '';
@@ -130,6 +151,10 @@ class UserController extends Controller
             $this->emailRepo->send($email_data, $shareData);
             return $this->apiOk(true);
     }
+    /**
+     * createUniqueReferralCode for user for share referral link
+     * @return string  return unique random string
+     */
     public function createUniqueReferralCode()
     {
         $temp = strtoupper(str_random(10));

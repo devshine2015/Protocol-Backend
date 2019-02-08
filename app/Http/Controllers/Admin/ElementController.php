@@ -35,6 +35,11 @@ class ElementController extends Controller
         $this->middleware('guest')->except('logout');
         $this->model                = $element;
     }
+    /**
+     * destroy Delete element
+     * @param  integer $element_id find by element id
+     * @return boolean             retun true or false
+     */
     public function destroy($element_id)
     {
         $element = $this->model->find(decrypt($element_id));

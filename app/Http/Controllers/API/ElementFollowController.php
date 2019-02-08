@@ -28,6 +28,11 @@ class ElementFollowController extends Controller
         }
         return $this->apiErr(22010, 'something is wrong in user follow');
     }
+    /**
+     * follow eleemnt by the user
+     * @param  $element_id      check element exist or not,based on perform follow and unfollow
+     * @return boolean          retunr true or false status
+     */
      public function elementFollow($request){
         $user = Auth::guard('api')->user();
         $data  = $request->only(['element_id']);

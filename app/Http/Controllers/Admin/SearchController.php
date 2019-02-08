@@ -42,8 +42,11 @@ class SearchController extends Controller
         $this->model = $bridge;
         $this->noteModel = $noteModel;
     }
+     /**
+     * show user notes,bridge data which are created by the user and user's follow user(public only nad private of the login user)
+     * @return return notes and bridge data
+     */
     public function search(){
-   //print_r(Auth::user());exit;
             $isLoggedOut = 1;
             $bridgeList = $this->model->with(['fromElement','toElement','relationData','user'])->orderBy('created_at','desc');
             $notes = $this->noteModel->with(['relationData','user','followUser','targetData'])->orderBy('created_at','desc');
@@ -104,6 +107,11 @@ class SearchController extends Controller
         $this->response['count'] = $this->response['bridge']->count();
         return view('admin.search')->with($this->response);
     }
+     /**
+     * show user notes,bridge data which are created by the user and user's follow user(public only nad private of the login user)
+     * user can filter to get bridge and notes which are created by own
+     * @return return notes and bridge data
+     */
     public function searchData(Request $request){
         $search = (!empty($request->get('search')) ? $request->get('search') : '');
         //show all result when all result selected;

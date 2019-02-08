@@ -23,8 +23,8 @@ class SubCategoryController extends Controller
         $this->category                        = $category;
     }
     /**
-     * Display a listing of the resource.
-     *
+     * Store subcategory detail
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -35,7 +35,6 @@ class SubCategoryController extends Controller
             $subCategory->$f = $request->$f;
         }
         $checkCategory = $this->category->whereId($request->category_id)->first();
-       // echo "string";exit();
         if (!$checkCategory) {
             return $this->apiErr(404, 'Category does not exist');
         }
