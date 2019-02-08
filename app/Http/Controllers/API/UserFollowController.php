@@ -44,6 +44,11 @@ class UserFollowController extends Controller
         }
         return $this->apiErr(22010, 'something is wrong in user follow');
     }
+    /**
+     * Follow and unfollow user
+     * @param  \Illuminate\Http\Request
+     * @return boolean          return true or false
+     */
     public function userFollow($request){
         $user = Auth::guard('api')->user();
         $data  = $request->only(['user_id']);
@@ -70,6 +75,11 @@ class UserFollowController extends Controller
             return false;
         }
     }
+    /**
+     * like and unlike content like bridge,notes,list and element
+     * @param  \Illuminate\Http\Request
+     * @return boolean          return true or false
+     */
     public function contentLike(Request $request){
         $user = Auth::guard('api')->user();
         $data  = $request->only(['user_id','type','type_id']);

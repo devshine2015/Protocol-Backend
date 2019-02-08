@@ -50,6 +50,11 @@ class UserController extends Controller
         $this->element              = $element;
         $this->userPoint            = $userPoint;
     }
+    /**
+    * Check login for web and extension login
+    * @param  \Illuminate\Http\Request  $request
+    * @return object
+    */
     public function checkLogin(Request $request){
         if(auth::check()){
             $user = Auth::guard('api')->user();
@@ -60,6 +65,12 @@ class UserController extends Controller
             }
         }
     }
+    /**
+     * user created bridge and notes 
+     * @param  [type] $name
+     * @param  [type] $id
+     * @return [redirect to the user profile
+     */
     public function userData($name,$id){
         $getallData = $this->getbridgeData($id);
         if(Auth::user()->id != $id){
@@ -90,6 +101,10 @@ class UserController extends Controller
         $this->response['is_follow'] = (isset($checkfollow)>0)?1:0;
         return view('admin.user.edit_profile')->with($this->response);
     }
+    /**
+     * show user notes,bridge data which are created by the user.
+     * @return return notes and bridge data
+     */
      public function dashboard(){
         $id = Auth::user()->id;
         $readData = 0;
@@ -186,6 +201,11 @@ class UserController extends Controller
         $this->response['notification_count'] = $allNotification->count() - $readData;
         return view('admin.user.dashboard')->with($this->response);
     }
+    /**
+     * follow user from search page
+     * @param  \Illuminate\Http\Request  $request
+     * @return follow user data
+     */
     public function followUser(Request $request){
         $user_id = Auth::user()->id;
         $data  = $request->only(['user_id']);
@@ -212,6 +232,13 @@ class UserController extends Controller
             return false;
         }
     }
+    /**
+     * Notification data
+     * get notification if any followed user create bridge or notes
+     * get notification if any other user create element on login user's element
+     * @param  \Illuminate\Http\Request  $request
+     * @return redirect to the user notification data
+     */
     public function updateNotification(Request $request){
         $user_id = Auth::user()->id;
         $userNotify = $this->notification->where('type_id',$request->get('type_id'))->where('user_id',$user_id)->where('type',$request->get('type'))->first();
@@ -227,6 +254,10 @@ class UserController extends Controller
             return '0';
         }
     }
+    /**
+     * get followed user bridge data
+     * @return bridge data
+     */
     public function getbridgeData(){
         $getData['bridgeList'] = $this->bridgemodel->where('tags', 'NOT LIKE', '%test%')->with(['followUser'=>function($q){
                     $q->where('follower_id',Auth::user()->id);
@@ -237,6 +268,10 @@ class UserController extends Controller
         
         return $getData;
     }
+    /**
+     * update user profile(name and profile pic)
+     * @return user profile page
+     */
     public function updateuserData(Request $request){
         $user = $this->model->whereId(Auth::user()->id)->first();
         if($user){

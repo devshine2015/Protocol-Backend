@@ -24,6 +24,15 @@ btn.focus, .btn:focus {
     outline: 0;
     box-shadow: 0 0 0 0.0rem rgba(0, 123, 255, 0.25);
 }
+.badge{
+    background : #f47ca3!important;
+    border-radius: 1.25rem;
+    padding: .25em .4em;
+    font-size: 98%;
+}
+.inboxFont{
+    color: #808080;
+}
 /*.navbar {
     background-color: #EF5D8F;
 }*/

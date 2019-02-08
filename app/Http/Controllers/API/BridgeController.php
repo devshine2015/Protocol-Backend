@@ -22,11 +22,9 @@ class BridgeController extends Controller
         'category',
         'sub_category'
     ];
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * index Display a listing of the bridge created by login user
+     * @return object          \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -48,11 +46,9 @@ class BridgeController extends Controller
         $bridges = $this->checkFollow($bridges);
         return $this->apiOk($bridges);
     }
-
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * store a newly created bridge in storage
+     * @param  Request $request Request params of bridge creation
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

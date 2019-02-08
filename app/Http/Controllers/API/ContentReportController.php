@@ -39,7 +39,6 @@ class ContentReportController extends Controller
             return $this->apiErr(22001, $valid->messages(), 422);
         }
         $request['user_id'] = $user->id;
-        // print_r($request->all());exit;
         $this->model->fill($request->only('user_id','type_id', 'type', 'report','comment'));
         $this->model->save();
         return $this->apiOk($this->model->fresh());

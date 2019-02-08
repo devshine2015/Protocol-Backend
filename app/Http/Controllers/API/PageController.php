@@ -9,6 +9,11 @@ use App\CheckPageUrl;
 
 class PageController extends Controller
 {
+    /**
+     * search badges for current page
+     * @param \Illuminate\Http\Request  $request check url in element for find bridge,notes which are created on that page
+     * @return \Illuminate\Http\Response list of created bridge,notes,element created on current page
+     */
     public function search(Request $request)
     {
         $user   = Auth::guard('api')->user();
@@ -39,7 +44,14 @@ class PageController extends Controller
 
         return $this->apiOk($results);
     }
-
+    /**
+     * pageInfo bridge,notes,element which are followed by the user
+     * @param  string  $url                 curren page url
+     * @param  object  $user                login user detail
+     * @param  boolean $withCreatorInfo     created by user info
+     * @param  boolean $checkLimit          check data limit
+      * @return \Illuminate\Http\Response   list of created bridge,notes,element created on current page
+     */
     private function pageInfo($url, $user, $withCreatorInfo = false,$checkLimit = false) {
         $elementData = \App\Element::where([ 'status' => 0, 'url' => $url ]);
         if(isset($user)){

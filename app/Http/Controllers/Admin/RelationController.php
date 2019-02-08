@@ -35,7 +35,12 @@ class RelationController extends Controller
         $this->middleware('guest')->except('logout');
         $this->model                = $relation;
     }
-     public function edit($relation_id)
+    /**
+     * edit model for update relation
+     * @param  int  $relation_id
+     * @return open model of relation update
+     */
+    public function edit($relation_id)
     {
         $relation = $this->model->with('user')->find(decrypt($relation_id));
         if($relation){
@@ -44,6 +49,12 @@ class RelationController extends Controller
         return error('failed!');
         
     }
+    /**
+     * Update realtion data by admin
+     * @param  Request $request
+     * @param  int  $relation_id
+     * @return  redirect back to the relation list page
+     */
     public function update(Request $request, $relation_id)
     {
         $relation = $this->model->find(decrypt($relation_id));
@@ -56,6 +67,11 @@ class RelationController extends Controller
         }
         return Redirect::back()->withError(['msg', 'error']);
     }
+    /**
+     * Admin can delete any relation
+     * @param  int $relation_id
+     * @return boolean    return true or false
+     */
     public function destroy($relation_id)
     {
         $relation = $this->model->find(decrypt($relation_id));
@@ -65,6 +81,10 @@ class RelationController extends Controller
         }
         return $this->apiErr('failed');
     }
+    /**
+     * list of relation data to show in data table
+     * @return list of relation which are added by the user
+     */
     public function anyData(){
         $getData = $this->model->with('user')->orderBy('is_approved','asc')->orderBy('created_at','desc');;
         // print_r($getData->get()->toArray());exit;
@@ -79,6 +99,11 @@ class RelationController extends Controller
         })
         ->rawColumns(['editAction','is_approved'])->make(true);
     }
+    /**
+     * admin can apporve or reject relation which are added by the user
+     * @param  int $relation_id
+     * @return Redirect back with status change
+     */
     public function changeStatus($relation_id){
         if($relation = $this->model->whereId($relation_id)->first()){
             $relation->is_approved = ($relation->is_approved != '1') ? : 0;

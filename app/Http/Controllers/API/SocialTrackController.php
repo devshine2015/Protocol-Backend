@@ -16,8 +16,8 @@ class SocialTrackController extends Controller
         $this->model                        = $socialTrack;
     }
     /**
-     * Display a listing of the resource.
-     *
+     * Store social share detail
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
