@@ -15,4 +15,6 @@
 
         public function shareElement($element_id);
 
+        public function shareList($list_id);
+
     }

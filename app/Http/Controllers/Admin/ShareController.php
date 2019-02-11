@@ -50,7 +50,7 @@ class ShareController extends Controller
         $this->shareRepo    = $shareRepository;
     }
     /**
-     * sharebridge by the user
+     * share bridge by the user
      * @param  int $bridge_id
      * @return  redirect in share bridge page with bridge info
      */
@@ -62,7 +62,7 @@ class ShareController extends Controller
         return $this->apiErr(222003, 'Not Authorized');
     }
      /**
-     * sharebridge by the user
+     * share note by the user
      * @param  int $note_id
      * @return  redirect in share note page with note info
      */
@@ -74,12 +74,24 @@ class ShareController extends Controller
         return $this->apiErr(222003, 'Not Authorized');
     }
      /**
-     * sharebridge by the user
+     * share element by the user
      * @param  int $element_id
      * @return  redirect in share element page with element info
      */
     public function shareElement($element_id){
         $shareData = $this->shareRepo->shareElement($element_id);
+        if($shareData){
+            return view('admin.share.show',compact('shareData'));
+        }
+        return $this->apiErr(222003, 'Not Authorized');
+    }
+    /**
+     * share list by the user
+     * @param  int $list_id
+     * @return  redirect in share list page with list info
+     */
+    public function shareList($list_id){
+         $shareData = $this->shareRepo->shareList($list_id);
         if($shareData){
             return view('admin.share.show',compact('shareData'));
         }
