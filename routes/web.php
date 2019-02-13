@@ -57,6 +57,7 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('bridges/{id}','ShareController@shareBridge');
         Route::get('notes/{id}','ShareController@shareNote');
         Route::get('elements/{id}','ShareController@shareElement');
+        Route::get('lists/{id}','ShareController@shareList');
         Route::resource('elements','ElementController');
     });
 });

@@ -141,7 +141,11 @@ class UserController extends Controller
             }elseif($getData['type'] == 1){
                 $email_data['subject'] = $user->name .' sent you a notes.';
                 $shareData = $this->shareRepo->shareNote($getData['id']);
-            }else{
+            }elseif($getData['type'] == 3){
+                $email_data['subject'] = $user->name .' sent you a notes.';
+                $shareData = $this->shareRepo->shareList($getData['id']);
+            }
+            else{
                 $email_data['subject'] = $user->name .' sent you a elements.';
                 $shareData = $this->shareRepo->shareElement($getData['id']);
             }
