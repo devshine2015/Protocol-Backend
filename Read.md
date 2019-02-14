@@ -1,4 +1,5 @@
-#Basic project setup
+##Basic project setup
+```
 
 #Clone the repository
 #for now we have personal repo, We can create new repo to access code 
@@ -17,16 +18,16 @@ php artisan key:generate
 
 Run the database migrations
 php artisan migrate
-
-#Code Overview
-
+```
+##Code Overview
+```
 laravel-passport - For authentication using Web Tokens
 laravel-socialite - For authentication using tokens for social login
 laravel-yajra-datatable - To create table and manage list data for web
 laravel-cors - For handling Cross-Origin Resource Sharing (CORS)
-
-#Folders
-
+```
+##Folders
+```
 app - Contains all the Eloquent models
 app/Http/Controllers/Api - Contains all the api controllers
 app/Http/Controllers/Admin - Contains all the admin(web) controllers
@@ -56,7 +57,7 @@ http://localhost:8000/api/
 #Testing API on live
 https://bridgit.io/app/api/
 
-
+```
 ## How to build and run extension?
 ```
 # Run this line if it's the first time you try to build
