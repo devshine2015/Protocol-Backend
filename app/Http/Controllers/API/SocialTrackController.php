@@ -29,6 +29,8 @@ class SocialTrackController extends Controller
             $type_id .='|exists:bridges,id';
         }elseif($request->type ==1 ){
             $type_id .='|exists:notes,id';
+        }elseif($request->type ==3){
+            $type_id .='|exists:lists,id';
         }
         else{
             $type_id .='|exists:elements,id';
