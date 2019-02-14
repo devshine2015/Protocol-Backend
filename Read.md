@@ -55,3 +55,17 @@ http://localhost:8000/api/
 
 #Testing API on live
 https://bridgit.io/app/api/
+
+
+## How to build and run extension?
+```
+# Run this line if it's the first time you try to build
+1. npm i
+
+2. npm run build
+
+3. dist folder should be created
+
+4. Open chrome://extensions/ and ON Developer Mode
+
+5. Load your dist folder by clicking Load unpacked or drag and drop

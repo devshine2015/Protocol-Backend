@@ -53,7 +53,6 @@ foreach ($resourcesRequireAuthToWrite as $name => $controller) {
 Route::post('/bridgeCross', 'API\BridgeController@bridgeCross');
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/elementData', 'API\ElementController@elementData');
-    Route::post('/elementData', 'API\ElementController@elementData');
     Route::post('/contentLike', 'API\UserFollowController@contentLike');
     Route::get('/categoryList', 'API\CategoryController@categoryList');
     Route::get('/login', 'API\UserController@login');
